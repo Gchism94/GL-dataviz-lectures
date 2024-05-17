@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="slides_files/libs/clipboard/clipboard.min.js"></script>
 <script src="slides_files/libs/quarto-html/tabby.min.js"></script>
 <script src="slides_files/libs/quarto-html/popper.min.js"></script>
 <script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto.css">
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -322,370 +387,11 @@
       margin-right: 0; 
     }
   </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.46.0/min/vs/editor/editor.main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    
-  <style type="text/css">
-  .monaco-editor pre {
-    background-color: unset !important;
-  }
-
-  .qpyodide-editor-toolbar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
-  }
-
-  .qpyodide-editor-toolbar-left-buttons, .qpyodide-editor-toolbar-right-buttons {
-    display: flex;
-  }
-
-  .qpyodide-non-interactive-loading-container.qpyodide-cell-needs-evaluation, .qpyodide-non-interactive-loading-container.qpyodide-cell-evaluated {
-    justify-content: center;
-    display: flex;
-    background-color: rgba(250, 250, 250, 0.65);
-    border: 1px solid rgba(233, 236, 239, 0.65);
-    border-radius: 0.5rem;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-
-  .qpyodide-r-project-logo {
-    color: #2767B0; /* R Project's blue color */
-  }
-
-  .qpyodide-icon-status-spinner {
-    color: #7894c4;
-  }
-
-  .qpyodide-icon-run-code {
-    color: #0d9c29
-  }
-
-  .qpyodide-output-code-stdout {
-    color: #111;
-  }
-
-  .qpyodide-output-code-stderr {
-    color: #db4133;
-  }
-
-  .qpyodide-editor {
-    border: 1px solid #EEEEEE;
-  }
-
-  .qpyodide-editor-toolbar {
-    background-color: #EEEEEE;
-    padding: 0.2rem 0.5rem;
-  }
-
-  .qpyodide-button {
-    background-color: #EEEEEE;
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1;
-    text-decoration: none;
-    text-align: center;
-    color: #000;
-    border-color: #dee2e6;
-    border: 1px solid rgba(0,0,0,0);
-    padding: 0.375rem 0.75rem;
-    font-size: .9rem;
-    border-radius: 0.25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  }
-
-  .qpyodide-button:hover {
-    color: #000;
-    background-color: #d9dce0;
-    border-color: #c8ccd0;
-  }
-
-  .qpyodide-button:disabled,.qpyodide-button.disabled,fieldset:disabled .qpyodide-button {
-    pointer-events: none;
-    opacity: .65
-  }
-
-  .qpyodide-button-reset {
-    color: #696969; /*#4682b4;*/
-  }
-
-  .qpyodide-button-copy {
-    color: #696969;
-  }
-
-
-  /* Custom styling for RevealJS Presentations*/
-
-  /* Reset the style of the interactive area */
-  .reveal div.qpyodide-interactive-area {
-    display: block;
-    box-shadow: none;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0;
-    padding: 0;
-  } 
-
-  /* Provide space to entries */
-  .reveal div.qpyodide-output-code-area pre div {
-    margin: 1px 2px 1px 10px;
-  }
-
-  /* Collapse the inside code tags to avoid extra space between line outputs */
-  .reveal pre div code.qpyodide-output-code-stdout, .reveal pre div code.qpyodide-output-code-stderr {
-    padding: 0;
-    display: contents;
-  }
-
-  .reveal pre div code.qpyodide-output-code-stdout {
-    color: #111;
-  }
-
-  .reveal pre div code.qpyodide-output-code-stderr {
-    color: #db4133;
-  }
-
-
-  /* Create a border around console and output (does not effect graphs) */
-  .reveal div.qpyodide-console-area {
-    border: 1px solid #EEEEEE;
-    box-shadow: 2px 2px 10px #EEEEEE;
-  }
-
-  /* Cap output height and allow text to scroll */
-  /* TODO: Is there a better way to fit contents/max it parallel to the monaco editor size? */
-  .reveal div.qpyodide-output-code-area pre {
-    max-height: 400px;
-    overflow: scroll;
-  }
-  </style>
-  <script type="module">
-  // Document level settings ----
-
-  // Determine if we need to install python packages
-  globalThis.qpyodideInstallPythonPackagesList = [''];
-
-  // Check to see if we have an empty array, if we do set to skip the installation.
-  globalThis.qpyodideSetupPythonPackages = !(qpyodideInstallPythonPackagesList.indexOf("") !== -1);
-
-  // Display a startup message?
-  globalThis.qpyodideShowStartupMessage = true;
-
-  // Describe the webR settings that should be used
-  globalThis.qpyodideCustomizedPyodideOptions = {
-    "indexURL": "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/",
-    "env": {
-      "HOME": "/home/pyodide",
-    }, 
-    stdout: (text) => {qpyodideAddToOutputArray(text, "out");},
-    stderr: (text) => {qpyodideAddToOutputArray(text, "error");}
-  }
-
-  // Store cell data
-  globalThis.qpyodideCellDetails = [{"code":"\nawait micropip.install([\n  \"seaborn\",\n  \"setuptools\" # dependency\n])\n# Import all required libraries\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport random\nimport statsmodels.api as sm\n\n# Increase font size of all Seaborn plot elements\nsns.set(font_scale = 1.25)\n\n# Set seed\nrandom.seed(123)","id":1,"options":{"output":"true","message":"false","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"setup","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"birds = pd.read_csv(\"slides/data/birds.csv\")\nbirds['date'] = pd.to_datetime(birds['date'])","id":2,"options":{"output":"true","message":"true","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"birds.head()","id":3,"options":{"output":"true","message":"true","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"birds.info()","id":4,"options":{"output":"true","message":"true","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"birds.describe().round(2)","id":5,"options":{"output":"true","message":"true","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"import seaborn as sns\nimport matplotlib.pyplot as plt\n\nsns.displot(data = birds, x = \"speed\")\n\nplt.show()","id":6,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|1,2|4,6","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.displot(data = birds, x = \"speed\", \n            bins = 15, height = 5, aspect = 8/5)\n\nplt.show()","id":7,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.displot(data = birds, x = \"speed\", \n            kind = 'kde', height = 5, aspect = 8/5)\n\nplt.show()","id":8,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_theme(style = \"whitegrid\")\n\nsns.scatterplot(data = birds, x = \"speed\", y = \"height\")\n\nplt.show()","id":9,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-5|3","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_theme(style = \"whitegrid\")\n\nsns.scatterplot(data = birds, x = \"speed\", y = \"height\",\n                hue = \"sky\")\n\nplt.show()","id":10,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|4","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_theme(style = \"whitegrid\")\n\nsns.scatterplot(data = birds, x = \"speed\", y = \"height\",\n                size = \"num_engs\", hue = \"ac_mass\")\n\nplt.show()","id":11,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|4","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.lmplot(data = birds, x = \"speed\", y = \"height\",\n           aspect = 8/5)\n\nplt.show()","id":12,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|1","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.lmplot(data = birds, x = \"speed\", y = \"height\",\n           hue = \"num_engs\", aspect = 8/5)\n\nplt.show()","id":13,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|1","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.histplot(data = birds, x = \"speed\", y = \"height\", \n             bins = 50, pthresh = 0.1, cmap = \"mako\")\n\nplt.show()","id":14,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.kdeplot(data = birds, x = \"speed\", y = np.log(birds['height'] + 1), \n             thresh = 0.1, hue = \"sky\", palette = \"colorblind\")\n\nplt.show()","id":15,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|1,2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.kdeplot(data = birds, x = \"speed\", y = np.log(birds['height'] + 1), \n             thresh = 0, cmap = \"mako\", fill = True, levels = 10)\n\nplt.show()","id":16,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|1,2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_theme(style = \"whitegrid\")\n\nsns.lineplot(data = birds, x = \"date\", y = \"speed\")\n\nplt.show()","id":17,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|3","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.lineplot(data = birds, x = \"date\", y = \"speed\",\n             hue = \"sky\")\n\nplt.show()","id":18,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-4|2","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_theme(style = \"white\")\n\nsns.countplot(data = birds, x = \"sky\", \n              palette = \"colorblind\")\n              \nplt.show()","id":19,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|3","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"category_counts = birds['sky'].value_counts()\n\nplt.pie(category_counts, labels = category_counts.index, \n        autopct = lambda p: f'{p:.1f}%', \n        textprops = {'size':14})\n\nplt.axis('equal')\n\nplt.show()","id":20,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-9|1|3-5|7","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_style(\"whitegrid\")\n\nsns.boxplot(data = birds, x = \"speed\", y = \"sky\",\n            hue = \"sky\", palette = \"colorblind\")\n\nplt.show()","id":21,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|1|3,4","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_style(\"whitegrid\")\n\np1 = sns.boxplot(data = birds, x = \"speed\", y = \"sky\",\n                 hue = \"sky\", palette = \"colorblind\")\n\np1.set_xlim(0, 250)\n\nplt.show()","id":22,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-8|6","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"\nsns.set_style(\"white\")\n\nsns.violinplot(data = birds, x = \"speed\", y = \"sky\", hue = \"sky\",\n                    palette = \"colorblind\")\n               \nplt.show()","id":23,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-6|3,4","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_style(\"white\")\n\noptions = ['Night', 'Day']\n\nbirds_filt = birds[birds['time_of_day'].isin(options)]\n\nsns.violinplot(data = birds_filt, x = \"speed\", y = \"sky\", hue = \"time_of_day\",\n                    palette = \"colorblind\")\n               \nplt.show()","id":24,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-10|3,5|7","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_style(\"white\")\n\nsns.violinplot(data = birds_filt, x = \"speed\", y = \"sky\", hue = \"time_of_day\",\n                    palette = \"colorblind\",\n                    inner = \"quart\", split = True)\n               \nplt.show()","id":25,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-7|5","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_style(\"white\")\n\ng1 = sns.violinplot(data = birds_filt, x = \"speed\", y = \"sky\", hue = \"time_of_day\",\n                    palette = \"colorblind\")\n\ng1.set(xlabel = \"Speed (mph)\")\ng1.set(ylabel = None)\ng1.set(title = \"Speed of plane collisions with birds\")\ng1.legend(title = \"Time of day\")\n\nplt.show()","id":26,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-11|6-9","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_theme(style = \"white\")\n\nbirds_num = birds.select_dtypes(include = 'number')\n\ncorr = birds_num.corr()\n\nmask = np.triu(np.ones_like(corr, dtype = bool))\n\nf, ax = plt.subplots(figsize = (8, 6))\n\ncmap = sns.diverging_palette(230, 20, as_cmap = True)\n\nsns.heatmap(corr, mask = mask, cmap = cmap, vmax = 0.5, center = 0,\n            square = True, linewidths = .5, cbar_kws = {\"shrink\": 0.5})\n            \nplt.show()","id":27,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-16|3|5|7|9,11|13,14","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"sns.set_theme(style = \"white\")\n\nbirds_sub = birds[['ac_mass', 'height', 'speed', 'sky']]\n\ng = sns.PairGrid(birds_sub, diag_sharey = False, \n                 height = 2, hue = \"sky\")\ng.map_upper(sns.scatterplot, s = 15)\ng.map_lower(sns.kdeplot)\ng.map_diag(sns.kdeplot, lw = 2)\n\nplt.show()","id":28,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","warning":"true","code-line-numbers":"1-11|3|5-9|","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}},{"code":"diwali = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv', encoding = 'iso-8859-1')\ndiwali.head()","id":29,"options":{"output":"true","message":"true","autorun":"","results":"markup","classes":"","dpi":72,"context":"interactive","fig-cap":"","read-only":"false","label":"","fig-width":7,"out-width":"700px","out-height":"","fig-height":5,"warning":"true","comment":""}},{"code":"# Examine data\ndiwali.info()\n\n# Data types\ndiwali.dtypes\n\n# Describe numerical columns\ndiwali.describe()\n\n# Describe categories\ndiwali.describe(exclude = [np.number])\n\n# Unique levels\ncategorical_cols = diwali.select_dtypes(include = ['object', 'category']).columns\nunique_levels = diwali[col].unique()\n\n# Outliers\n# Make a copy of the diwali data \ndataCopy = diwali.copy()\n\n# Select only numerical columns\ndataRed = dataCopy.select_dtypes(include = np.number)\n\n# List of numerical columns\ndataRedColsList = dataRed.columns[...]\n\n# For all values in the numerical column list from above\nfor i_col in dataRedColsList:\n  # List of the values in i_col\n  dataRed_i = dataRed.loc[:,i_col]\n  \n  # Define the 25th and 75th percentiles\n  q25, q75 = round((dataRed_i.quantile(q = 0.25)), 3), round((dataRed_i.quantile(q = 0.75)), 3)\n  \n  # Define the interquartile range from the 25th and 75th percentiles defined above\n  IQR = round((q75 - q25), 3)\n  \n  # Calculate the outlier cutoff \n  cut_off = IQR * 1.5\n  \n  # Define lower and upper cut-offs\n  lower, upper = round((q25 - cut_off), 3), round((q75 + cut_off), 3)\n  \n  # Print the values\n  print(' ')\n  \n  # For each value of i_col, print the 25th and 75th percentiles and IQR\n  print(i_col, 'q25 =', q25, 'q75 =', q75, 'IQR =', IQR)\n  \n  # Print the lower and upper cut-offs\n  print('lower, upper:', lower, upper)\n\n  # Count the number of outliers outside the (lower, upper) limits, print that value\n  print('Number of Outliers: ', dataRed_i[(dataRed_i < lower) | (dataRed_i > upper)].count())\n\n# Missing values\ndiwali.isnull().sum()\n\n# Normality - qq plot\n# Change theme to \"white\"\nsns.set_style(\"white\")\n\n# Make a copy of the data \ndataCopy = diwali.copy()\n\n# Remove NAs\ndataCopyFin = dataCopy.dropna()\n\n# Specify desired column\ni_col = dataCopyFin.Amount\n\n# Subplots\nfig, (ax1, ax2) = plt.subplots(ncols = 2, nrows = 1)\n\n# Density plot\nsns.kdeplot(i_col, linewidth = 5, ax = ax1)\nax1.set_title('Amount spent (₹)')\n\n# Q-Q plot\nsm.qqplot(i_col, line = 's', ax = ax2)\nax2.set_title('Amount spent Q-Q plot')\nplt.tight_layout()\nplt.show()","id":30,"options":{"output":"true","message":"true","classes":"","dpi":72,"context":"interactive","read-only":"false","code-fold":"true","results":"markup","fig-cap":"","autorun":"","eval":"false","warning":"true","label":"","out-width":"700px","out-height":"","fig-height":5,"fig-width":7,"comment":""}}];
-
-
-  </script>
-  <script type="module">
-  // Declare startupMessageqpyodide globally
-  globalThis.qpyodideStartupMessage = document.createElement("p");
-
-  // Function to set the button text
-  globalThis.qpyodideSetInteractiveButtonState = function(buttonText, enableCodeButton = true) {
-    document.querySelectorAll(".qpyodide-button-run").forEach((btn) => {
-      btn.innerHTML = buttonText;
-      btn.disabled = !enableCodeButton;
-    });
-  }
-
-  // Function to update the status message in non-interactive cells
-  globalThis.qpyodideUpdateStatusMessage = function(message) {
-    document.querySelectorAll(".qpyodide-status-text.qpyodide-cell-needs-evaluation").forEach((elem) => {
-      elem.innerText = message;
-    });
-  }
-
-  // Function to update the status message
-  globalThis.qpyodideUpdateStatusHeader = function(message) {
-
-    if (!qpyodideShowStartupMessage) return;
-
-    qpyodideStartupMessage.innerHTML = message;
-  }
-
-  // Status header update with customized spinner message
-  globalThis.qpyodideUpdateStatusHeaderSpinner = function(message) {
-
-    qpyodideUpdateStatusHeader(`
-      <i class="fa-solid fa-spinner fa-spin qpyodide-icon-status-spinner"></i>
-      <span>${message}</span>
-    `);
-  }
-
-
-  // Function that attaches the document status message
-  function qpyodideDisplayStartupMessage(showStartupMessage) {
-    if (!showStartupMessage) {
-      return;
-    }
-
-    // Get references to header elements
-    const headerHTML = document.getElementById("title-block-header");
-    const headerRevealJS = document.getElementById("title-slide");
-
-    // Create the outermost div element for metadata
-    const quartoTitleMeta = document.createElement("div");
-    quartoTitleMeta.classList.add("quarto-title-meta");
-
-    // Create the first inner div element
-    const firstInnerDiv = document.createElement("div");
-    firstInnerDiv.setAttribute("id", "qpyodide-status-message-area");
-
-    // Create the second inner div element for "Pyodide Status" heading and contents
-    const secondInnerDiv = document.createElement("div");
-    secondInnerDiv.setAttribute("id", "qpyodide-status-message-title");
-    secondInnerDiv.classList.add("quarto-title-meta-heading");
-    secondInnerDiv.innerText = "Pyodide Status";
-
-    // Create another inner div for contents
-    const secondInnerDivContents = document.createElement("div");
-    secondInnerDivContents.setAttribute("id", "qpyodide-status-message-body");
-    secondInnerDivContents.classList.add("quarto-title-meta-contents");
-
-    // Describe the Pyodide state
-    qpyodideStartupMessage.innerText = "🟡 Loading...";
-    qpyodideStartupMessage.setAttribute("id", "qpyodide-status-message-text");
-    // Add `aria-live` to auto-announce the startup status to screen readers
-    qpyodideStartupMessage.setAttribute("aria-live", "assertive");
-
-    // Append the startup message to the contents
-    secondInnerDivContents.appendChild(qpyodideStartupMessage);
-
-    // Combine the inner divs and contents
-    firstInnerDiv.appendChild(secondInnerDiv);
-    firstInnerDiv.appendChild(secondInnerDivContents);
-    quartoTitleMeta.appendChild(firstInnerDiv);
-
-    // Determine where to insert the quartoTitleMeta element
-    if (headerHTML || headerRevealJS) {
-      // Append to the existing "title-block-header" element or "title-slide" div
-      (headerHTML || headerRevealJS).appendChild(quartoTitleMeta);
-    } else {
-      // If neither headerHTML nor headerRevealJS is found, insert after "Pyodide-monaco-editor-init" script
-      const monacoScript = document.getElementById("qpyodide-monaco-editor-init");
-      const header = document.createElement("header");
-      header.setAttribute("id", "title-block-header");
-      header.appendChild(quartoTitleMeta);
-      monacoScript.after(header);
-    }
-  }
-
-  qpyodideDisplayStartupMessage(qpyodideShowStartupMessage);
-  </script>
-  <script type="module">
-  // Create a logging setup
-  globalThis.qpyodideMessageArray = []
-
-  // Add messages to array
-  globalThis.qpyodideAddToOutputArray = function(message, type) {
-    qpyodideMessageArray.push({ message, type });
-  }
-
-  // Function to reset the output array
-  globalThis.qpyodideResetOutputArray = function() {
-    qpyodideMessageArray = [];
-  }
-
-  globalThis.qpyodideRetrieveOutput = function() {
-    return qpyodideMessageArray.map(entry => entry.message).join('\n');
-  }
-
-  // Start a timer
-  const initializePyodideTimerStart = performance.now();
-
-  // Encase with a dynamic import statement
-  globalThis.qpyodideInstance = await import(
-    qpyodideCustomizedPyodideOptions.indexURL + "pyodide.mjs").then(
-     async({ loadPyodide }) => {
-
-      console.log("Start loading Pyodide");
-      
-      // Populate Pyodide options with defaults or new values based on `pyodide`` meta
-      let mainPyodide = await loadPyodide(
-        qpyodideCustomizedPyodideOptions
-      );
-      
-      // Setup a namespace for global scoping
-      // await loadedPyodide.runPythonAsync("globalScope = {}"); 
-      
-      // Update status to reflect the next stage of the procedure
-      qpyodideUpdateStatusHeaderSpinner("Initializing Python Packages");
-
-      // Load the `micropip` package to allow installation of packages.
-      await mainPyodide.loadPackage("micropip");
-      await mainPyodide.runPythonAsync(`import micropip`);
-
-      // Load the `pyodide_http` package to shim uses of `requests` and `urllib3`.
-      // This allows for `pd.read_csv(url)` to work flawlessly.
-      // Details: https://github.com/coatless-quarto/pyodide/issues/9
-      await mainPyodide.loadPackage("pyodide_http");
-      await mainPyodide.runPythonAsync(`
-      import pyodide_http
-      pyodide_http.patch_all()  # Patch all libraries
-      `);
-
-      // Load the `matplotlib` package with necessary environment hook
-      await mainPyodide.loadPackage("matplotlib");
-
-      // Set the backend for matplotlib to be interactive.
-      await mainPyodide.runPythonAsync(`
-      import matplotlib
-      matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
-      from matplotlib import pyplot as plt
-      `);
-
-      // Unlock interactive buttons
-      qpyodideSetInteractiveButtonState(
-        `<i class="fa-solid fa-play qpyodide-icon-run-code"></i> <span>Run Code</span>`, 
-        true
-      );
-
-      // Set document status to viable
-      qpyodideUpdateStatusHeader(
-        "🟢 Ready!"
-      );
-
-      // Assign Pyodide into the global environment
-      globalThis.mainPyodide = mainPyodide;
-
-      console.log("Completed loading Pyodide");
-      return mainPyodide;
-    }
-  );
-
-  // Stop timer
-  const initializePyodideTimerEnd = performance.now();
-
-  // Create a function to retrieve the promise object.
-  globalThis._qpyodideGetInstance = function() {
-      return qpyodideInstance;
-  }
-
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.46.0/min/vs/loader.js"></script>
-<script type="module" id="qpyodide-monaco-editor-init">
-
-  // Configure the Monaco Editor's loader
-  require.config({
-    paths: {
-      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.46.0/min/vs'
-    }
-  });
-</script>
   <div class="reveal">
     <div class="slides">
 
@@ -707,8 +413,21 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="setup" class="slide level2">
 <h2>Setup</h2>
-<div id="qpyodide-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="setup" class="cell" data-message="false" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># Import all required libraries</span></span>
+<span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href=""></a><span class="im">import</span> random</span>
+<span id="cb1-7"><a href=""></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-8"><a href=""></a></span>
+<span id="cb1-9"><a href=""></a><span class="co"># Increase font size of all Seaborn plot elements</span></span>
+<span id="cb1-10"><a href=""></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span> <span class="fl">1.25</span>, style <span class="op">=</span> <span class="st">"whitegrid"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>, font <span class="op">=</span> <span class="st">"sans"</span>)</span>
+<span id="cb1-11"><a href=""></a></span>
+<span id="cb1-12"><a href=""></a><span class="co"># Set seed</span></span>
+<span id="cb1-13"><a href=""></a>random.seed(<span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="data-visualization" class="slide level2">
 <h2>Data visualization</h2>
@@ -767,22 +486,300 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="aircraft-wildlife-collisions-1" class="slide level2 smaller">
 <h2>Aircraft-Wildlife Collisions</h2>
-<div id="qpyodide-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="ef513760" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/Gchism94/resbazaz2024-dataviz/main/slides/data/birds.csv"</span></span>
+<span id="cb2-2"><a href=""></a>birds <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb2-3"><a href=""></a>birds[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(birds[<span class="st">'date'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Head</a></li><li><a href="#tabset-1-2">Info</a></li><li><a href="#tabset-1-3">Describe</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div id="qpyodide-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="e7b7109e" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>birds.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="148">
+<div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">opid</th>
+<th data-quarto-table-cell-role="th">operator</th>
+<th data-quarto-table-cell-role="th">atype</th>
+<th data-quarto-table-cell-role="th">remarks</th>
+<th data-quarto-table-cell-role="th">phase_of_flt</th>
+<th data-quarto-table-cell-role="th">ac_mass</th>
+<th data-quarto-table-cell-role="th">num_engs</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">time_of_day</th>
+<th data-quarto-table-cell-role="th">state</th>
+<th data-quarto-table-cell-role="th">height</th>
+<th data-quarto-table-cell-role="th">speed</th>
+<th data-quarto-table-cell-role="th">effect</th>
+<th data-quarto-table-cell-role="th">sky</th>
+<th data-quarto-table-cell-role="th">species</th>
+<th data-quarto-table-cell-role="th">birds_seen</th>
+<th data-quarto-table-cell-role="th">birds_struck</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>AAL</td>
+<td>AMERICAN AIRLINES</td>
+<td>MD-80</td>
+<td>NO DAMAGE</td>
+<td>Descent</td>
+<td>4.0</td>
+<td>2.0</td>
+<td>1990-09-30</td>
+<td>Night</td>
+<td>IL</td>
+<td>7000.0</td>
+<td>250.0</td>
+<td>NaN</td>
+<td>No Cloud</td>
+<td>UNKNOWN BIRD - MEDIUM</td>
+<td>NaN</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>USA</td>
+<td>US AIRWAYS</td>
+<td>FK-28-4000</td>
+<td>2 BIRDS, NO DAMAGE.</td>
+<td>Climb</td>
+<td>4.0</td>
+<td>2.0</td>
+<td>1993-11-29</td>
+<td>Day</td>
+<td>MD</td>
+<td>10.0</td>
+<td>140.0</td>
+<td>NaN</td>
+<td>No Cloud</td>
+<td>UNKNOWN BIRD - MEDIUM</td>
+<td>10-Feb</td>
+<td>10-Feb</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>AAL</td>
+<td>AMERICAN AIRLINES</td>
+<td>B-727-200</td>
+<td>NaN</td>
+<td>Approach</td>
+<td>4.0</td>
+<td>3.0</td>
+<td>1993-08-13</td>
+<td>Day</td>
+<td>TN</td>
+<td>400.0</td>
+<td>140.0</td>
+<td>NaN</td>
+<td>Some Cloud</td>
+<td>UNKNOWN BIRD - SMALL</td>
+<td>10-Feb</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>AAL</td>
+<td>AMERICAN AIRLINES</td>
+<td>MD-82</td>
+<td>NaN</td>
+<td>Climb</td>
+<td>4.0</td>
+<td>2.0</td>
+<td>1993-10-07</td>
+<td>Day</td>
+<td>VA</td>
+<td>100.0</td>
+<td>200.0</td>
+<td>NaN</td>
+<td>Overcast</td>
+<td>UNKNOWN BIRD - SMALL</td>
+<td>NaN</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>AAL</td>
+<td>AMERICAN AIRLINES</td>
+<td>MD-82</td>
+<td>NO DAMAGE</td>
+<td>Climb</td>
+<td>4.0</td>
+<td>2.0</td>
+<td>1993-09-25</td>
+<td>Day</td>
+<td>SC</td>
+<td>50.0</td>
+<td>170.0</td>
+<td>NaN</td>
+<td>Some Cloud</td>
+<td>UNKNOWN BIRD - SMALL</td>
+<td>10-Feb</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="tabset-1-2">
-<div id="qpyodide-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="4ee2e2e0" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>birds.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 19302 entries, 0 to 19301
+Data columns (total 17 columns):
+ #   Column        Non-Null Count  Dtype         
+---  ------        --------------  -----         
+ 0   opid          19302 non-null  object        
+ 1   operator      19302 non-null  object        
+ 2   atype         19302 non-null  object        
+ 3   remarks       16516 non-null  object        
+ 4   phase_of_flt  17519 non-null  object        
+ 5   ac_mass       18018 non-null  float64       
+ 6   num_engs      17995 non-null  float64       
+ 7   date          19302 non-null  datetime64[ns]
+ 8   time_of_day   17225 non-null  object        
+ 9   state         18431 non-null  object        
+ 10  height        16109 non-null  float64       
+ 11  speed         12294 non-null  float64       
+ 12  effect        1973 non-null   object        
+ 13  sky           15723 non-null  object        
+ 14  species       19302 non-null  object        
+ 15  birds_seen    4764 non-null   object        
+ 16  birds_struck  19263 non-null  object        
+dtypes: datetime64[ns](1), float64(4), object(12)
+memory usage: 2.5+ MB</code></pre>
+</div>
+</div>
 </div>
 <div id="tabset-1-3">
-<div id="qpyodide-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="f046ef2a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>birds.describe().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="150">
+<div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ac_mass</th>
+<th data-quarto-table-cell-role="th">num_engs</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">height</th>
+<th data-quarto-table-cell-role="th">speed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>18018.00</td>
+<td>17995.00</td>
+<td>19302</td>
+<td>16109.00</td>
+<td>12294.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>3.36</td>
+<td>2.10</td>
+<td>1994-08-25 09:46:40.994715520</td>
+<td>754.68</td>
+<td>136.10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">min</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1990-01-08 00:00:00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>3.00</td>
+<td>2.00</td>
+<td>1992-08-18 00:00:00</td>
+<td>0.00</td>
+<td>110.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>4.00</td>
+<td>2.00</td>
+<td>1994-10-01 00:00:00</td>
+<td>40.00</td>
+<td>130.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>4.00</td>
+<td>2.00</td>
+<td>1996-09-13 18:00:00</td>
+<td>500.00</td>
+<td>150.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">max</td>
+<td>5.00</td>
+<td>4.00</td>
+<td>1999-10-16 00:00:00</td>
+<td>32500.00</td>
+<td>400.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">std</td>
+<td>1.01</td>
+<td>0.57</td>
+<td>NaN</td>
+<td>1795.81</td>
+<td>44.64</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -862,18 +859,62 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="histograms" class="slide level2 smaller">
 <h2>Histograms</h2>
-<div id="qpyodide-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="7e8c8fc1" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7" data-code-line-numbers="1-6|1,2|4,6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb7-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href=""></a></span>
+<span id="cb7-4"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>)</span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-7-output-1.png" width="455" height="454"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="histograms-bins" class="slide level2 smaller">
 <h2>Histograms: bins</h2>
-<div id="qpyodide-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="85e82d4d" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, </span>
+<span id="cb8-2"><a href=""></a>            bins <span class="op">=</span> <span class="dv">15</span>, height <span class="op">=</span> <span class="dv">5</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-8-output-1.png" width="743" height="454"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="density-plot" class="slide level2 smaller">
 <h2>Density Plot</h2>
-<div id="qpyodide-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="9c42dc1a" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, </span>
+<span id="cb9-2"><a href=""></a>            kind <span class="op">=</span> <span class="st">'kde'</span>, height <span class="op">=</span> <span class="dv">5</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-9-output-1.png" width="743" height="454"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="two-numeric-variables" class="slide level2">
 <h2>Two Numeric Variables</h2>
@@ -915,43 +956,154 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="scatterplots" class="slide level2 smaller">
 <h2>Scatterplots</h2>
-<div id="qpyodide-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="e2bee9c3" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="1-5|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>)</span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-10-output-1.png" width="850" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="scatterplots---color" class="slide level2 smaller">
 <h2>Scatterplots - color</h2>
-<div id="qpyodide-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="70e35c0d" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="1-6|4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
+<span id="cb11-2"><a href=""></a>                hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-11-output-1.png" width="850" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="scatterplots---size-color" class="slide level2 smaller">
 <h2>Scatterplots - size + color</h2>
-<div id="qpyodide-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="cbbe62dc" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="1-6|4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
+<span id="cb12-2"><a href=""></a>                size <span class="op">=</span> <span class="st">"num_engs"</span>, hue <span class="op">=</span> <span class="st">"ac_mass"</span>)</span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-12-output-1.png" width="850" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="scatterplots---linear-relationships" class="slide level2 smaller">
 <h2>Scatterplots - linear relationships</h2>
-<div id="qpyodide-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="cfb20068" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="1-4|1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>sns.lmplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
+<span id="cb13-2"><a href=""></a>           aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-13-output-1.png" width="743" height="454"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="scatterplots---grouped-relationships" class="slide level2 smaller">
 <h2>Scatterplots - grouped relationships</h2>
-<div id="qpyodide-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="3d2a5bd1" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="1-4|1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>sns.lmplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
+<span id="cb14-2"><a href=""></a>           hue <span class="op">=</span> <span class="st">"num_engs"</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-14-output-1.png" width="848" height="454"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="d-density-plots" class="slide level2 smaller">
 <h2>2D Density Plots</h2>
-<div id="qpyodide-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="227a4d9e" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>sns.histplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>, </span>
+<span id="cb15-2"><a href=""></a>             bins <span class="op">=</span> <span class="dv">50</span>, pthresh <span class="op">=</span> <span class="fl">0.1</span>, cmap <span class="op">=</span> <span class="st">"mako"</span>)</span>
+<span id="cb15-3"><a href=""></a></span>
+<span id="cb15-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-15-output-1.png" width="850" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="d-density-plots-contours" class="slide level2 smaller">
 <h2>2D Density plots: contours</h2>
-<div id="qpyodide-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="7987c9bb" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" data-code-line-numbers="1-4|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>sns.kdeplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> np.log(birds[<span class="st">'height'</span>] <span class="op">+</span> <span class="dv">1</span>), </span>
+<span id="cb16-2"><a href=""></a>             thresh <span class="op">=</span> <span class="fl">0.1</span>, hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-16-output-1.png" width="820" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="d-density-plots-filled-contours" class="slide level2 smaller">
 <h2>2D Density plots: filled contours</h2>
-<div id="qpyodide-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="e1460b89" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17" data-code-line-numbers="1-4|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>sns.kdeplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> np.log(birds[<span class="st">'height'</span>] <span class="op">+</span> <span class="dv">1</span>), </span>
+<span id="cb17-2"><a href=""></a>             thresh <span class="op">=</span> <span class="dv">0</span>, cmap <span class="op">=</span> <span class="st">"mako"</span>, fill <span class="op">=</span> <span class="va">True</span>, levels <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-17-output-1.png" width="820" height="447"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="two-ordered-numeric-variables" class="slide level2">
 <h2>Two Ordered Numeric Variables</h2>
@@ -993,13 +1145,42 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="line-plot" class="slide level2 smaller">
 <h2>Line Plot</h2>
-<div id="qpyodide-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="0f736fa8" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="1-6|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"whitegrid"</span>)</span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a>sns.lineplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"date"</span>, y <span class="op">=</span> <span class="st">"speed"</span>)</span>
+<span id="cb18-4"><a href=""></a></span>
+<span id="cb18-5"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-18-output-1.png" width="820" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="line-plot-grouped-lines" class="slide level2">
 <h2>Line Plot: grouped lines</h2>
-<div id="qpyodide-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="c6e66ad4" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>sns.lineplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"date"</span>, y <span class="op">=</span> <span class="st">"speed"</span>,</span>
+<span id="cb19-2"><a href=""></a>             hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-19-output-1.png" width="820" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="one-categorical" class="slide level2">
 <h2>One Categorical</h2>
@@ -1041,14 +1222,49 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="barplot" class="slide level2 smaller">
 <h2>Barplot</h2>
-<div id="qpyodide-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="0ac9d3f0" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="1-6|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
+<span id="cb20-2"><a href=""></a></span>
+<span id="cb20-3"><a href=""></a>sns.countplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"sky"</span>, </span>
+<span id="cb20-4"><a href=""></a>              palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb20-5"><a href=""></a>              </span>
+<span id="cb20-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-20-output-1.png" width="829" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="pie-chart" class="slide level2 smaller">
 <h2>Pie Chart</h2>
 <p>Can’t use {seaborn}</p>
-<div id="qpyodide-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="1363dca0" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="1-9|1|3-5|7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>category_counts <span class="op">=</span> birds[<span class="st">'sky'</span>].value_counts()</span>
+<span id="cb21-2"><a href=""></a></span>
+<span id="cb21-3"><a href=""></a>plt.pie(category_counts, labels <span class="op">=</span> category_counts.index, </span>
+<span id="cb21-4"><a href=""></a>        autopct <span class="op">=</span> <span class="kw">lambda</span> p: <span class="ss">f'</span><span class="sc">{</span>p<span class="sc">:.1f}</span><span class="ss">%'</span>, </span>
+<span id="cb21-5"><a href=""></a>        textprops <span class="op">=</span> {<span class="st">'size'</span>:<span class="dv">14</span>})</span>
+<span id="cb21-6"><a href=""></a></span>
+<span id="cb21-7"><a href=""></a>plt.axis(<span class="st">'equal'</span>)</span>
+<span id="cb21-8"><a href=""></a></span>
+<span id="cb21-9"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-21-output-1.png" width="763" height="395"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="one-numerical-one-categorical" class="slide level2">
 <h2>One Numerical + One Categorical</h2>
@@ -1090,52 +1306,207 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="boxplots" class="slide level2 smaller">
 <h2>Boxplots</h2>
-<div id="qpyodide-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="e0aac5b4" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="1-6|1|3,4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb22-2"><a href=""></a></span>
+<span id="cb22-3"><a href=""></a>sns.boxplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>,</span>
+<span id="cb22-4"><a href=""></a>            hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb22-5"><a href=""></a></span>
+<span id="cb22-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-22-output-1.png" width="877" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="trim-axes" class="slide level2 smaller">
 <h2>Trim axes</h2>
-<div id="qpyodide-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="ed7d60d0" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="1-8|6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb23-2"><a href=""></a></span>
+<span id="cb23-3"><a href=""></a>p1 <span class="op">=</span> sns.boxplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>,</span>
+<span id="cb23-4"><a href=""></a>                 hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb23-5"><a href=""></a></span>
+<span id="cb23-6"><a href=""></a>p1.set_xlim(<span class="dv">0</span>, <span class="dv">250</span>)</span>
+<span id="cb23-7"><a href=""></a></span>
+<span id="cb23-8"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-23-output-1.png" width="889" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="violin-plots" class="slide level2 smaller">
 <h2>Violin Plots</h2>
-<div id="qpyodide-insertion-location-23"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="1baaebee" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24" data-code-line-numbers="1-6|3,4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
+<span id="cb24-2"><a href=""></a></span>
+<span id="cb24-3"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"sky"</span>,</span>
+<span id="cb24-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb24-5"><a href=""></a>               </span>
+<span id="cb24-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-24-output-1.png" width="877" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="violin-plots-paired" class="slide level2 smaller">
 <h2>Violin Plots: paired</h2>
-<div id="qpyodide-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="432ba5c4" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25" data-code-line-numbers="1-10|3,5|7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a>options <span class="op">=</span> [<span class="st">'Night'</span>, <span class="st">'Day'</span>]</span>
+<span id="cb25-4"><a href=""></a></span>
+<span id="cb25-5"><a href=""></a>birds_filt <span class="op">=</span> birds[birds[<span class="st">'time_of_day'</span>].isin(options)]</span>
+<span id="cb25-6"><a href=""></a></span>
+<span id="cb25-7"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
+<span id="cb25-8"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb25-9"><a href=""></a>               </span>
+<span id="cb25-10"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-25-output-1.png" width="877" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="violin-plots-quartiles-split" class="slide level2 smaller">
 <h2>Violin Plots: quartiles + split</h2>
-<div id="qpyodide-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="6179c71d" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26" data-code-line-numbers="1-7|5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
+<span id="cb26-2"><a href=""></a></span>
+<span id="cb26-3"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
+<span id="cb26-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>,</span>
+<span id="cb26-5"><a href=""></a>                    inner <span class="op">=</span> <span class="st">"quart"</span>, split <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb26-6"><a href=""></a>               </span>
+<span id="cb26-7"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-26-output-1.png" width="877" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="cleaning-up-our-plots" class="slide level2 smaller">
 <h2>Cleaning up our plots</h2>
 <h4 id="my-minimum-expectation"><strong>My minimum expectation:</strong></h4>
-<div id="qpyodide-insertion-location-26"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="5fa87111" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27" data-code-line-numbers="1-11|6-9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
+<span id="cb27-2"><a href=""></a></span>
+<span id="cb27-3"><a href=""></a>g1 <span class="op">=</span> sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
+<span id="cb27-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
+<span id="cb27-5"><a href=""></a></span>
+<span id="cb27-6"><a href=""></a>g1.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Speed (mph)"</span>)</span>
+<span id="cb27-7"><a href=""></a>g1.<span class="bu">set</span>(ylabel <span class="op">=</span> <span class="va">None</span>)</span>
+<span id="cb27-8"><a href=""></a>g1.<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Speed of plane collisions with birds"</span>)</span>
+<span id="cb27-9"><a href=""></a>g1.legend(title <span class="op">=</span> <span class="st">"Time of day"</span>)</span>
+<span id="cb27-10"><a href=""></a></span>
+<span id="cb27-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-27-output-1.png" width="857" height="455"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="aside-correlations" class="slide level2 smaller">
 <h2>Aside: Correlations</h2>
-<div id="qpyodide-insertion-location-27"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="d2eb8b89" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28" data-code-line-numbers="1-16|3|5|7|9,11|13,14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a>birds_num <span class="op">=</span> birds.select_dtypes(include <span class="op">=</span> <span class="st">'number'</span>)</span>
+<span id="cb28-4"><a href=""></a></span>
+<span id="cb28-5"><a href=""></a>corr <span class="op">=</span> birds_num.corr()</span>
+<span id="cb28-6"><a href=""></a></span>
+<span id="cb28-7"><a href=""></a>mask <span class="op">=</span> np.triu(np.ones_like(corr, dtype <span class="op">=</span> <span class="bu">bool</span>))</span>
+<span id="cb28-8"><a href=""></a></span>
+<span id="cb28-9"><a href=""></a>f, ax <span class="op">=</span> plt.subplots(figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb28-10"><a href=""></a></span>
+<span id="cb28-11"><a href=""></a>cmap <span class="op">=</span> sns.diverging_palette(<span class="dv">230</span>, <span class="dv">20</span>, as_cmap <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb28-12"><a href=""></a></span>
+<span id="cb28-13"><a href=""></a>sns.heatmap(corr, mask <span class="op">=</span> mask, cmap <span class="op">=</span> cmap, vmax <span class="op">=</span> <span class="fl">0.5</span>, center <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb28-14"><a href=""></a>            square <span class="op">=</span> <span class="va">True</span>, linewidths <span class="op">=</span> <span class="fl">.5</span>, cbar_kws <span class="op">=</span> {<span class="st">"shrink"</span>: <span class="fl">0.5</span>})</span>
+<span id="cb28-15"><a href=""></a>            </span>
+<span id="cb28-16"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-28-output-1.png" width="563" height="489"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="lastly-pairgrids" class="slide level2 smaller">
 <h2>Lastly: Pairgrids</h2>
-<div id="qpyodide-insertion-location-28"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="3b22a111" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29" data-code-line-numbers="1-11|3|5-9|"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
+<span id="cb29-2"><a href=""></a></span>
+<span id="cb29-3"><a href=""></a>birds_sub <span class="op">=</span> birds[[<span class="st">'ac_mass'</span>, <span class="st">'height'</span>, <span class="st">'speed'</span>, <span class="st">'sky'</span>]]</span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a>g <span class="op">=</span> sns.PairGrid(birds_sub, diag_sharey <span class="op">=</span> <span class="va">False</span>, </span>
+<span id="cb29-6"><a href=""></a>                 height <span class="op">=</span> <span class="dv">2</span>, hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
+<span id="cb29-7"><a href=""></a>g.map_upper(sns.scatterplot, s <span class="op">=</span> <span class="dv">15</span>)</span>
+<span id="cb29-8"><a href=""></a>g.map_lower(sns.kdeplot)</span>
+<span id="cb29-9"><a href=""></a>g.map_diag(sns.kdeplot, lw <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb29-10"><a href=""></a></span>
+<span id="cb29-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-29-output-1.png" width="569" height="562"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="diwali-sales-data-metadata" class="slide level2 smaller">
 <h2>Diwali sales data: metadata</h2>
 <table>
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 14%">
+<col style="width: 61%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1219,12 +1590,223 @@ Dr.&nbsp;Greg Chism
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Read in</a></li><li><a href="#tabset-2-2">Code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1">
-<div id="qpyodide-insertion-location-29"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="b8b3c3f9" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>diwali <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv'</span>, encoding <span class="op">=</span> <span class="st">'iso-8859-1'</span>)</span>
+<span id="cb30-2"><a href=""></a>diwali.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="174">
+<div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">User_ID</th>
+<th data-quarto-table-cell-role="th">Cust_name</th>
+<th data-quarto-table-cell-role="th">Product_ID</th>
+<th data-quarto-table-cell-role="th">Gender</th>
+<th data-quarto-table-cell-role="th">Age Group</th>
+<th data-quarto-table-cell-role="th">Age</th>
+<th data-quarto-table-cell-role="th">Marital_Status</th>
+<th data-quarto-table-cell-role="th">State</th>
+<th data-quarto-table-cell-role="th">Zone</th>
+<th data-quarto-table-cell-role="th">Occupation</th>
+<th data-quarto-table-cell-role="th">Product_Category</th>
+<th data-quarto-table-cell-role="th">Orders</th>
+<th data-quarto-table-cell-role="th">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1002903</td>
+<td>Sanskriti</td>
+<td>P00125942</td>
+<td>F</td>
+<td>26-35</td>
+<td>28</td>
+<td>0</td>
+<td>Maharashtra</td>
+<td>Western</td>
+<td>Healthcare</td>
+<td>Auto</td>
+<td>1</td>
+<td>23952.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1000732</td>
+<td>Kartik</td>
+<td>P00110942</td>
+<td>F</td>
+<td>26-35</td>
+<td>35</td>
+<td>1</td>
+<td>Andhra Pradesh</td>
+<td>Southern</td>
+<td>Govt</td>
+<td>Auto</td>
+<td>3</td>
+<td>23934.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1001990</td>
+<td>Bindu</td>
+<td>P00118542</td>
+<td>F</td>
+<td>26-35</td>
+<td>35</td>
+<td>1</td>
+<td>Uttar Pradesh</td>
+<td>Central</td>
+<td>Automobile</td>
+<td>Auto</td>
+<td>3</td>
+<td>23924.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1001425</td>
+<td>Sudevi</td>
+<td>P00237842</td>
+<td>M</td>
+<td>0-17</td>
+<td>16</td>
+<td>0</td>
+<td>Karnataka</td>
+<td>Southern</td>
+<td>Construction</td>
+<td>Auto</td>
+<td>2</td>
+<td>23912.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1000588</td>
+<td>Joni</td>
+<td>P00057942</td>
+<td>M</td>
+<td>26-35</td>
+<td>28</td>
+<td>1</td>
+<td>Gujarat</td>
+<td>Western</td>
+<td>Food Processing</td>
+<td>Auto</td>
+<td>2</td>
+<td>23877.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="tabset-2-2">
-<div id="qpyodide-insertion-location-30"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="542abfd6" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a><span class="co"># Examine data</span></span>
+<span id="cb31-2"><a href=""></a>diwali.info()</span>
+<span id="cb31-3"><a href=""></a></span>
+<span id="cb31-4"><a href=""></a><span class="co"># Data types</span></span>
+<span id="cb31-5"><a href=""></a>diwali.dtypes</span>
+<span id="cb31-6"><a href=""></a></span>
+<span id="cb31-7"><a href=""></a><span class="co"># Describe numerical columns</span></span>
+<span id="cb31-8"><a href=""></a>diwali.describe()</span>
+<span id="cb31-9"><a href=""></a></span>
+<span id="cb31-10"><a href=""></a><span class="co"># Describe categories</span></span>
+<span id="cb31-11"><a href=""></a>diwali.describe(exclude <span class="op">=</span> [np.number])</span>
+<span id="cb31-12"><a href=""></a></span>
+<span id="cb31-13"><a href=""></a><span class="co"># Unique levels</span></span>
+<span id="cb31-14"><a href=""></a>categorical_cols <span class="op">=</span> diwali.select_dtypes(include <span class="op">=</span> [<span class="st">'object'</span>, <span class="st">'category'</span>]).columns</span>
+<span id="cb31-15"><a href=""></a>unique_levels <span class="op">=</span> diwali[col].unique()</span>
+<span id="cb31-16"><a href=""></a></span>
+<span id="cb31-17"><a href=""></a><span class="co"># Outliers</span></span>
+<span id="cb31-18"><a href=""></a><span class="co"># Make a copy of the diwali data </span></span>
+<span id="cb31-19"><a href=""></a>dataCopy <span class="op">=</span> diwali.copy()</span>
+<span id="cb31-20"><a href=""></a></span>
+<span id="cb31-21"><a href=""></a><span class="co"># Select only numerical columns</span></span>
+<span id="cb31-22"><a href=""></a>dataRed <span class="op">=</span> dataCopy.select_dtypes(include <span class="op">=</span> np.number)</span>
+<span id="cb31-23"><a href=""></a></span>
+<span id="cb31-24"><a href=""></a><span class="co"># List of numerical columns</span></span>
+<span id="cb31-25"><a href=""></a>dataRedColsList <span class="op">=</span> dataRed.columns[...]</span>
+<span id="cb31-26"><a href=""></a></span>
+<span id="cb31-27"><a href=""></a><span class="co"># For all values in the numerical column list from above</span></span>
+<span id="cb31-28"><a href=""></a><span class="cf">for</span> i_col <span class="kw">in</span> dataRedColsList:</span>
+<span id="cb31-29"><a href=""></a>  <span class="co"># List of the values in i_col</span></span>
+<span id="cb31-30"><a href=""></a>  dataRed_i <span class="op">=</span> dataRed.loc[:,i_col]</span>
+<span id="cb31-31"><a href=""></a>  </span>
+<span id="cb31-32"><a href=""></a>  <span class="co"># Define the 25th and 75th percentiles</span></span>
+<span id="cb31-33"><a href=""></a>  q25, q75 <span class="op">=</span> <span class="bu">round</span>((dataRed_i.quantile(q <span class="op">=</span> <span class="fl">0.25</span>)), <span class="dv">3</span>), <span class="bu">round</span>((dataRed_i.quantile(q <span class="op">=</span> <span class="fl">0.75</span>)), <span class="dv">3</span>)</span>
+<span id="cb31-34"><a href=""></a>  </span>
+<span id="cb31-35"><a href=""></a>  <span class="co"># Define the interquartile range from the 25th and 75th percentiles defined above</span></span>
+<span id="cb31-36"><a href=""></a>  IQR <span class="op">=</span> <span class="bu">round</span>((q75 <span class="op">-</span> q25), <span class="dv">3</span>)</span>
+<span id="cb31-37"><a href=""></a>  </span>
+<span id="cb31-38"><a href=""></a>  <span class="co"># Calculate the outlier cutoff </span></span>
+<span id="cb31-39"><a href=""></a>  cut_off <span class="op">=</span> IQR <span class="op">*</span> <span class="fl">1.5</span></span>
+<span id="cb31-40"><a href=""></a>  </span>
+<span id="cb31-41"><a href=""></a>  <span class="co"># Define lower and upper cut-offs</span></span>
+<span id="cb31-42"><a href=""></a>  lower, upper <span class="op">=</span> <span class="bu">round</span>((q25 <span class="op">-</span> cut_off), <span class="dv">3</span>), <span class="bu">round</span>((q75 <span class="op">+</span> cut_off), <span class="dv">3</span>)</span>
+<span id="cb31-43"><a href=""></a>  </span>
+<span id="cb31-44"><a href=""></a>  <span class="co"># Print the values</span></span>
+<span id="cb31-45"><a href=""></a>  <span class="bu">print</span>(<span class="st">' '</span>)</span>
+<span id="cb31-46"><a href=""></a>  </span>
+<span id="cb31-47"><a href=""></a>  <span class="co"># For each value of i_col, print the 25th and 75th percentiles and IQR</span></span>
+<span id="cb31-48"><a href=""></a>  <span class="bu">print</span>(i_col, <span class="st">'q25 ='</span>, q25, <span class="st">'q75 ='</span>, q75, <span class="st">'IQR ='</span>, IQR)</span>
+<span id="cb31-49"><a href=""></a>  </span>
+<span id="cb31-50"><a href=""></a>  <span class="co"># Print the lower and upper cut-offs</span></span>
+<span id="cb31-51"><a href=""></a>  <span class="bu">print</span>(<span class="st">'lower, upper:'</span>, lower, upper)</span>
+<span id="cb31-52"><a href=""></a></span>
+<span id="cb31-53"><a href=""></a>  <span class="co"># Count the number of outliers outside the (lower, upper) limits, print that value</span></span>
+<span id="cb31-54"><a href=""></a>  <span class="bu">print</span>(<span class="st">'Number of Outliers: '</span>, dataRed_i[(dataRed_i <span class="op">&lt;</span> lower) <span class="op">|</span> (dataRed_i <span class="op">&gt;</span> upper)].count())</span>
+<span id="cb31-55"><a href=""></a></span>
+<span id="cb31-56"><a href=""></a><span class="co"># Missing values</span></span>
+<span id="cb31-57"><a href=""></a>diwali.isnull().<span class="bu">sum</span>()</span>
+<span id="cb31-58"><a href=""></a></span>
+<span id="cb31-59"><a href=""></a><span class="co"># Normality - qq plot</span></span>
+<span id="cb31-60"><a href=""></a><span class="co"># Change theme to "white"</span></span>
+<span id="cb31-61"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
+<span id="cb31-62"><a href=""></a></span>
+<span id="cb31-63"><a href=""></a><span class="co"># Make a copy of the data </span></span>
+<span id="cb31-64"><a href=""></a>dataCopy <span class="op">=</span> diwali.copy()</span>
+<span id="cb31-65"><a href=""></a></span>
+<span id="cb31-66"><a href=""></a><span class="co"># Remove NAs</span></span>
+<span id="cb31-67"><a href=""></a>dataCopyFin <span class="op">=</span> dataCopy.dropna()</span>
+<span id="cb31-68"><a href=""></a></span>
+<span id="cb31-69"><a href=""></a><span class="co"># Specify desired column</span></span>
+<span id="cb31-70"><a href=""></a>i_col <span class="op">=</span> dataCopyFin.Amount</span>
+<span id="cb31-71"><a href=""></a></span>
+<span id="cb31-72"><a href=""></a><span class="co"># Subplots</span></span>
+<span id="cb31-73"><a href=""></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(ncols <span class="op">=</span> <span class="dv">2</span>, nrows <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb31-74"><a href=""></a></span>
+<span id="cb31-75"><a href=""></a><span class="co"># Density plot</span></span>
+<span id="cb31-76"><a href=""></a>sns.kdeplot(i_col, linewidth <span class="op">=</span> <span class="dv">5</span>, ax <span class="op">=</span> ax1)</span>
+<span id="cb31-77"><a href=""></a>ax1.set_title(<span class="st">'Amount spent (₹)'</span>)</span>
+<span id="cb31-78"><a href=""></a></span>
+<span id="cb31-79"><a href=""></a><span class="co"># Q-Q plot</span></span>
+<span id="cb31-80"><a href=""></a>sm.qqplot(i_col, line <span class="op">=</span> <span class="st">'s'</span>, ax <span class="op">=</span> ax2)</span>
+<span id="cb31-81"><a href=""></a>ax2.set_title(<span class="st">'Amount spent Q-Q plot'</span>)</span>
+<span id="cb31-82"><a href=""></a>plt.tight_layout()</span>
+<span id="cb31-83"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </div>
 </div>
 </div>
@@ -1622,542 +2204,6 @@ Dr.&nbsp;Greg Chism
         }
       }
     });
-    </script>
-    <script type="module">
-    /**
-     * Factory function to create different types of cells based on options.
-     * @param {Object} cellData - JSON object containing code, id, and options.
-     * @returns {BaseCell} Instance of the appropriate cell class.
-     */
-    globalThis.qpyodideCreateCell = function(cellData) {
-        switch (cellData.options.context) {
-            case 'interactive':
-                return new InteractiveCell(cellData);
-            case 'output':
-                return new OutputCell(cellData);
-            case 'setup':
-                return new SetupCell(cellData);
-            default:
-                return new InteractiveCell(cellData);
-                // throw new Error('Invalid cell type specified in options.');
-        }
-    }  
-
-    /**
-     * CellContainer class for managing a collection of cells.
-     * @class
-     */
-    class CellContainer {
-        /**
-         * Constructor for CellContainer.
-         * Initializes an empty array to store cells.
-         * @constructor
-         */
-        constructor() {
-            this.cells = [];
-        }
-
-        /**
-         * Add a cell to the container.
-         * @param {BaseCell} cell - Instance of a cell (BaseCell or its subclasses).
-         */
-        addCell(cell) {
-            this.cells.push(cell);
-        }
-
-        /**
-         * Execute all cells in the container.
-         */
-        async executeAllCells() {
-            for (const cell of this.cells) {
-                await cell.executeCode();
-            }
-        }
-
-        /**
-         * Execute all cells in the container.
-         */
-        async autoRunExecuteAllCells() {
-            for (const cell of this.cells) {
-                await cell.autoRunExecuteCode();
-            }
-        }
-    }
-      
-
-    /**
-     * BaseCell class for handling code execution using Pyodide.
-     * @class
-     */
-    class BaseCell {
-        /**
-         * Constructor for BaseCell.
-         * @constructor
-         * @param {Object} cellData - JSON object containing code, id, and options.
-         */
-        constructor(cellData) {
-            this.code = cellData.code;
-            this.id = cellData.id;
-            this.options = cellData.options;
-            this.insertionLocation = document.getElementById(`qpyodide-insertion-location-${this.id}`);
-            this.executionLock = false;
-        }
-
-        cellOptions() {
-            // Subclass this? 
-            console.log(this.options);
-            return this.options;
-        }
-
-        /**
-         * Execute the Python code using Pyodide.
-         * @returns {*} Result of the code execution.
-         */
-        async executeCode() {
-            // Execute code using Pyodide
-            const result = getPyodide().runPython(this.code);
-            return result;
-        }
-    };
-
-    /**
-     * InteractiveCell class for creating editable code editor with Monaco Editor.
-     * @class
-     * @extends BaseCell
-     */
-    class InteractiveCell extends BaseCell {
-
-        /**
-         * Constructor for InteractiveCell.
-         * @constructor
-         * @param {Object} cellData - JSON object containing code, id, and options.
-         */
-        constructor(cellData) {
-            super(cellData);
-            this.editor = null;
-            this.setupElement();
-            this.setupMonacoEditor();
-        }
-
-        /**
-         * Set up the interactive cell elements
-         */
-        setupElement() {
-
-            // Create main div element
-            var mainDiv = document.createElement('div');
-            mainDiv.id = `qpyodide-interactive-area-${this.id}`;
-            mainDiv.className = `qpyodide-interactive-area`;
-            if (this.options.classes) {
-                mainDiv.className += " " + this.options.classes
-            }
-
-            // Add a unique cell identifier that users can customize
-            if (this.options.label) {
-                mainDiv.setAttribute('data-id', this.options.label);
-            }
-
-            // Create toolbar div
-            var toolbarDiv = document.createElement('div');
-            toolbarDiv.className = 'qpyodide-editor-toolbar';
-            toolbarDiv.id = `qpyodide-editor-toolbar-${this.id}`;
-
-            // Create a div to hold the left buttons
-            var leftButtonsDiv = document.createElement('div');
-            leftButtonsDiv.className = 'qpyodide-editor-toolbar-left-buttons';
-
-            // Create a div to hold the right buttons
-            var rightButtonsDiv = document.createElement('div');
-            rightButtonsDiv.className = 'qpyodide-editor-toolbar-right-buttons';
-
-            // Create Run Code button
-            var runCodeButton = document.createElement('button');
-            runCodeButton.className = 'btn btn-default qpyodide-button qpyodide-button-run';
-            runCodeButton.disabled = true;
-            runCodeButton.type = 'button';
-            runCodeButton.id = `qpyodide-button-run-${this.id}`;
-            runCodeButton.textContent = '🟡 Loading Pyodide...';
-            runCodeButton.title = `Run code (Shift + Enter)`;
-
-            // Append buttons to the leftButtonsDiv
-            leftButtonsDiv.appendChild(runCodeButton);
-
-            // Create Reset button
-            var resetButton = document.createElement('button');
-            resetButton.className = 'btn btn-light btn-xs qpyodide-button qpyodide-button-reset';
-            resetButton.type = 'button';
-            resetButton.id = `qpyodide-button-reset-${this.id}`;
-            resetButton.title = 'Start over';
-            resetButton.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
-
-            // Create Copy button
-            var copyButton = document.createElement('button');
-            copyButton.className = 'btn btn-light btn-xs qpyodide-button qpyodide-button-copy';
-            copyButton.type = 'button';
-            copyButton.id = `qpyodide-button-copy-${this.id}`;
-            copyButton.title = 'Copy code';
-            copyButton.innerHTML = '<i class="fa-regular fa-copy"></i>';
-
-            // Append buttons to the rightButtonsDiv
-            rightButtonsDiv.appendChild(resetButton);
-            rightButtonsDiv.appendChild(copyButton);
-
-            // Create console area div
-            var consoleAreaDiv = document.createElement('div');
-            consoleAreaDiv.id = `qpyodide-console-area-${this.id}`;
-            consoleAreaDiv.className = 'qpyodide-console-area';
-
-            // Create editor div
-            var editorDiv = document.createElement('div');
-            editorDiv.id = `qpyodide-editor-${this.id}`;
-            editorDiv.className = 'qpyodide-editor';
-
-            // Create output code area div
-            var outputCodeAreaDiv = document.createElement('div');
-            outputCodeAreaDiv.id = `qpyodide-output-code-area-${this.id}`;
-            outputCodeAreaDiv.className = 'qpyodide-output-code-area';
-            outputCodeAreaDiv.setAttribute('aria-live', 'assertive');
-
-            // Create pre element inside output code area
-            var preElement = document.createElement('pre');
-            preElement.style.visibility = 'hidden';
-            outputCodeAreaDiv.appendChild(preElement);
-
-            // Create output graph area div
-            var outputGraphAreaDiv = document.createElement('div');
-            outputGraphAreaDiv.id = `qpyodide-output-graph-area-${this.id}`;
-            outputGraphAreaDiv.className = 'qpyodide-output-graph-area';
-
-            // Append buttons to the toolbar
-            toolbarDiv.appendChild(leftButtonsDiv);
-            toolbarDiv.appendChild(rightButtonsDiv);
-
-            // Append all elements to the main div
-            mainDiv.appendChild(toolbarDiv);
-            consoleAreaDiv.appendChild(editorDiv);
-            consoleAreaDiv.appendChild(outputCodeAreaDiv);
-            mainDiv.appendChild(consoleAreaDiv);
-            mainDiv.appendChild(outputGraphAreaDiv);
-
-            // Insert the dynamically generated object at the document location.
-            this.insertionLocation.appendChild(mainDiv);
-        }
-
-        /**
-         * Set up Monaco Editor for code editing.
-         */
-        setupMonacoEditor() {
-
-            // Retrieve the previously created document elements
-            this.runButton = document.getElementById(`qpyodide-button-run-${this.id}`);
-            this.resetButton = document.getElementById(`qpyodide-button-reset-${this.id}`);
-            this.copyButton = document.getElementById(`qpyodide-button-copy-${this.id}`);
-            this.editorDiv = document.getElementById(`qpyodide-editor-${this.id}`);
-            this.outputCodeDiv = document.getElementById(`qpyodide-output-code-area-${this.id}`);
-            this.outputGraphDiv = document.getElementById(`qpyodide-output-graph-area-${this.id}`);
-            
-            // Store reference to the object
-            var thiz = this;
-
-            // Load the Monaco Editor and create an instance
-            require(['vs/editor/editor.main'], function () {
-                thiz.editor = monaco.editor.create(
-                    thiz.editorDiv, {
-                        value: thiz.code,
-                        language: 'python',
-                        theme: 'vs-light',
-                        automaticLayout: true,           // Works wonderfully with RevealJS
-                        scrollBeyondLastLine: false,
-                        minimap: {
-                            enabled: false
-                        },
-                        fontSize: '17.5pt',              // Bootstrap is 1 rem
-                        renderLineHighlight: "none",     // Disable current line highlighting
-                        hideCursorInOverviewRuler: true,  // Remove cursor indictor in right hand side scroll bar
-                        readOnly: thiz.options['read-only'] ?? false
-                    }
-                );
-            
-                // Store the official counter ID to be used in keyboard shortcuts
-                thiz.editor.__qpyodideCounter = thiz.id;
-            
-                // Store the official div container ID
-                thiz.editor.__qpyodideEditorId = `qpyodide-editor-${thiz.id}`;
-            
-                // Store the initial code value and options
-                thiz.editor.__qpyodideinitialCode = thiz.code;
-                thiz.editor.__qpyodideOptions = thiz.options;
-            
-                // Set at the model level the preferred end of line (EOL) character to LF.
-                // This prevent `\r\n` from being given to the Pyodide engine if the user is on Windows.
-                // See details in: https://github.com/coatless/quarto-Pyodide/issues/94
-                // Associated error text: 
-                // Error: <text>:1:7 unexpected input
-            
-                // Retrieve the underlying model
-                const model = thiz.editor.getModel();
-                // Set EOL for the model
-                model.setEOL(monaco.editor.EndOfLineSequence.LF);
-            
-                // Dynamically modify the height of the editor window if new lines are added.
-                let ignoreEvent = false;
-                const updateHeight = () => {
-                const contentHeight = thiz.editor.getContentHeight();
-                // We're avoiding a width change
-                //editorDiv.style.width = `${width}px`;
-                thiz.editorDiv.style.height = `${contentHeight}px`;
-                    try {
-                        ignoreEvent = true;
-                
-                        // The key to resizing is this call
-                        thiz.editor.layout();
-                    } finally {
-                        ignoreEvent = false;
-                    }
-                };
-            
-                // Helper function to check if selected text is empty
-                function isEmptyCodeText(selectedCodeText) {
-                    return (selectedCodeText === null || selectedCodeText === undefined || selectedCodeText === "");
-                }
-            
-                // Registry of keyboard shortcuts that should be re-added to each editor window
-                // when focus changes.
-                const addPyodideKeyboardShortCutCommands = () => {
-                // Add a keydown event listener for Shift+Enter to run all code in cell
-                thiz.editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
-                    // Retrieve all text inside the editor
-                    thiz.runCode(thiz.editor.getValue());
-                });
-            
-                // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
-                thiz.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-                        // Get the selected text from the editor
-                        const selectedText = thiz.editor.getModel().getValueInRange(thiz.editor.getSelection());
-                        // Check if no code is selected
-                        if (isEmptyCodeText(selectedText)) {
-                            // Obtain the current cursor position
-                            let currentPosition = thiz.editor.getPosition();
-                            // Retrieve the current line content
-                            let currentLine = thiz.editor.getModel().getLineContent(currentPosition.lineNumber);
-                    
-                            // Propose a new position to move the cursor to
-                            let newPosition = new monaco.Position(currentPosition.lineNumber + 1, 1);
-                    
-                            // Check if the new position is beyond the last line of the editor
-                            if (newPosition.lineNumber > thiz.editor.getModel().getLineCount()) {
-                                // Add a new line at the end of the editor
-                                thiz.editor.executeEdits("addNewLine", [{
-                                range: new monaco.Range(newPosition.lineNumber, 1, newPosition.lineNumber, 1),
-                                text: "\n", 
-                                forceMoveMarkers: true,
-                                }]);
-                            }
-                            
-                            // Run the entire line of code.
-                            thiz.runCode(currentLine);
-                    
-                            // Move cursor to new position
-                            thiz.editor.setPosition(newPosition);
-                        } else {
-                            // Code to run when Ctrl+Enter is pressed with selected code
-                            thiz.runCode(selectedText);
-                        }
-                    });
-                }
-            
-                // Register an on focus event handler for when a code cell is selected to update
-                // what keyboard shortcut commands should work.
-                // This is a workaround to fix a regression that happened with multiple
-                // editor windows since Monaco 0.32.0 
-                // https://github.com/microsoft/monaco-editor/issues/2947
-                thiz.editor.onDidFocusEditorText(addPyodideKeyboardShortCutCommands);
-            
-                // Register an on change event for when new code is added to the editor window
-                thiz.editor.onDidContentSizeChange(updateHeight);
-            
-                // Manually re-update height to account for the content we inserted into the call
-                updateHeight();
-                    
-            });
-
-            
-            // Add a click event listener to the run button
-            thiz.runButton.onclick = function () {
-                thiz.runCode(
-                    thiz.editor.getValue()
-                );
-            };
-            
-            // Add a click event listener to the reset button
-            thiz.copyButton.onclick = function () {
-                // Retrieve current code data
-                const data = thiz.editor.getValue();
-                
-                // Write code data onto the clipboard.
-                navigator.clipboard.writeText(data || "");
-            };
-            
-            // Add a click event listener to the copy button
-            thiz.resetButton.onclick = function () {
-                thiz.editor.setValue(thiz.editor.__qpyodideinitialCode);
-            };
-        }
-
-        disableInteractiveCells() {
-            // Enable locking of execution for the cell
-            this.executionLock = true;
-
-            // Disallowing execution of other code cells
-            document.querySelectorAll(".qpyodide-button-run").forEach((btn) => {
-                btn.disabled = true;
-            });
-        }
-
-        enableInteractiveCells() {
-            // Remove locking of execution for the cell
-            this.executionLock = false;
-
-            // All execution of other code cells
-            document.querySelectorAll(".qpyodide-button-run").forEach((btn) => {
-                btn.disabled = false;
-            });
-        }
-
-        /**
-         * Execute the Python code inside the editor.
-         */
-        async runCode(code) {
-            
-            // Check if we have an execution lock
-            if (this.executeLock) return; 
-            
-            this.disableInteractiveCells();
-
-            // Force wait procedure
-            await mainPyodide;
-
-            // Clear the output stock
-            qpyodideResetOutputArray();
-
-            // Generate a new canvas element, avoid attaching until the end
-            let graphFigure = document.createElement("figure");
-            document.pyodideMplTarget = graphFigure;
-
-            console.log("Running code!");
-            // Obtain results from the base class
-            try {
-                // Always check to see if the user adds new packages
-                await mainPyodide.loadPackagesFromImports(code);
-
-                // Process result
-                const output = await mainPyodide.runPythonAsync(code);
-
-                // Add output
-                qpyodideAddToOutputArray(output, "stdout");
-            } catch (err) {
-                // Add error message
-                qpyodideAddToOutputArray(err, "stderr");
-                // TODO: There has to be a way to remove the Pyodide portion of the errors... 
-            }
-
-            const result = qpyodideRetrieveOutput();
-
-            // Nullify the output area of content
-            this.outputCodeDiv.innerHTML = "";
-            this.outputGraphDiv.innerHTML = "";        
-
-            // Design an output object for messages
-            const pre = document.createElement("pre");
-            if (/\S/.test(result)) {
-                // Display results as HTML elements to retain output styling
-                const div = document.createElement("div");
-                div.innerHTML = result;
-                pre.appendChild(div);
-            } else {
-                // If nothing is present, hide the element.
-                pre.style.visibility = "hidden";
-            }
-
-            // Add output under interactive div
-            this.outputCodeDiv.appendChild(pre);
-
-            // Place the graphics onto the page
-            if (graphFigure) {
-
-                if (this.options['fig-cap']) {
-                    // Create figcaption element
-                    const figcaptionElement = document.createElement('figcaption');
-                    figcaptionElement.innerText = this.options['fig-cap'];
-                    // Append figcaption to figure
-                    graphFigure.appendChild(figcaptionElement);    
-                }
-
-                this.outputGraphDiv.appendChild(graphFigure);
-            }
-
-            // Re-enable execution
-            this.enableInteractiveCells();
-        }
-    };
-
-    /**
-     * OutputCell class for customizing and displaying output.
-     * @class
-     * @extends BaseCell
-     */
-    class OutputCell extends BaseCell {
-        /**
-         * Constructor for OutputCell.
-         * @constructor
-         * @param {Object} cellData - JSON object containing code, id, and options.
-         */
-        constructor(cellData) {
-          super(cellData);
-        }
-      
-        /**
-         * Display customized output on the page.
-         * @param {*} output - Result to be displayed.
-         */
-        displayOutput(output) {
-            const results = this.executeCode();
-            return results;
-        }
-      }
-
-    /**
-     * SetupCell class for suppressed output.
-     * @class
-     * @extends BaseCell
-     */
-    class SetupCell extends BaseCell {
-        /**
-         * Constructor for SetupCell.
-         * @constructor
-         * @param {Object} cellData - JSON object containing code, id, and options.
-         */
-        constructor(cellData) {
-            super(cellData);
-        }
-
-        /**
-         * Execute the Python code without displaying the results.
-         */
-        runSetupCode() {
-            // Execute code without displaying output
-            this.executeCode();
-        }
-    };
-    </script>
-    <script type="module">
-    // Handle cell initialization initialization
-    qpyodideCellDetails.map(
-        (entry) => {
-          // Handle the creation of the element
-          qpyodideCreateCell(entry);
-        }
-      );
     </script>
     
 
