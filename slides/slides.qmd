@@ -1,13 +1,12 @@
 ---
-title: Data Visualization
-subtitle: ResBaz Arizona 2024
+title: "Faculty Live Sessions"
+subtitle: "INFO Data Visualization and Analysis"
 institute: "UArizona School of Information"
 author: "Dr. Greg Chism"
 title-slide-attributes:
   data-background-image: minedata-bg.png
   data-background-size: 600px, cover
   data-slide-number: none
-logo: "./logo.png"
 format:
   revealjs:
     theme: slides.scss
@@ -19,719 +18,742 @@ execute:
   freeze: auto
   echo: true
 auto-stretch: false
+jupyter: python3
 ---
 
-## Setup
+# Time Series Visualizations
+
+## Setup {.smaller}
 
 ```{python}
 #| label: setup
 #| message: false
-# Import all required libraries
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import random
-import statsmodels.api as sm
+from matplotlib.dates import DateFormatter
+import matplotlib.dates as mdates
+from skimpy import clean_columns
 
-# Increase font size of all Seaborn plot elements
-sns.set(font_scale = 1.25, style = "whitegrid", palette = "colorblind", font = "sans")
+# Set the theme for seaborn
+sns.set_theme(style="white", palette="colorblind")
 
-# Set seed
-random.seed(123)
+# Set figure parameters
+plt.rcParams['figure.figsize'] = [8, 8 * 0.618]
+plt.rcParams['figure.autolayout'] = True
+
 ```
 
-## Data visualization
+# Working with dates
 
-> The practice of [designing](https://en.wikipedia.org/wiki/Design "Design") and creating easy-to-communicate and easy-to-understand [graphic](https://en.wikipedia.org/wiki/Graphics "Graphics") or visual [representations](https://en.wikipedia.org/wiki/Representation_(arts) "Representation (arts)") of a large amount of complex quantitative and qualitative [data](https://en.wikipedia.org/wiki/Data "Data") and [information](https://en.wikipedia.org/wiki/Information "Information") with the help of static, dynamic or interactive visual items.
+## Air Quality Index
 
-::: fragment
-My definition: telling a story with your data, visually.
+-   The AQI is the Environmental Protection Agency's index for reporting air quality
+
+-   Higher values of AQI indicate worse air quality
+
+![](images/aqi-levels.png){fig-align="center"}
+
+::: aside
+Source: <https://www.airnow.gov/aqi-basics>
 :::
 
-## Why storytelling? {.smaller}
+## AQI levels
 
-::: columns
-::: {.column width="50%"}
-![](images/gilgamesh-1.png){fig-align="center" width="678"}
-:::
-
-::: {.column width="50%"}
-![](images/gilgamesh-2.jpeg){fig-align="center" width="266"}
-:::
-:::
-
-::: fragment
-::: incremental
--   **Epic of Gilgamesh** (c. 2100 BC)
-
--   First known "hero's journey"
-
--   **Goal**: Apply storytelling to your visuals
-:::
-:::
-
-## **Aircraft-Wildlife Collisions**
-
-::: columns
-::: {.column width="50%"}
-<br>
-
-![](images/plane-birds.jpeg){fig-align="center"}
-:::
-
-::: {.column width="50%"}
-![](images/plane-birds-1.webp){fig-align="center" width="450"}
-:::
-:::
-
-## Aircraft-Wildlife Collisions {.smaller}
+The previous graphic in tabular form, to be used later...
 
 ```{python}
-url = "https://raw.githubusercontent.com/Gchism94/resbazaz2024-dataviz/main/slides/data/birds.csv"
-birds = pd.read_csv(url)
-birds['date'] = pd.to_datetime(birds['date'])
+aqi_levels = pd.DataFrame({
+    'aqi_min': [0, 51, 101, 151, 201, 301],
+    'aqi_max': [50, 100, 150, 200, 300, 400],
+    'color': ["#D8EEDA", "#F1E7D4", "#F8E4D8", "#FEE2E1", "#F4E3F7", "#F9D0D4"],
+    'level': ["Good", "Moderate", "Unhealthy for sensitive groups", "Unhealthy", "Very unhealthy", "Hazardous"]
+})
+
+aqi_levels['aqi_mid'] = (aqi_levels['aqi_min'] + aqi_levels['aqi_max']) / 2
+
 ```
+
+## AQI data
+
+-   Source: [EPA's Daily Air Quality Tracker](https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker)
+
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for Tucson, AZ core-based statistical area (CBSA), one file per year
+
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
+
+## 2022 Tucson, AZ {.smaller}
 
 ::: panel-tabset
-## Head
+## Read + head
 
 ```{python}
-birds.head()
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv")
+
+tuc_2022 = clean_columns(tuc_2022)
+
+tuc_2022.head()
 ```
 
 ## Info
 
 ```{python}
-birds.info()
+tuc_2022.info()
 ```
 
 ## Describe
 
 ```{python}
-birds.describe().round(2)
+tuc_2022.describe()
 ```
-:::
 
-## [{seaborn}](https://seaborn.pydata.org/index.html)
-
-> Seaborn is a Python data visualization library based on [matplotlib](https://matplotlib.org/). It provides a high-level interface for drawing attractive and informative statistical graphics.
-
-![](images/seaborn.png){fig-align="center"}
-
-## Some data viz rules
-
-::: incremental
--   ALWAYS make custom titles (axes, legends)
-
--   Use color blind friendly [color palettes](https://seaborn.pydata.org/tutorial/color_palettes.html)
-
--   Use either the `whitegrid` or `white` [themes](https://seaborn.pydata.org/tutorial/aesthetics.html)
-
--   Don't clutter with unnecessary information
-
--   Use annotations to aid the reader
-
--   Use the **Golden Ratio**: 0.625, or 8in/5in
-:::
-
-# Exploratory visuals
-
-## How to choose a plot
-
-::: {style="text-align: center;"}
-```{=html}
-<iframe width="1000" height="500" src="https://www.data-to-viz.com/" frameborder="1" style="background:white;"></iframe>
-```
-:::
-
-## One Numeric Variable
-
-::: columns
-::: {.column width="50%" style="text-align: center;"}
-**Histogram**
-
-![](images/Histogram.png){fig-align="center" width="75"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Frequency Distribution
--   Easy to Interpret
--   Identifies Patterns
-:::
-:::
-:::
-
-::: {.column width="50%" style="text-align: center;"}
-**Density Plot**
-
-![](images/Density.png){fig-align="center" width="75"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Smooth Distribution Curve
--   Highlights Density
--   Comparative Analysis
-:::
-:::
-:::
-:::
-
-## Histograms {.smaller}
+## Missing values
 
 ```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|1,2|4,6
-import seaborn as sns
-import matplotlib.pyplot as plt
+tuc_2022.isnull().sum()
+```
+:::
 
-sns.displot(data = birds, x = "speed")
+## First look {.smaller}
 
+::: task
+This plot looks quite bizarre. What might be going on?
+:::
+
+```{python}
+sns.lineplot(data=tuc_2022, x='date', y='aqi_value')
 plt.show()
 ```
 
-## Histograms: bins {.smaller}
+## Transforming date {.smaller}
+
+Using `pd.to_datatime()`:
 
 ```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|2
-sns.displot(data = birds, x = "speed", 
-            bins = 15, height = 5, aspect = 8/5)
+tuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')
 
+print(tuc_2022.info())
+```
+
+## Investigating AQI values
+
+-   Take a peek at distinct values of AQI
+
+```{python}
+# Check distinct values of aqi_value
+distinct_aqi_values = tuc_2022['aqi_value'].unique()
+print(distinct_aqi_values)
+```
+
+-   `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
+
+## Rewind, and start over {.smaller}
+
+```{python}
+# Reload data with correct NA values
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
+
+# Clean and transform data again
+tuc_2022 = clean_columns(tuc_2022)
+tuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')
+
+# Check the structure of the data
+print(tuc_2022.info())
+```
+
+## Another look {.smaller}
+
+```{python}
+sns.lineplot(data=tuc_2022, x='date', y='aqi_value')
 plt.show()
 ```
 
-## Density Plot {.smaller}
+## Visualizing Tucson AQI 
 
 ```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|2
-sns.displot(data = birds, x = "speed", 
-            kind = 'kde', height = 5, aspect = 8/5)
+#| echo: false
+# Plot background AQI levels
+for _, row in aqi_levels.iterrows():
+    plt.axhspan(row['aqi_min'], row['aqi_max'], color=row['color'], alpha=0.5, lw=0)
 
+# Plot AQI values
+sns.lineplot(data=tuc_2022.dropna(subset=['aqi_value']), x='date', y='aqi_value', linewidth=1.5, color="black")
+
+# Annotate AQI levels
+for _, row in aqi_levels.iterrows():
+    plt.text(pd.Timestamp('2023-02-28'), row['aqi_mid'], row['level'], ha='right', size=14, color='gray', weight='bold')
+
+# Additional annotations and formatting
+plt.annotate('2022', xy=(pd.Timestamp('2022-01-01'), -100), size=12, ha='center')
+plt.annotate('2023', xy=(pd.Timestamp('2023-03-01'), -100), size=12, ha='center')
+
+plt.xlim(pd.Timestamp('2022-01-01'), pd.Timestamp('2023-03-01'))
+plt.ylim(0, 400)
+plt.xlabel(None)
+plt.ylabel('AQI')
+plt.title('Ozone and PM2.5 Daily AQI Values\nTucson, AZ')
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+plt.gca().xaxis.set_major_formatter(DateFormatter('%b'))
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
+
+sns.despine()
 plt.show()
 ```
 
-## Two Numeric Variables
-
-::: columns
-::: {.column width="50%" style="text-align: center;"}
-**Scatterplot**
-
-![](images/ScatterPlot.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Relationship Visualization
--   Outlier Identification
--   Pattern Recognition
-:::
-:::
-:::
-
-::: {.column width="50%" style="text-align: center;"}
-**2D Density Plot**
-
-![](images/2dDensity.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Density Distributions
--   Combine Contour and Color
--   Complex Data Interpretation
-:::
-:::
-:::
-:::
-
-## Scatterplots {.smaller}
+## Live coding {.smaller}
 
 ```{python}
 #| code-fold: true
-#| code-line-numbers: 1-5|3
-sns.scatterplot(data = birds, x = "speed", y = "height")
+#| code-summary: "Setup"
+#| eval: false
+aqi_levels = pd.DataFrame({
+    'aqi_min': [0, 51, 101, 151, 201, 301],
+    'aqi_max': [50, 100, 150, 200, 300, 400],
+    'color': ["#D8EEDA", "#F1E7D4", "#F8E4D8", "#FEE2E1", "#F4E3F7", "#F9D0D4"],
+    'level': ["Good", "Moderate", "Unhealthy for sensitive groups", "Unhealthy", "Very unhealthy", "Hazardous"]
+})
 
-plt.show()
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
+
+tuc_2022 = clean_columns(tuc_2022)
+tuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')
 ```
 
-## Scatterplots - color {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|4
-sns.scatterplot(data = birds, x = "speed", y = "height",
-                hue = "sky")
-
-plt.show()
-```
-
-## Scatterplots - size + color {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|4
-sns.scatterplot(data = birds, x = "speed", y = "height",
-                size = "num_engs", hue = "ac_mass")
-
-plt.show()
-```
-
-## Scatterplots - linear relationships {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|1
-sns.lmplot(data = birds, x = "speed", y = "height",
-           aspect = 8/5)
-
-plt.show()
-```
-
-## Scatterplots - grouped relationships {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|1
-sns.lmplot(data = birds, x = "speed", y = "height",
-           hue = "num_engs", aspect = 8/5)
-
-plt.show()
-```
-
-## 2D Density Plots {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|2
-sns.histplot(data = birds, x = "speed", y = "height", 
-             bins = 50, pthresh = 0.1, cmap = "mako")
-
-plt.show()
-```
-
-## 2D Density plots: contours {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|1,2
-sns.kdeplot(data = birds, x = "speed", y = np.log(birds['height'] + 1), 
-             thresh = 0.1, hue = "sky", palette = "colorblind")
-
-plt.show()
-```
-
-## 2D Density plots: filled contours {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|1,2
-sns.kdeplot(data = birds, x = "speed", y = np.log(birds['height'] + 1), 
-             thresh = 0, cmap = "mako", fill = True, levels = 10)
-
-plt.show()
-```
-
-## Two Ordered Numeric Variables
-
-::: columns
-::: {.column width="50%" style="text-align: center;"}
-**Line Plot**
-
-![](images/Line.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Trend Identification
--   Simple and Clear
--   Comparative Analysis
-:::
-:::
-:::
-
-::: {.column width="50%" style="text-align: center;"}
-**Area Plot**
-
-![](images/Area.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Cumulative Representation
--   Emphasizes Volume
--   Layered Comparisons
-:::
-:::
-:::
-:::
-
-## Line Plot {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|3
-sns.set_theme(style = "whitegrid")
-
-sns.lineplot(data = birds, x = "date", y = "speed")
-
-plt.show()
-```
-
-## Line Plot: grouped lines
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-4|2
-sns.lineplot(data = birds, x = "date", y = "speed",
-             hue = "sky")
-
-plt.show()
-```
-
-## One Categorical
-
-::: columns
-::: {.column width="50%" style="text-align: center;"}
-**Barplot**
-
-![](images/Bar.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Categorical Comparison
--   Clear Visualization
--   Versatile Use
-:::
-:::
-:::
-
-::: {.column width="50%" style="text-align: center;"}
-**Pie Chart**
-
-![](images/Pie.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Proportional Representation
--   Simple Interpretation
--   Visual Appeal
-:::
-:::
-:::
-:::
-
-## Barplot {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|3
-
-sns.set_theme(style = "white")
-
-sns.countplot(data = birds, x = "sky", 
-              palette = "colorblind")
-              
-plt.show()
-```
-
-## Pie Chart {.smaller}
-
-Can't use {seaborn}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-9|1|3-5|7
-category_counts = birds['sky'].value_counts()
-
-plt.pie(category_counts, labels = category_counts.index, 
-        autopct = lambda p: f'{p:.1f}%', 
-        textprops = {'size':14})
-
-plt.axis('equal')
-
-plt.show()
-```
-
-## One Numerical + One Categorical
-
-::: columns
-::: {.column width="50%" style="text-align: center;"}
-**Boxplot**
-
-![](images/box.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Displays Quartiles
--   Identifies Outliers
--   Comparative Analysis
-:::
-:::
-:::
-
-::: {.column width="50%" style="text-align: center;"}
-**Violin chart**
-
-![](images/Violin.png){fig-align="center" width="100"}
-
-::: fragment
-::: {.incremental style="text-align: left;"}
--   Density Representation
--   Richer Data Insight
--   Visualizes Data Spread
-:::
-:::
-:::
-:::
-
-## Boxplots {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|1|3,4
-sns.set_style("whitegrid")
-
-sns.boxplot(data = birds, x = "speed", y = "sky",
-            hue = "sky", palette = "colorblind")
-
-plt.show()
-```
-
-## Trim axes {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-8|6
-
-sns.set_style("whitegrid")
-
-p1 = sns.boxplot(data = birds, x = "speed", y = "sky",
-                 hue = "sky", palette = "colorblind")
-
-p1.set_xlim(0, 250)
-
-plt.show()
-```
-
-## Violin Plots {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-6|3,4
-
-sns.set_style("white")
-
-sns.violinplot(data = birds, x = "speed", y = "sky", hue = "sky",
-                    palette = "colorblind")
-               
-plt.show()
-```
-
-## Violin Plots: paired {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-10|3,5|7
-sns.set_style("white")
-
-options = ['Night', 'Day']
-
-birds_filt = birds[birds['time_of_day'].isin(options)]
-
-sns.violinplot(data = birds_filt, x = "speed", y = "sky", hue = "time_of_day",
-                    palette = "colorblind")
-               
-plt.show()
-```
-
-## Violin Plots: quartiles + split {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-7|5
-sns.set_style("white")
-
-sns.violinplot(data = birds_filt, x = "speed", y = "sky", hue = "time_of_day",
-                    palette = "colorblind",
-                    inner = "quart", split = True)
-               
-plt.show()
-```
-
-## Cleaning up our plots {.smaller}
-
-#### **My minimum expectation:**
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-11|6-9
-sns.set_style("white")
-
-g1 = sns.violinplot(data = birds_filt, x = "speed", y = "sky", hue = "time_of_day",
-                    palette = "colorblind")
-
-g1.set(xlabel = "Speed (mph)")
-g1.set(ylabel = None)
-g1.set(title = "Speed of plane collisions with birds")
-g1.legend(title = "Time of day")
-
-plt.show()
-```
-
-## Aside: Correlations {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-16|3|5|7|9,11|13,14
-sns.set_theme(style = "white")
-
-birds_num = birds.select_dtypes(include = 'number')
-
-corr = birds_num.corr()
-
-mask = np.triu(np.ones_like(corr, dtype = bool))
-
-f, ax = plt.subplots(figsize = (8, 6))
-
-cmap = sns.diverging_palette(230, 20, as_cmap = True)
-
-sns.heatmap(corr, mask = mask, cmap = cmap, vmax = 0.5, center = 0,
-            square = True, linewidths = .5, cbar_kws = {"shrink": 0.5})
-            
-plt.show()
-```
-
-## Lastly: Pairgrids {.smaller}
-
-```{python}
-#| code-fold: true
-#| code-line-numbers: 1-11|3|5-9|
-sns.set_theme(style = "white")
-
-birds_sub = birds[['ac_mass', 'height', 'speed', 'sky']]
-
-g = sns.PairGrid(birds_sub, diag_sharey = False, 
-                 height = 2, hue = "sky")
-g.map_upper(sns.scatterplot, s = 15)
-g.map_lower(sns.kdeplot)
-g.map_diag(sns.kdeplot, lw = 2)
-
-plt.show()
-```
-
-## Diwali sales data: metadata {.smaller}
-
-| **variable**     | **class** | **description**                               |
-|------------------|-----------|-----------------------------------------------|
-| User_ID          | double    | User identification number                    |
-| Cust_name        | character | Customer name                                 |
-| Product_ID       | character | Product identification number                 |
-| Gender           | character | Gender of the customer (e.g. Male, Female)    |
-| Age Group        | character | Age group of the customer                     |
-| Age              | double    | Age of the customer                           |
-| Marital_Status   | double    | Marital status of customer (Married, Single)  |
-| State            | character | State of the customer                         |
-| Zone             | character | Geographic zone of the customer               |
-| Occupation       | character | Occupation of the customer                    |
-| Product_Category | character | Category of the product                       |
-| Orders           | double    | Number of orders made by the customer         |
-| Amount           | double    | Amount in Indian rupees spent by the customer |
-
-## Livecoding: Diwali sales data {.smaller}
-
-::: panel-tabset
-## Read in
-
-```{python}
-diwali = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv', encoding = 'iso-8859-1')
-diwali.head()
-```
-
-## Code
+Reveal below for code developed during live coding session.
 
 ```{python}
 #| code-fold: true
 #| eval: false
-# Examine data
-diwali.info()
 
-# Data types
-diwali.dtypes
+# Plot background AQI levels
+for _, row in aqi_levels.iterrows():
+    plt.axhspan(row['aqi_min'], row['aqi_max'], color=row['color'], alpha=0.5, lw=0)
 
-# Describe numerical columns
-diwali.describe()
+# Plot AQI values
+sns.lineplot(data=tuc_2022.dropna(subset=['aqi_value']), x='date', y='aqi_value', linewidth=1.5, color="black")
 
-# Describe categories
-diwali.describe(exclude = [np.number])
+# Annotate AQI levels
+for _, row in aqi_levels.iterrows():
+    plt.text(pd.Timestamp('2023-02-28'), row['aqi_mid'], row['level'], ha='right', size=14, color='gray', weight='bold')
 
-# Unique levels
-categorical_cols = diwali.select_dtypes(include = ['object', 'category']).columns
-unique_levels = diwali[col].unique()
+# Additional annotations and formatting
+plt.annotate('2022', xy=(pd.Timestamp('2022-01-01'), -100), size=12, ha='center')
+plt.annotate('2023', xy=(pd.Timestamp('2023-03-01'), -100), size=12, ha='center')
 
-# Outliers
-# Make a copy of the diwali data 
-dataCopy = diwali.copy()
+plt.xlim(pd.Timestamp('2022-01-01'), pd.Timestamp('2023-03-01'))
+plt.ylim(0, 400)
+plt.xlabel(None)
+plt.ylabel('AQI')
+plt.title('Ozone and PM2.5 Daily AQI Values\nTucson, AZ')
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+plt.gca().xaxis.set_major_formatter(DateFormatter('%b'))
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 
-# Select only numerical columns
-dataRed = dataCopy.select_dtypes(include = np.number)
+sns.despine()
+plt.show()
+```
 
-# List of numerical columns
-dataRedColsList = dataRed.columns[...]
+# Calculating cumulatives
 
-# For all values in the numerical column list from above
-for i_col in dataRedColsList:
-  # List of the values in i_col
-  dataRed_i = dataRed.loc[:,i_col]
-  
-  # Define the 25th and 75th percentiles
-  q25, q75 = round((dataRed_i.quantile(q = 0.25)), 3), round((dataRed_i.quantile(q = 0.75)), 3)
-  
-  # Define the interquartile range from the 25th and 75th percentiles defined above
-  IQR = round((q75 - q25), 3)
-  
-  # Calculate the outlier cutoff 
-  cut_off = IQR * 1.5
-  
-  # Define lower and upper cut-offs
-  lower, upper = round((q25 - cut_off), 3), round((q75 + cut_off), 3)
-  
-  # Print the values
-  print(' ')
-  
-  # For each value of i_col, print the 25th and 75th percentiles and IQR
-  print(i_col, 'q25 =', q25, 'q75 =', q75, 'IQR =', IQR)
-  
-  # Print the lower and upper cut-offs
-  print('lower, upper:', lower, upper)
+## Cumulatives over time
 
-  # Count the number of outliers outside the (lower, upper) limits, print that value
-  print('Number of Outliers: ', dataRed_i[(dataRed_i < lower) | (dataRed_i > upper)].count())
+-   When visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them
 
-# Missing values
-diwali.isnull().sum()
+-   In our example we'll calculate the number of days with "good" AQI ($\le$ 50) and plot that value on the y-axis and the date on the x-axis
 
-# Normality - qq plot
-# Change theme to "white"
-sns.set_style("white")
 
-# Make a copy of the data 
-dataCopy = diwali.copy()
+## Calculating cumulatives
 
-# Remove NAs
-dataCopyFin = dataCopy.dropna()
+Step 1. Arrange your data
 
-# Specify desired column
-i_col = dataCopyFin.Amount
+```{python}
+tuc_2022 = tuc_2022[['date', 'aqi_value']].dropna().sort_values('date')
+```
 
-# Subplots
-fig, (ax1, ax2) = plt.subplots(ncols = 2, nrows = 1)
+## Calculating cumulatives
 
-# Density plot
-sns.kdeplot(i_col, linewidth = 5, ax = ax1)
-ax1.set_title('Amount spent (₹)')
+Step 2. Identify good days
 
-# Q-Q plot
-sm.qqplot(i_col, line = 's', ax = ax2)
-ax2.set_title('Amount spent Q-Q plot')
-plt.tight_layout()
+```{python}
+tuc_2022['good_aqi'] = np.where(tuc_2022['aqi_value'] <= 50, 1, 0)
+```
+
+## Calculating cumulatives
+
+Step 3. Sum over time
+
+```{python}
+tuc_2022['cumsum_good_aqi'] = tuc_2022['good_aqi'].cumsum()
+```
+
+## Plotting cumulatives {.smaller}
+
+::: panel-tabset
+### Plot
+
+```{python}
+#| echo: false
+#| fig.asp: 0.5
+sns.lineplot(data=tuc_2022, x='date', y='cumsum_good_aqi')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%b %Y"))
+
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+
+sns.despine()
+
+plt.show()
+```
+
+### Code
+
+```{python}
+#| eval: false
+sns.lineplot(data=tuc_2022, x='date', y='cumsum_good_aqi')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%b %Y"))
+
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+
+sns.despine()
+
 plt.show()
 ```
 :::
+
+# Detrending
+
+## Detrending
+
+-   Detrending is removing prominent long-term trend in time series to specifically highlight any notable deviations
+
+-   Let's demonstrate using multiple years of AQI data
+
+## Multiple years of Tucson, AZ data {.smaller}
+
+```{python}
+#| include: false
+#| code-fold: true
+tuc_files = ["https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2021.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2020.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2019.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2018.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2017.csv"]
+```
+
+## Reading multiple files {.smaller}
+
+```{python}
+#| message: false
+
+# Define the list of URLs
+tuc_files = [
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2021.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2020.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2019.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2018.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2017.csv"
+]
+
+# Initialize an empty dataframe
+tuc = pd.DataFrame()
+
+# Read and concatenate all data files
+for file in tuc_files:
+    data = pd.read_csv(file, na_values=[".", ""])
+    tuc = pd.concat([tuc, data], ignore_index=True)
+
+# Clean column names using the clean_columns function from the skimpy package
+tuc = clean_columns(tuc)
+
+# Clean and transform data
+tuc['date'] = pd.to_datetime(tuc['date'], format='%m/%d/%Y')
+tuc = tuc.dropna(subset=['aqi_value'])
+tuc['good_aqi'] = np.where(tuc['aqi_value'] <= 50, 1, 0)
+tuc = tuc.sort_values('date')
+tuc['cumsum_good_aqi'] = tuc['good_aqi'].cumsum()
+
+# Convert date to ordinal for regression
+tuc['date_ordinal'] = tuc['date'].apply(lambda x: x.toordinal())
+
+print(tuc.head())
+
+```
+## Simple Linear Regression
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+# Fit linear regression for the trend line
+model = LinearRegression()
+model.fit(tuc[['date_ordinal']], tuc['cumsum_good_aqi'])
+tuc['fitted'] = model.predict(tuc[['date_ordinal']])
+```
+
+## Plot trend since 2017 {.smaller}
+
+::: panel-tabset
+### Plot
+
+```{python}
+#| label: tuc-3
+#| echo: false
+#| fig-asp: 0.5
+#| warning: false
+
+sns.lineplot(data=tuc, x='date', y='cumsum_good_aqi', color = 'black')
+sns.lineplot(data=tuc, x='date', y='fitted', color='pink', label='Trend Line')
+
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+
+### Code
+
+```{python}
+#| eval: false
+sns.lineplot(data=tuc, x='date', y='cumsum_good_aqi', color = 'black')
+sns.lineplot(data=tuc, x='date', y='fitted', color='pink', label='Trend Line')
+
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+:::
+
+## Detrend
+
+Step 1. Fit a simple linear regression
+
+```{python}
+# Convert dates to ordinal for regression
+tuc['date_ordinal'] = tuc['date'].apply(lambda x: x.toordinal())
+
+# Fit linear regression
+model = LinearRegression()
+model.fit(tuc[['date_ordinal']], tuc['cumsum_good_aqi'])
+
+# Get fitted values
+tuc['fitted'] = model.predict(tuc[['date_ordinal']])
+```
+
+## Detrend
+
+Step 2. Divide the observed value of `cumsum_good_aqi` by the respective value in the long-term trend (i.e., `fitted`)
+
+```{python}
+tuc['ratio'] = tuc['cumsum_good_aqi'] / tuc['fitted']
+```
+
+## Visualize detrended data {.smaller}
+
+::: panel-tabset
+### Plot
+
+```{python}
+#| label: tuc-4
+#| echo: false
+#| fig-asp: 0.5
+plt.axhline(y=1, color='gray')
+sns.lineplot(data=tuc, x='date', y='ratio', color='black')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.ylim([0, 20])
+plt.xlabel(None)
+plt.ylabel("Number of days\n(detrended)")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ (2016-2022)")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+
+### Code
+
+```{python}
+#| eval: false
+plt.axhline(y=1, color='gray')
+sns.lineplot(data=tuc, x='date', y='ratio', color='black')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.ylim([0, 20])
+plt.xlabel(None)
+plt.ylabel("Number of days\n(detrended)")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nTucson, AZ (2016-2022)")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+:::
+
+## Air Quality in Tucson
+
+<br><br>
+
+::: hand
+barely anything interesting happening!
+:::
+
+. . .
+
+::: hand
+let's look at data from somewhere with a bit more "interesting" air quality data...
+:::
+
+## Read in multiple years of SF data {.smaller}
+
+```{python}
+#| code-fold: true
+
+# Define the list of URLs
+sf_files = [
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2022.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2021.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2020.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2019.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2018.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2017.csv",
+    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2016.csv"
+]
+
+# Initialize an empty dataframe
+sf = pd.DataFrame()
+
+# Read and concatenate all data files
+for file in sf_files:
+    data = pd.read_csv(file, na_values=[".", ""])
+    sf = pd.concat([sf, data], ignore_index=True)
+
+# Clean column names using the clean_columns function from the skimpy package
+sf = clean_columns(sf)
+
+# Clean and transform data
+sf['date'] = pd.to_datetime(sf['date'], format='%m/%d/%Y')
+sf = sf.dropna(subset=['aqi_value'])
+sf['good_aqi'] = np.where(sf['aqi_value'] <= 50, 1, 0)
+sf = sf.sort_values('date')
+sf['cumsum_good_aqi'] = sf['good_aqi'].cumsum()
+
+# Convert date to ordinal for regression
+sf['date_ordinal'] = sf['date'].apply(lambda x: x.toordinal())
+
+print(sf.head())
+
+```
+
+## Simple Linear Regression
+
+```{python}
+# Fit linear regression for the trend line
+model = LinearRegression()
+model.fit(sf[['date_ordinal']], sf['cumsum_good_aqi'])
+sf['fitted'] = model.predict(sf[['date_ordinal']])
+```
+
+
+## Plot trend since 2016 {.smaller}
+
+::: panel-tabset
+### Plot
+
+```{python}
+#| label: sf-1
+#| echo: false
+#| fig-asp: 0.5
+#| warning: false
+
+sns.lineplot(data=sf, x='date', y='cumsum_good_aqi', color = 'black')
+sns.lineplot(data=sf, x='date', y='fitted', color='pink', label='Trend Line')
+
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nSan Francisco, CA")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+
+### Code
+
+```{python}
+#| eval: false
+sns.lineplot(data=sf, x='date', y='cumsum_good_aqi', color = 'black')
+sns.lineplot(data=sf, x='date', y='fitted', color='pink', label='Trend Line')
+
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nSan Francisco, CA")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+:::
+
+## Detrend
+
+Step 1. Fit a simple linear regression
+
+```{python}
+# Convert dates to ordinal for regression
+sf['date_ordinal'] = sf['date'].apply(lambda x: x.toordinal())
+
+# Fit linear regression
+model = LinearRegression()
+model.fit(sf[['date_ordinal']], sf['cumsum_good_aqi'])
+
+# Get fitted values
+sf['fitted'] = model.predict(sf[['date_ordinal']])
+```
+
+## Detrend
+
+Step 2. Divide the observed value of `cumsum_good_aqi` by the respective value in the long-term trend (i.e., `fitted`)
+
+```{python}
+sf['ratio'] = sf['cumsum_good_aqi'] / sf['fitted']
+```
+
+## Visualize detrended data {.smaller}
+
+::: panel-tabset
+### Plot
+
+```{python}
+#| label: sf-2
+#| echo: false
+#| fig-asp: 0.5
+plt.axhline(y=1, color='gray')
+sns.lineplot(data=sf, x='date', y='ratio', color='black')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days\n(detrended)")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nSan Francisco, CA (2016-2022)")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+
+### Code
+
+```{python}
+#| eval: false
+plt.axhline(y=1, color='gray')
+sns.lineplot(data=sf, x='date', y='ratio', color='black')
+plt.gca().xaxis.set_major_formatter(DateFormatter("%Y"))
+plt.xlabel(None)
+plt.ylabel("Number of days\n(detrended)")
+plt.title("Cumulative number of good AQI days (AQI < 50)\nSan Francisco, CA (2016-2022)")
+plt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)
+sns.despine()
+plt.show()
+```
+:::
+
+## Detrending
+
+-   In step 2 we fit a very simple model
+
+-   Depending on the complexity you're trying to capture you might choose to fit a much more complex model
+
+-   You can also decompose the trend into multiple trends, e.g. monthly, long-term, seasonal, etc.
+
+# Highlighting
+
+## Data prep {.smaller}
+
+::: columns
+::: {.column width="50%"}
+```{python}
+from datetime import datetime
+
+sf['year'] = sf['date'].dt.year
+sf['day_of_year'] = sf['date'].dt.dayofyear
+```
+:::
+
+::: {.column width="50%"}
+```{python}
+# check
+print(sf[sf['day_of_year'] < 3])
+```
+:::
+:::
+
+## Plot AQI over years {.smaller}
+
+```{python}
+sns.lineplot(data=sf, x='day_of_year', y='aqi_value', hue='year', palette='tab10', legend=False)
+plt.xlabel('Day of year')
+plt.ylabel('AQI value')
+plt.title('AQI levels in San Francisco (2016 - 2022)')
+plt.show()
+```
+
+## Highlight specific year (2016) {.smaller}
+
+```{python}
+#| code-fold: true
+# Highlight the year 2016
+sns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')
+sns.lineplot(data=sf[sf['year'] == 2016], x='day_of_year', y='aqi_value', color='red')
+plt.xlabel('Day of year')
+plt.ylabel('AQI value')
+plt.title('AQI levels in SF in 2016\nVersus all years 2016 - 2022')
+plt.show()
+```
+
+## Highlight specific year (2017) {.smaller}
+
+```{python}
+#| code-fold: true
+# Highlight the year 2017
+sns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')
+sns.lineplot(data=sf[sf['year'] == 2017], x='day_of_year', y='aqi_value', color='red')
+plt.xlabel('Day of year')
+plt.ylabel('AQI value')
+plt.title('AQI levels in SF in 2016\nVersus all years 2016 - 2022')
+plt.show()
+```
+
+## Highlight specific year (2018) {.smaller}
+
+```{python}
+#| code-fold: true
+# Highlight the year 2018
+sns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')
+sns.lineplot(data=sf[sf['year'] == 2018], x='day_of_year', y='aqi_value', color='red')
+plt.xlabel('Day of year')
+plt.ylabel('AQI value')
+plt.title('AQI levels in SF in 2016\nVersus all years 2016 - 2022')
+plt.show()
+```
+
+## Highlight any year {.smaller}
+
+```{python}
+#| code-fold: true
+# Function to highlight a specific year
+def highlight_year(year_to_highlight):
+    sns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')
+    sns.lineplot(data=sf[sf['year'] == year_to_highlight], x='day_of_year', y='aqi_value', color='red')
+    plt.xlabel('Day of year')
+    plt.ylabel('AQI value')
+    plt.title(f'AQI levels in SF in {year_to_highlight}\nVersus all years 2016 - 2022')
+    plt.show()
+
+# Highlight any year
+highlight_year(2018)
+```
+
+# Thank you 😊
