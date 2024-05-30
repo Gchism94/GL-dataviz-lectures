@@ -1,2 +1,2 @@
-# resbazaz2024-dataviz
-Introduction to Data Visualization in Python for ResBaz Arizona 2024
+# INFO 526 - Data Analysis and Visualization GL Lectures
+Slides from Live Faculty Sessions for Great Learning INFO 526 - Data Analysis and Visualization course
