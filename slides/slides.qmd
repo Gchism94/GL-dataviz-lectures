@@ -90,7 +90,7 @@ aqi_levels['aqi_mid'] = (aqi_levels['aqi_min'] + aqi_levels['aqi_max']) / 2
 ## Read + head
 
 ```{python}
-tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv")
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv")
 
 tuc_2022 = clean_columns(tuc_2022)
 
@@ -153,7 +153,7 @@ print(distinct_aqi_values)
 
 ```{python}
 # Reload data with correct NA values
-tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
 
 # Clean and transform data again
 tuc_2022 = clean_columns(tuc_2022)
@@ -215,7 +215,7 @@ aqi_levels = pd.DataFrame({
     'level': ["Good", "Moderate", "Unhealthy for sensitive groups", "Unhealthy", "Very unhealthy", "Hazardous"]
 })
 
-tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
+tuc_2022 = pd.read_csv("https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv", na_values=[".", ""])
 
 tuc_2022 = clean_columns(tuc_2022)
 tuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')
@@ -340,7 +340,7 @@ plt.show()
 ```{python}
 #| include: false
 #| code-fold: true
-tuc_files = ["https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2021.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2020.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2019.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2018.csv", "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2017.csv"]
+tuc_files = ["https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv", "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2021.csv", "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2020.csv", "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2019.csv", "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2018.csv", "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2017.csv"]
 ```
 
 ## Reading multiple files {.smaller}
@@ -350,12 +350,12 @@ tuc_files = ["https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main
 
 # Define the list of URLs
 tuc_files = [
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2022.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2021.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2020.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2019.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2018.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/tucson/ad_aqi_tracker_data-2017.csv"
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2021.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2020.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2019.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2018.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2017.csv"
 ]
 
 # Initialize an empty dataframe
@@ -516,13 +516,13 @@ let's look at data from somewhere with a bit more "interesting" air quality data
 
 # Define the list of URLs
 sf_files = [
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2022.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2021.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2020.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2019.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2018.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2017.csv",
-    "https://raw.githubusercontent.com/INFO-526-SU24/INFO-526-SU24/main/slides/06/data/san-francisco/ad_aqi_tracker_data-2016.csv"
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2022.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2021.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2020.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2019.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2018.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2017.csv",
+    "https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2016.csv"
 ]
 
 # Initialize an empty dataframe
