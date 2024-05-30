@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.4.554">
 
   <meta name="author" content="Dr.&nbsp;Greg Chism">
-  <title>Data Visualization</title>
+  <title>Faculty Live Sessions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -396,8 +396,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="minedata-bg.png" data-background-size="600px, cover" data-slide-number="none" class="quarto-title-block center">
-  <h1 class="title">Data Visualization</h1>
-  <p class="subtitle">ResBaz Arizona 2024</p>
+  <h1 class="title">Faculty Live Sessions</h1>
+  <p class="subtitle">INFO Data Visualization and Analysis</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -411,93 +411,85 @@ Dr.&nbsp;Greg Chism
 </div>
 
 </section>
-<section id="setup" class="slide level2">
+<section>
+<section id="time-series-visualizations" class="title-slide slide level1 center">
+<h1>Time Series Visualizations</h1>
+
+</section>
+<section id="setup" class="slide level2 smaller">
 <h2>Setup</h2>
 <div id="setup" class="cell" data-message="false" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># Import all required libraries</span></span>
-<span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-5"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-6"><a href=""></a><span class="im">import</span> random</span>
-<span id="cb1-7"><a href=""></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href=""></a><span class="im">from</span> matplotlib.dates <span class="im">import</span> DateFormatter</span>
+<span id="cb1-6"><a href=""></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
+<span id="cb1-7"><a href=""></a><span class="im">from</span> skimpy <span class="im">import</span> clean_columns</span>
 <span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a><span class="co"># Increase font size of all Seaborn plot elements</span></span>
-<span id="cb1-10"><a href=""></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span> <span class="fl">1.25</span>, style <span class="op">=</span> <span class="st">"whitegrid"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>, font <span class="op">=</span> <span class="st">"sans"</span>)</span>
+<span id="cb1-9"><a href=""></a><span class="co"># Set the theme for seaborn</span></span>
+<span id="cb1-10"><a href=""></a>sns.set_theme(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"colorblind"</span>)</span>
 <span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a><span class="co"># Set seed</span></span>
-<span id="cb1-13"><a href=""></a>random.seed(<span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href=""></a><span class="co"># Set figure parameters</span></span>
+<span id="cb1-13"><a href=""></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">8</span> <span class="op">*</span> <span class="fl">0.618</span>]</span>
+<span id="cb1-14"><a href=""></a>plt.rcParams[<span class="st">'figure.autolayout'</span>] <span class="op">=</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section></section>
+<section>
+<section id="working-with-dates" class="title-slide slide level1 center">
+<h1>Working with dates</h1>
+
 </section>
-<section id="data-visualization" class="slide level2">
-<h2>Data visualization</h2>
-<blockquote>
-<p>The practice of <a href="https://en.wikipedia.org/wiki/Design" title="Design">designing</a> and creating easy-to-communicate and easy-to-understand <a href="https://en.wikipedia.org/wiki/Graphics" title="Graphics">graphic</a> or visual <a href="https://en.wikipedia.org/wiki/Representation_(arts)" title="Representation (arts)">representations</a> of a large amount of complex quantitative and qualitative <a href="https://en.wikipedia.org/wiki/Data" title="Data">data</a> and <a href="https://en.wikipedia.org/wiki/Information" title="Information">information</a> with the help of static, dynamic or interactive visual items.</p>
-</blockquote>
-<div class="fragment">
-<p>My definition: telling a story with your data, visually.</p>
-</div>
-</section>
-<section id="why-storytelling" class="slide level2 smaller">
-<h2>Why storytelling?</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/gilgamesh-1.png" class="quarto-figure quarto-figure-center" width="678"></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/gilgamesh-2.jpeg" class="quarto-figure quarto-figure-center" width="266"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="fragment">
-<div>
+<section id="air-quality-index" class="slide level2">
+<h2>Air Quality Index</h2>
 <ul>
-<li class="fragment"><p><strong>Epic of Gilgamesh</strong> (c.&nbsp;2100 BC)</p></li>
-<li class="fragment"><p>First known “hero’s journey”</p></li>
-<li class="fragment"><p><strong>Goal</strong>: Apply storytelling to your visuals</p></li>
+<li><p>The AQI is the Environmental Protection Agency’s index for reporting air quality</p></li>
+<li><p>Higher values of AQI indicate worse air quality</p></li>
 </ul>
-</div>
-</div>
-</section>
-<section id="aircraft-wildlife-collisions" class="slide level2">
-<h2><strong>Aircraft-Wildlife Collisions</strong></h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><br></p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/plane-birds.jpeg" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="images/aqi-levels.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/plane-birds-1.webp" class="quarto-figure quarto-figure-center" width="450"></p>
-</figure>
-</div>
-</div>
+
+<aside><div>
+<p>Source: <a href="https://www.airnow.gov/aqi-basics" class="uri">https://www.airnow.gov/aqi-basics</a></p>
+</div></aside></section>
+<section id="aqi-levels" class="slide level2">
+<h2>AQI levels</h2>
+<p>The previous graphic in tabular form, to be used later…</p>
+<div id="b4dcf1ae" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>aqi_levels <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-2"><a href=""></a>    <span class="st">'aqi_min'</span>: [<span class="dv">0</span>, <span class="dv">51</span>, <span class="dv">101</span>, <span class="dv">151</span>, <span class="dv">201</span>, <span class="dv">301</span>],</span>
+<span id="cb2-3"><a href=""></a>    <span class="st">'aqi_max'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>],</span>
+<span id="cb2-4"><a href=""></a>    <span class="st">'color'</span>: [<span class="st">"#D8EEDA"</span>, <span class="st">"#F1E7D4"</span>, <span class="st">"#F8E4D8"</span>, <span class="st">"#FEE2E1"</span>, <span class="st">"#F4E3F7"</span>, <span class="st">"#F9D0D4"</span>],</span>
+<span id="cb2-5"><a href=""></a>    <span class="st">'level'</span>: [<span class="st">"Good"</span>, <span class="st">"Moderate"</span>, <span class="st">"Unhealthy for sensitive groups"</span>, <span class="st">"Unhealthy"</span>, <span class="st">"Very unhealthy"</span>, <span class="st">"Hazardous"</span>]</span>
+<span id="cb2-6"><a href=""></a>})</span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a>aqi_levels[<span class="st">'aqi_mid'</span>] <span class="op">=</span> (aqi_levels[<span class="st">'aqi_min'</span>] <span class="op">+</span> aqi_levels[<span class="st">'aqi_max'</span>]) <span class="op">/</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="aircraft-wildlife-collisions-1" class="slide level2 smaller">
-<h2>Aircraft-Wildlife Collisions</h2>
-<div id="ef513760" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/Gchism94/resbazaz2024-dataviz/main/slides/data/birds.csv"</span></span>
-<span id="cb2-2"><a href=""></a>birds <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb2-3"><a href=""></a>birds[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(birds[<span class="st">'date'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="aqi-data" class="slide level2">
+<h2>AQI data</h2>
+<ul>
+<li><p>Source: <a href="https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker">EPA’s Daily Air Quality Tracker</a></p></li>
+<li><p>2016 - 2022 AQI (Ozone and PM2.5 combined) for Tucson, AZ core-based statistical area (CBSA), one file per year</p></li>
+<li><p>2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year</p></li>
+</ul>
+</section>
+<section id="tucson-az" class="slide level2 smaller">
+<h2>2022 Tucson, AZ</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Head</a></li><li><a href="#tabset-1-2">Info</a></li><li><a href="#tabset-1-3">Describe</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Read + head</a></li><li><a href="#tabset-1-2">Info</a></li><li><a href="#tabset-1-3">Describe</a></li><li><a href="#tabset-1-4">Missing values</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div id="e7b7109e" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>birds.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="148">
+<div id="942b20d5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>tuc_2022 <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>)</span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>tuc_2022 <span class="op">=</span> clean_columns(tuc_2022)</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a>tuc_2022.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
 <div>
 <div>
 <style scoped="">
@@ -518,125 +510,89 @@ Dr.&nbsp;Greg Chism
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">opid</th>
-<th data-quarto-table-cell-role="th">operator</th>
-<th data-quarto-table-cell-role="th">atype</th>
-<th data-quarto-table-cell-role="th">remarks</th>
-<th data-quarto-table-cell-role="th">phase_of_flt</th>
-<th data-quarto-table-cell-role="th">ac_mass</th>
-<th data-quarto-table-cell-role="th">num_engs</th>
 <th data-quarto-table-cell-role="th">date</th>
-<th data-quarto-table-cell-role="th">time_of_day</th>
-<th data-quarto-table-cell-role="th">state</th>
-<th data-quarto-table-cell-role="th">height</th>
-<th data-quarto-table-cell-role="th">speed</th>
-<th data-quarto-table-cell-role="th">effect</th>
-<th data-quarto-table-cell-role="th">sky</th>
-<th data-quarto-table-cell-role="th">species</th>
-<th data-quarto-table-cell-role="th">birds_seen</th>
-<th data-quarto-table-cell-role="th">birds_struck</th>
+<th data-quarto-table-cell-role="th">aqi_value</th>
+<th data-quarto-table-cell-role="th">main_pollutant</th>
+<th data-quarto-table-cell-role="th">site_name</th>
+<th data-quarto-table-cell-role="th">site_id</th>
+<th data-quarto-table-cell-role="th">source</th>
+<th data-quarto-table-cell-role="th">20_year_high_2000_2019</th>
+<th data-quarto-table-cell-role="th">20_year_low_2000_2019</th>
+<th data-quarto-table-cell-role="th">5_year_average_2015_2019</th>
+<th data-quarto-table-cell-role="th">date_of_20_year_high</th>
+<th data-quarto-table-cell-role="th">date_of_20_year_low</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>AAL</td>
-<td>AMERICAN AIRLINES</td>
-<td>MD-80</td>
-<td>NO DAMAGE</td>
-<td>Descent</td>
-<td>4.0</td>
-<td>2.0</td>
-<td>1990-09-30</td>
-<td>Night</td>
-<td>IL</td>
-<td>7000.0</td>
-<td>250.0</td>
-<td>NaN</td>
-<td>No Cloud</td>
-<td>UNKNOWN BIRD - MEDIUM</td>
-<td>NaN</td>
-<td>1</td>
+<td>01/01/2022</td>
+<td>40</td>
+<td>PM2.5</td>
+<td>GERONIMO</td>
+<td>04-019-1113</td>
+<td>AQS</td>
+<td>115</td>
+<td>35</td>
+<td>62.2</td>
+<td>01/01/2018</td>
+<td>01/01/2001</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>USA</td>
-<td>US AIRWAYS</td>
-<td>FK-28-4000</td>
-<td>2 BIRDS, NO DAMAGE.</td>
-<td>Climb</td>
-<td>4.0</td>
-<td>2.0</td>
-<td>1993-11-29</td>
-<td>Day</td>
-<td>MD</td>
-<td>10.0</td>
-<td>140.0</td>
-<td>NaN</td>
-<td>No Cloud</td>
-<td>UNKNOWN BIRD - MEDIUM</td>
-<td>10-Feb</td>
-<td>10-Feb</td>
+<td>01/02/2022</td>
+<td>55</td>
+<td>PM2.5</td>
+<td>GERONIMO</td>
+<td>04-019-1113</td>
+<td>AQS</td>
+<td>57</td>
+<td>31</td>
+<td>43.2</td>
+<td>01/02/2015</td>
+<td>01/02/2016</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>AAL</td>
-<td>AMERICAN AIRLINES</td>
-<td>B-727-200</td>
-<td>NaN</td>
-<td>Approach</td>
-<td>4.0</td>
-<td>3.0</td>
-<td>1993-08-13</td>
-<td>Day</td>
-<td>TN</td>
-<td>400.0</td>
-<td>140.0</td>
-<td>NaN</td>
-<td>Some Cloud</td>
-<td>UNKNOWN BIRD - SMALL</td>
-<td>10-Feb</td>
-<td>1</td>
+<td>01/03/2022</td>
+<td>55</td>
+<td>PM2.5</td>
+<td>GERONIMO</td>
+<td>04-019-1113</td>
+<td>AQS</td>
+<td>67</td>
+<td>29</td>
+<td>43.6</td>
+<td>01/03/2015</td>
+<td>01/03/2005</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>AAL</td>
-<td>AMERICAN AIRLINES</td>
-<td>MD-82</td>
-<td>NaN</td>
-<td>Climb</td>
-<td>4.0</td>
-<td>2.0</td>
-<td>1993-10-07</td>
-<td>Day</td>
-<td>VA</td>
-<td>100.0</td>
-<td>200.0</td>
-<td>NaN</td>
-<td>Overcast</td>
-<td>UNKNOWN BIRD - SMALL</td>
-<td>NaN</td>
-<td>1</td>
+<td>01/04/2022</td>
+<td>48</td>
+<td>PM2.5</td>
+<td>GERONIMO</td>
+<td>04-019-1113</td>
+<td>AQS</td>
+<td>55</td>
+<td>27</td>
+<td>40.4</td>
+<td>01/04/2015</td>
+<td>01/04/2008</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>AAL</td>
-<td>AMERICAN AIRLINES</td>
-<td>MD-82</td>
-<td>NO DAMAGE</td>
-<td>Climb</td>
-<td>4.0</td>
-<td>2.0</td>
-<td>1993-09-25</td>
-<td>Day</td>
-<td>SC</td>
-<td>50.0</td>
-<td>170.0</td>
-<td>NaN</td>
-<td>Some Cloud</td>
-<td>UNKNOWN BIRD - SMALL</td>
-<td>10-Feb</td>
-<td>1</td>
+<td>01/05/2022</td>
+<td>50</td>
+<td>PM2.5</td>
+<td>GERONIMO</td>
+<td>04-019-1113</td>
+<td>AQS</td>
+<td>52</td>
+<td>28</td>
+<td>36.0</td>
+<td>01/05/2013</td>
+<td>01/05/2000</td>
 </tr>
 </tbody>
 </table>
@@ -647,40 +603,34 @@ Dr.&nbsp;Greg Chism
 </div>
 </div>
 <div id="tabset-1-2">
-<div id="4ee2e2e0" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>birds.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="94cf1ffe" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>tuc_2022.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 19302 entries, 0 to 19301
-Data columns (total 17 columns):
- #   Column        Non-Null Count  Dtype         
----  ------        --------------  -----         
- 0   opid          19302 non-null  object        
- 1   operator      19302 non-null  object        
- 2   atype         19302 non-null  object        
- 3   remarks       16516 non-null  object        
- 4   phase_of_flt  17519 non-null  object        
- 5   ac_mass       18018 non-null  float64       
- 6   num_engs      17995 non-null  float64       
- 7   date          19302 non-null  datetime64[ns]
- 8   time_of_day   17225 non-null  object        
- 9   state         18431 non-null  object        
- 10  height        16109 non-null  float64       
- 11  speed         12294 non-null  float64       
- 12  effect        1973 non-null   object        
- 13  sky           15723 non-null  object        
- 14  species       19302 non-null  object        
- 15  birds_seen    4764 non-null   object        
- 16  birds_struck  19263 non-null  object        
-dtypes: datetime64[ns](1), float64(4), object(12)
-memory usage: 2.5+ MB</code></pre>
+RangeIndex: 365 entries, 0 to 364
+Data columns (total 11 columns):
+ #   Column                    Non-Null Count  Dtype  
+---  ------                    --------------  -----  
+ 0   date                      365 non-null    object 
+ 1   aqi_value                 365 non-null    int64  
+ 2   main_pollutant            365 non-null    object 
+ 3   site_name                 365 non-null    object 
+ 4   site_id                   365 non-null    object 
+ 5   source                    365 non-null    object 
+ 6   20_year_high_2000_2019    365 non-null    int64  
+ 7   20_year_low_2000_2019     365 non-null    int64  
+ 8   5_year_average_2015_2019  365 non-null    float64
+ 9   date_of_20_year_high      365 non-null    object 
+ 10  date_of_20_year_low       365 non-null    object 
+dtypes: float64(1), int64(3), object(7)
+memory usage: 31.5+ KB</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-1-3">
-<div id="f046ef2a" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>birds.describe().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="150">
+<div id="14a02c56" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>tuc_2022.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
 <div>
 <div>
 <style scoped="">
@@ -701,77 +651,68 @@ memory usage: 2.5+ MB</code></pre>
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">ac_mass</th>
-<th data-quarto-table-cell-role="th">num_engs</th>
-<th data-quarto-table-cell-role="th">date</th>
-<th data-quarto-table-cell-role="th">height</th>
-<th data-quarto-table-cell-role="th">speed</th>
+<th data-quarto-table-cell-role="th">aqi_value</th>
+<th data-quarto-table-cell-role="th">20_year_high_2000_2019</th>
+<th data-quarto-table-cell-role="th">20_year_low_2000_2019</th>
+<th data-quarto-table-cell-role="th">5_year_average_2015_2019</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">count</td>
-<td>18018.00</td>
-<td>17995.00</td>
-<td>19302</td>
-<td>16109.00</td>
-<td>12294.00</td>
+<td>365.000000</td>
+<td>365.000000</td>
+<td>365.000000</td>
+<td>365.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">mean</td>
-<td>3.36</td>
-<td>2.10</td>
-<td>1994-08-25 09:46:40.994715520</td>
-<td>754.68</td>
-<td>136.10</td>
+<td>53.895890</td>
+<td>83.432877</td>
+<td>34.095890</td>
+<td>49.835068</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">min</td>
-<td>1.00</td>
-<td>1.00</td>
-<td>1990-01-08 00:00:00</td>
-<td>0.00</td>
-<td>0.00</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">25%</td>
-<td>3.00</td>
-<td>2.00</td>
-<td>1992-08-18 00:00:00</td>
-<td>0.00</td>
-<td>110.00</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">50%</td>
-<td>4.00</td>
-<td>2.00</td>
-<td>1994-10-01 00:00:00</td>
-<td>40.00</td>
-<td>130.00</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">75%</td>
-<td>4.00</td>
-<td>2.00</td>
-<td>1996-09-13 18:00:00</td>
-<td>500.00</td>
-<td>150.00</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">max</td>
-<td>5.00</td>
-<td>4.00</td>
-<td>1999-10-16 00:00:00</td>
-<td>32500.00</td>
-<td>400.00</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">std</td>
-<td>1.01</td>
-<td>0.57</td>
-<td>NaN</td>
-<td>1795.81</td>
-<td>44.64</td>
+<td>15.886967</td>
+<td>27.515111</td>
+<td>5.734905</td>
+<td>10.732188</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>27.000000</td>
+<td>44.000000</td>
+<td>19.000000</td>
+<td>33.800000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>44.000000</td>
+<td>59.000000</td>
+<td>31.000000</td>
+<td>40.800000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>48.000000</td>
+<td>77.000000</td>
+<td>33.000000</td>
+<td>47.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>61.000000</td>
+<td>105.000000</td>
+<td>38.000000</td>
+<td>57.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>119.000000</td>
+<td>161.000000</td>
+<td>49.000000</td>
+<td>82.400000</td>
 </tr>
 </tbody>
 </table>
@@ -781,1042 +722,860 @@ memory usage: 2.5+ MB</code></pre>
 </div>
 </div>
 </div>
+<div id="tabset-1-4">
+<div id="8684f1e3" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>tuc_2022.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>date                        0
+aqi_value                   0
+main_pollutant              0
+site_name                   0
+site_id                     0
+source                      0
+20_year_high_2000_2019      0
+20_year_low_2000_2019       0
+5_year_average_2015_2019    0
+date_of_20_year_high        0
+date_of_20_year_low         0
+dtype: int64</code></pre>
 </div>
-</div>
-</section>
-<section id="seaborn" class="slide level2">
-<h2><a href="https://seaborn.pydata.org/index.html">{seaborn}</a></h2>
-<blockquote>
-<p>Seaborn is a Python data visualization library based on <a href="https://matplotlib.org/">matplotlib</a>. It provides a high-level interface for drawing attractive and informative statistical graphics.</p>
-</blockquote>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/seaborn.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</section>
-<section id="some-data-viz-rules" class="slide level2">
-<h2>Some data viz rules</h2>
-<div>
-<ul>
-<li class="fragment"><p>ALWAYS make custom titles (axes, legends)</p></li>
-<li class="fragment"><p>Use color blind friendly <a href="https://seaborn.pydata.org/tutorial/color_palettes.html">color palettes</a></p></li>
-<li class="fragment"><p>Use either the <code>whitegrid</code> or <code>white</code> <a href="https://seaborn.pydata.org/tutorial/aesthetics.html">themes</a></p></li>
-<li class="fragment"><p>Don’t clutter with unnecessary information</p></li>
-<li class="fragment"><p>Use annotations to aid the reader</p></li>
-<li class="fragment"><p>Use the <strong>Golden Ratio</strong>: 0.625, or 8in/5in</p></li>
-</ul>
-</div>
-</section>
-<section>
-<section id="exploratory-visuals" class="title-slide slide level1 center">
-<h1>Exploratory visuals</h1>
-
-</section>
-<section id="how-to-choose-a-plot" class="slide level2">
-<h2>How to choose a plot</h2>
-<div style="text-align: center;">
-<iframe width="1000" height="500" src="https://www.data-to-viz.com/" frameborder="1" style="background:white;"></iframe>
-</div>
-</section>
-<section id="one-numeric-variable" class="slide level2">
-<h2>One Numeric Variable</h2>
-<div class="columns">
-<div class="column" style="text-align: center;">
-<p><strong>Histogram</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Histogram.png" class="quarto-figure quarto-figure-center" width="75"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Frequency Distribution</li>
-<li class="fragment">Easy to Interpret</li>
-<li class="fragment">Identifies Patterns</li>
-</ul>
-</div>
-</div>
-</div><div class="column" style="text-align: center;">
-<p><strong>Density Plot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Density.png" class="quarto-figure quarto-figure-center" width="75"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Smooth Distribution Curve</li>
-<li class="fragment">Highlights Density</li>
-<li class="fragment">Comparative Analysis</li>
-</ul>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="histograms" class="slide level2 smaller">
-<h2>Histograms</h2>
-<div id="7e8c8fc1" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7" data-code-line-numbers="1-6|1,2|4,6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb7-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>)</span>
-<span id="cb7-5"><a href=""></a></span>
-<span id="cb7-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<section id="first-look" class="slide level2 smaller">
+<h2>First look</h2>
+<div class="task">
+<p>This plot looks quite bizarre. What might be going on?</p>
+</div>
+<div id="0c0cfb6b" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>)</span>
+<span id="cb9-2"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/cell-7-output-1.png" width="455" height="454"></p>
+<p><img data-src="slides_files/figure-revealjs/cell-8-output-1.png" width="749" height="459"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="histograms-bins" class="slide level2 smaller">
-<h2>Histograms: bins</h2>
-<div id="85e82d4d" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, </span>
-<span id="cb8-2"><a href=""></a>            bins <span class="op">=</span> <span class="dv">15</span>, height <span class="op">=</span> <span class="dv">5</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
-<span id="cb8-3"><a href=""></a></span>
-<span id="cb8-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-8-output-1.png" width="743" height="454"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="density-plot" class="slide level2 smaller">
-<h2>Density Plot</h2>
-<div id="9c42dc1a" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>sns.displot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, </span>
-<span id="cb9-2"><a href=""></a>            kind <span class="op">=</span> <span class="st">'kde'</span>, height <span class="op">=</span> <span class="dv">5</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-9-output-1.png" width="743" height="454"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="two-numeric-variables" class="slide level2">
-<h2>Two Numeric Variables</h2>
-<div class="columns">
-<div class="column" style="text-align: center;">
-<p><strong>Scatterplot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/ScatterPlot.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Relationship Visualization</li>
-<li class="fragment">Outlier Identification</li>
-<li class="fragment">Pattern Recognition</li>
-</ul>
-</div>
-</div>
-</div><div class="column" style="text-align: center;">
-<p><strong>2D Density Plot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/2dDensity.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Density Distributions</li>
-<li class="fragment">Combine Contour and Color</li>
-<li class="fragment">Complex Data Interpretation</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="scatterplots" class="slide level2 smaller">
-<h2>Scatterplots</h2>
-<div id="e2bee9c3" class="cell" data-execution_count="9">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="1-5|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>)</span>
+<section id="transforming-date" class="slide level2 smaller">
+<h2>Transforming date</h2>
+<p>Using <code>pd.to_datatime()</code>:</p>
+<div id="7881996a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>tuc_2022[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(tuc_2022[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span>
 <span id="cb10-2"><a href=""></a></span>
-<span id="cb10-3"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-10-output-1.png" width="850" height="442"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="scatterplots---color" class="slide level2 smaller">
-<h2>Scatterplots - color</h2>
-<div id="70e35c0d" class="cell" data-execution_count="10">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="1-6|4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
-<span id="cb11-2"><a href=""></a>                hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
-<span id="cb11-3"><a href=""></a></span>
-<span id="cb11-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-11-output-1.png" width="850" height="442"></p>
-</figure>
-</div>
+<span id="cb10-3"><a href=""></a><span class="bu">print</span>(tuc_2022.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 365 entries, 0 to 364
+Data columns (total 11 columns):
+ #   Column                    Non-Null Count  Dtype         
+---  ------                    --------------  -----         
+ 0   date                      365 non-null    datetime64[ns]
+ 1   aqi_value                 365 non-null    int64         
+ 2   main_pollutant            365 non-null    object        
+ 3   site_name                 365 non-null    object        
+ 4   site_id                   365 non-null    object        
+ 5   source                    365 non-null    object        
+ 6   20_year_high_2000_2019    365 non-null    int64         
+ 7   20_year_low_2000_2019     365 non-null    int64         
+ 8   5_year_average_2015_2019  365 non-null    float64       
+ 9   date_of_20_year_high      365 non-null    object        
+ 10  date_of_20_year_low       365 non-null    object        
+dtypes: datetime64[ns](1), float64(1), int64(3), object(6)
+memory usage: 31.5+ KB
+None</code></pre>
 </div>
 </div>
 </section>
-<section id="scatterplots---size-color" class="slide level2 smaller">
-<h2>Scatterplots - size + color</h2>
-<div id="cbbe62dc" class="cell" data-execution_count="11">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="1-6|4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>sns.scatterplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
-<span id="cb12-2"><a href=""></a>                size <span class="op">=</span> <span class="st">"num_engs"</span>, hue <span class="op">=</span> <span class="st">"ac_mass"</span>)</span>
-<span id="cb12-3"><a href=""></a></span>
-<span id="cb12-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-12-output-1.png" width="850" height="442"></p>
-</figure>
+<section id="investigating-aqi-values" class="slide level2">
+<h2>Investigating AQI values</h2>
+<ul>
+<li>Take a peek at distinct values of AQI</li>
+</ul>
+<div id="42fe36bd" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="co"># Check distinct values of aqi_value</span></span>
+<span id="cb12-2"><a href=""></a>distinct_aqi_values <span class="op">=</span> tuc_2022[<span class="st">'aqi_value'</span>].unique()</span>
+<span id="cb12-3"><a href=""></a><span class="bu">print</span>(distinct_aqi_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 40  55  48  50  45  42  41  38  37  43  44  35  46  52  49  58  64  51
+  47  61  71  54  77  84  90  67  97 101  87 100  93  53  74  80 105 119
+ 108  94  31  39  34  59  32  28  27  33  36  60  81]</code></pre>
 </div>
 </div>
-</div>
+<ul>
+<li><code>"."</code> likely indicates <code>NA</code>, and it’s causing the entire column to be read in as characters</li>
+</ul>
 </section>
-<section id="scatterplots---linear-relationships" class="slide level2 smaller">
-<h2>Scatterplots - linear relationships</h2>
-<div id="cfb20068" class="cell" data-execution_count="12">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="1-4|1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>sns.lmplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
-<span id="cb13-2"><a href=""></a>           aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
-<span id="cb13-3"><a href=""></a></span>
-<span id="cb13-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-13-output-1.png" width="743" height="454"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="scatterplots---grouped-relationships" class="slide level2 smaller">
-<h2>Scatterplots - grouped relationships</h2>
-<div id="3d2a5bd1" class="cell" data-execution_count="13">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="1-4|1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>sns.lmplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>,</span>
-<span id="cb14-2"><a href=""></a>           hue <span class="op">=</span> <span class="st">"num_engs"</span>, aspect <span class="op">=</span> <span class="dv">8</span><span class="op">/</span><span class="dv">5</span>)</span>
+<section id="rewind-and-start-over" class="slide level2 smaller">
+<h2>Rewind, and start over</h2>
+<div id="2e3647f5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="co"># Reload data with correct NA values</span></span>
+<span id="cb14-2"><a href=""></a>tuc_2022 <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>, na_values<span class="op">=</span>[<span class="st">"."</span>, <span class="st">""</span>])</span>
 <span id="cb14-3"><a href=""></a></span>
-<span id="cb14-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb14-4"><a href=""></a><span class="co"># Clean and transform data again</span></span>
+<span id="cb14-5"><a href=""></a>tuc_2022 <span class="op">=</span> clean_columns(tuc_2022)</span>
+<span id="cb14-6"><a href=""></a>tuc_2022[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(tuc_2022[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span>
+<span id="cb14-7"><a href=""></a></span>
+<span id="cb14-8"><a href=""></a><span class="co"># Check the structure of the data</span></span>
+<span id="cb14-9"><a href=""></a><span class="bu">print</span>(tuc_2022.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 365 entries, 0 to 364
+Data columns (total 11 columns):
+ #   Column                    Non-Null Count  Dtype         
+---  ------                    --------------  -----         
+ 0   date                      365 non-null    datetime64[ns]
+ 1   aqi_value                 365 non-null    int64         
+ 2   main_pollutant            365 non-null    object        
+ 3   site_name                 365 non-null    object        
+ 4   site_id                   365 non-null    object        
+ 5   source                    365 non-null    object        
+ 6   20_year_high_2000_2019    365 non-null    int64         
+ 7   20_year_low_2000_2019     365 non-null    int64         
+ 8   5_year_average_2015_2019  365 non-null    float64       
+ 9   date_of_20_year_high      365 non-null    object        
+ 10  date_of_20_year_low       365 non-null    object        
+dtypes: datetime64[ns](1), float64(1), int64(3), object(6)
+memory usage: 31.5+ KB
+None</code></pre>
+</div>
+</div>
+</section>
+<section id="another-look" class="slide level2 smaller">
+<h2>Another look</h2>
+<div id="0ebce1b8" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>)</span>
+<span id="cb16-2"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/cell-14-output-1.png" width="848" height="454"></p>
+<p><img data-src="slides_files/figure-revealjs/cell-12-output-1.png" width="751" height="459"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="d-density-plots" class="slide level2 smaller">
-<h2>2D Density Plots</h2>
-<div id="227a4d9e" class="cell" data-execution_count="14">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>sns.histplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"height"</span>, </span>
-<span id="cb15-2"><a href=""></a>             bins <span class="op">=</span> <span class="dv">50</span>, pthresh <span class="op">=</span> <span class="fl">0.1</span>, cmap <span class="op">=</span> <span class="st">"mako"</span>)</span>
-<span id="cb15-3"><a href=""></a></span>
-<span id="cb15-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<section id="visualizing-tucson-aqi" class="slide level2">
+<h2>Visualizing Tucson AQI</h2>
+<div id="b49c7420" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/cell-15-output-1.png" width="850" height="442"></p>
+<p><img data-src="slides_files/figure-revealjs/cell-13-output-1.png" width="753" height="527"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="d-density-plots-contours" class="slide level2 smaller">
-<h2>2D Density plots: contours</h2>
-<div id="7987c9bb" class="cell" data-execution_count="15">
+<section id="live-coding" class="slide level2 smaller">
+<h2>Live coding</h2>
+<div id="53aaaa22" class="cell" data-execution_count="13">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16" data-code-line-numbers="1-4|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>sns.kdeplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> np.log(birds[<span class="st">'height'</span>] <span class="op">+</span> <span class="dv">1</span>), </span>
-<span id="cb16-2"><a href=""></a>             thresh <span class="op">=</span> <span class="fl">0.1</span>, hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb16-3"><a href=""></a></span>
-<span id="cb16-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Setup</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>aqi_levels <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-2"><a href=""></a>    <span class="st">'aqi_min'</span>: [<span class="dv">0</span>, <span class="dv">51</span>, <span class="dv">101</span>, <span class="dv">151</span>, <span class="dv">201</span>, <span class="dv">301</span>],</span>
+<span id="cb17-3"><a href=""></a>    <span class="st">'aqi_max'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>],</span>
+<span id="cb17-4"><a href=""></a>    <span class="st">'color'</span>: [<span class="st">"#D8EEDA"</span>, <span class="st">"#F1E7D4"</span>, <span class="st">"#F8E4D8"</span>, <span class="st">"#FEE2E1"</span>, <span class="st">"#F4E3F7"</span>, <span class="st">"#F9D0D4"</span>],</span>
+<span id="cb17-5"><a href=""></a>    <span class="st">'level'</span>: [<span class="st">"Good"</span>, <span class="st">"Moderate"</span>, <span class="st">"Unhealthy for sensitive groups"</span>, <span class="st">"Unhealthy"</span>, <span class="st">"Very unhealthy"</span>, <span class="st">"Hazardous"</span>]</span>
+<span id="cb17-6"><a href=""></a>})</span>
+<span id="cb17-7"><a href=""></a></span>
+<span id="cb17-8"><a href=""></a>tuc_2022 <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>, na_values<span class="op">=</span>[<span class="st">"."</span>, <span class="st">""</span>])</span>
+<span id="cb17-9"><a href=""></a></span>
+<span id="cb17-10"><a href=""></a>tuc_2022 <span class="op">=</span> clean_columns(tuc_2022)</span>
+<span id="cb17-11"><a href=""></a>tuc_2022[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(tuc_2022[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-16-output-1.png" width="820" height="442"></p>
-</figure>
 </div>
-</div>
-</div>
-</section>
-<section id="d-density-plots-filled-contours" class="slide level2 smaller">
-<h2>2D Density plots: filled contours</h2>
-<div id="e1460b89" class="cell" data-execution_count="16">
+<p>Reveal below for code developed during live coding session.</p>
+<div id="860df4b1" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17" data-code-line-numbers="1-4|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>sns.kdeplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> np.log(birds[<span class="st">'height'</span>] <span class="op">+</span> <span class="dv">1</span>), </span>
-<span id="cb17-2"><a href=""></a>             thresh <span class="op">=</span> <span class="dv">0</span>, cmap <span class="op">=</span> <span class="st">"mako"</span>, fill <span class="op">=</span> <span class="va">True</span>, levels <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-17-output-1.png" width="820" height="447"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="two-ordered-numeric-variables" class="slide level2">
-<h2>Two Ordered Numeric Variables</h2>
-<div class="columns">
-<div class="column" style="text-align: center;">
-<p><strong>Line Plot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Line.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Trend Identification</li>
-<li class="fragment">Simple and Clear</li>
-<li class="fragment">Comparative Analysis</li>
-</ul>
-</div>
-</div>
-</div><div class="column" style="text-align: center;">
-<p><strong>Area Plot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Area.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Cumulative Representation</li>
-<li class="fragment">Emphasizes Volume</li>
-<li class="fragment">Layered Comparisons</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="line-plot" class="slide level2 smaller">
-<h2>Line Plot</h2>
-<div id="0f736fa8" class="cell" data-execution_count="17">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="1-6|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"whitegrid"</span>)</span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a>sns.lineplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"date"</span>, y <span class="op">=</span> <span class="st">"speed"</span>)</span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a><span class="co"># Plot background AQI levels</span></span>
+<span id="cb18-2"><a href=""></a><span class="cf">for</span> _, row <span class="kw">in</span> aqi_levels.iterrows():</span>
+<span id="cb18-3"><a href=""></a>    plt.axhspan(row[<span class="st">'aqi_min'</span>], row[<span class="st">'aqi_max'</span>], color<span class="op">=</span>row[<span class="st">'color'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb18-4"><a href=""></a></span>
-<span id="cb18-5"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-5"><a href=""></a><span class="co"># Plot AQI values</span></span>
+<span id="cb18-6"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc_2022.dropna(subset<span class="op">=</span>[<span class="st">'aqi_value'</span>]), x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb18-7"><a href=""></a></span>
+<span id="cb18-8"><a href=""></a><span class="co"># Annotate AQI levels</span></span>
+<span id="cb18-9"><a href=""></a><span class="cf">for</span> _, row <span class="kw">in</span> aqi_levels.iterrows():</span>
+<span id="cb18-10"><a href=""></a>    plt.text(pd.Timestamp(<span class="st">'2023-02-28'</span>), row[<span class="st">'aqi_mid'</span>], row[<span class="st">'level'</span>], ha<span class="op">=</span><span class="st">'right'</span>, size<span class="op">=</span><span class="dv">14</span>, color<span class="op">=</span><span class="st">'gray'</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb18-11"><a href=""></a></span>
+<span id="cb18-12"><a href=""></a><span class="co"># Additional annotations and formatting</span></span>
+<span id="cb18-13"><a href=""></a>plt.annotate(<span class="st">'2022'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2022-01-01'</span>), <span class="op">-</span><span class="dv">100</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb18-14"><a href=""></a>plt.annotate(<span class="st">'2023'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2023-03-01'</span>), <span class="op">-</span><span class="dv">100</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb18-15"><a href=""></a></span>
+<span id="cb18-16"><a href=""></a>plt.xlim(pd.Timestamp(<span class="st">'2022-01-01'</span>), pd.Timestamp(<span class="st">'2023-03-01'</span>))</span>
+<span id="cb18-17"><a href=""></a>plt.ylim(<span class="dv">0</span>, <span class="dv">400</span>)</span>
+<span id="cb18-18"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb18-19"><a href=""></a>plt.ylabel(<span class="st">'AQI'</span>)</span>
+<span id="cb18-20"><a href=""></a>plt.title(<span class="st">'Ozone and PM2.5 Daily AQI Values</span><span class="ch">\n</span><span class="st">Tucson, AZ'</span>)</span>
+<span id="cb18-21"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb18-22"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">'%b'</span>))</span>
+<span id="cb18-23"><a href=""></a>plt.gca().xaxis.set_major_locator(mdates.MonthLocator())</span>
+<span id="cb18-24"><a href=""></a></span>
+<span id="cb18-25"><a href=""></a>sns.despine()</span>
+<span id="cb18-26"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-18-output-1.png" width="820" height="435"></p>
-</figure>
 </div>
-</div>
-</div>
+</section></section>
+<section>
+<section id="calculating-cumulatives" class="title-slide slide level1 center">
+<h1>Calculating cumulatives</h1>
+
 </section>
-<section id="line-plot-grouped-lines" class="slide level2">
-<h2>Line Plot: grouped lines</h2>
-<div id="c6e66ad4" class="cell" data-execution_count="18">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19" data-code-line-numbers="1-4|2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>sns.lineplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"date"</span>, y <span class="op">=</span> <span class="st">"speed"</span>,</span>
-<span id="cb19-2"><a href=""></a>             hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
-<span id="cb19-3"><a href=""></a></span>
-<span id="cb19-4"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-19-output-1.png" width="820" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="one-categorical" class="slide level2">
-<h2>One Categorical</h2>
-<div class="columns">
-<div class="column" style="text-align: center;">
-<p><strong>Barplot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Bar.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
+<section id="cumulatives-over-time" class="slide level2">
+<h2>Cumulatives over time</h2>
 <ul>
-<li class="fragment">Categorical Comparison</li>
-<li class="fragment">Clear Visualization</li>
-<li class="fragment">Versatile Use</li>
+<li><p>When visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them</p></li>
+<li><p>In our example we’ll calculate the number of days with “good” AQI (<span class="math inline">\(\le\)</span> 50) and plot that value on the y-axis and the date on the x-axis</p></li>
 </ul>
-</div>
-</div>
-</div><div class="column" style="text-align: center;">
-<p><strong>Pie Chart</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Pie.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Proportional Representation</li>
-<li class="fragment">Simple Interpretation</li>
-<li class="fragment">Visual Appeal</li>
-</ul>
-</div>
-</div>
-</div>
+</section>
+<section id="calculating-cumulatives-1" class="slide level2">
+<h2>Calculating cumulatives</h2>
+<p>Step 1. Arrange your data</p>
+<div id="2ad219c5" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>tuc_2022 <span class="op">=</span> tuc_2022[[<span class="st">'date'</span>, <span class="st">'aqi_value'</span>]].dropna().sort_values(<span class="st">'date'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="barplot" class="slide level2 smaller">
-<h2>Barplot</h2>
-<div id="0ac9d3f0" class="cell" data-execution_count="19">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="1-6|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
-<span id="cb20-2"><a href=""></a></span>
-<span id="cb20-3"><a href=""></a>sns.countplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"sky"</span>, </span>
-<span id="cb20-4"><a href=""></a>              palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb20-5"><a href=""></a>              </span>
-<span id="cb20-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-20-output-1.png" width="829" height="435"></p>
-</figure>
-</div>
-</div>
+<section id="calculating-cumulatives-2" class="slide level2">
+<h2>Calculating cumulatives</h2>
+<p>Step 2. Identify good days</p>
+<div id="51b8882d" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>tuc_2022[<span class="st">'good_aqi'</span>] <span class="op">=</span> np.where(tuc_2022[<span class="st">'aqi_value'</span>] <span class="op">&lt;=</span> <span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pie-chart" class="slide level2 smaller">
-<h2>Pie Chart</h2>
-<p>Can’t use {seaborn}</p>
-<div id="1363dca0" class="cell" data-execution_count="20">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="1-9|1|3-5|7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>category_counts <span class="op">=</span> birds[<span class="st">'sky'</span>].value_counts()</span>
-<span id="cb21-2"><a href=""></a></span>
-<span id="cb21-3"><a href=""></a>plt.pie(category_counts, labels <span class="op">=</span> category_counts.index, </span>
-<span id="cb21-4"><a href=""></a>        autopct <span class="op">=</span> <span class="kw">lambda</span> p: <span class="ss">f'</span><span class="sc">{</span>p<span class="sc">:.1f}</span><span class="ss">%'</span>, </span>
-<span id="cb21-5"><a href=""></a>        textprops <span class="op">=</span> {<span class="st">'size'</span>:<span class="dv">14</span>})</span>
-<span id="cb21-6"><a href=""></a></span>
-<span id="cb21-7"><a href=""></a>plt.axis(<span class="st">'equal'</span>)</span>
-<span id="cb21-8"><a href=""></a></span>
-<span id="cb21-9"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-21-output-1.png" width="763" height="395"></p>
-</figure>
-</div>
-</div>
+<section id="calculating-cumulatives-3" class="slide level2">
+<h2>Calculating cumulatives</h2>
+<p>Step 3. Sum over time</p>
+<div id="58d0a386" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>tuc_2022[<span class="st">'cumsum_good_aqi'</span>] <span class="op">=</span> tuc_2022[<span class="st">'good_aqi'</span>].cumsum()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="one-numerical-one-categorical" class="slide level2">
-<h2>One Numerical + One Categorical</h2>
-<div class="columns">
-<div class="column" style="text-align: center;">
-<p><strong>Boxplot</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/box.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Displays Quartiles</li>
-<li class="fragment">Identifies Outliers</li>
-<li class="fragment">Comparative Analysis</li>
-</ul>
-</div>
-</div>
-</div><div class="column" style="text-align: center;">
-<p><strong>Violin chart</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/Violin.png" class="quarto-figure quarto-figure-center" width="100"></p>
-</figure>
-</div>
-<div class="fragment">
-<div style="text-align: left;">
-<ul>
-<li class="fragment">Density Representation</li>
-<li class="fragment">Richer Data Insight</li>
-<li class="fragment">Visualizes Data Spread</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="boxplots" class="slide level2 smaller">
-<h2>Boxplots</h2>
-<div id="e0aac5b4" class="cell" data-execution_count="21">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="1-6|1|3,4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
-<span id="cb22-2"><a href=""></a></span>
-<span id="cb22-3"><a href=""></a>sns.boxplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>,</span>
-<span id="cb22-4"><a href=""></a>            hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb22-5"><a href=""></a></span>
-<span id="cb22-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-22-output-1.png" width="877" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="trim-axes" class="slide level2 smaller">
-<h2>Trim axes</h2>
-<div id="ed7d60d0" class="cell" data-execution_count="22">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="1-8|6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>p1 <span class="op">=</span> sns.boxplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>,</span>
-<span id="cb23-4"><a href=""></a>                 hue <span class="op">=</span> <span class="st">"sky"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb23-5"><a href=""></a></span>
-<span id="cb23-6"><a href=""></a>p1.set_xlim(<span class="dv">0</span>, <span class="dv">250</span>)</span>
-<span id="cb23-7"><a href=""></a></span>
-<span id="cb23-8"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-23-output-1.png" width="889" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="violin-plots" class="slide level2 smaller">
-<h2>Violin Plots</h2>
-<div id="1baaebee" class="cell" data-execution_count="23">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24" data-code-line-numbers="1-6|3,4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
-<span id="cb24-2"><a href=""></a></span>
-<span id="cb24-3"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"sky"</span>,</span>
-<span id="cb24-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb24-5"><a href=""></a>               </span>
-<span id="cb24-6"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-24-output-1.png" width="877" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="violin-plots-paired" class="slide level2 smaller">
-<h2>Violin Plots: paired</h2>
-<div id="432ba5c4" class="cell" data-execution_count="24">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25" data-code-line-numbers="1-10|3,5|7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
-<span id="cb25-2"><a href=""></a></span>
-<span id="cb25-3"><a href=""></a>options <span class="op">=</span> [<span class="st">'Night'</span>, <span class="st">'Day'</span>]</span>
-<span id="cb25-4"><a href=""></a></span>
-<span id="cb25-5"><a href=""></a>birds_filt <span class="op">=</span> birds[birds[<span class="st">'time_of_day'</span>].isin(options)]</span>
-<span id="cb25-6"><a href=""></a></span>
-<span id="cb25-7"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
-<span id="cb25-8"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb25-9"><a href=""></a>               </span>
-<span id="cb25-10"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-25-output-1.png" width="877" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="violin-plots-quartiles-split" class="slide level2 smaller">
-<h2>Violin Plots: quartiles + split</h2>
-<div id="6179c71d" class="cell" data-execution_count="25">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26" data-code-line-numbers="1-7|5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
-<span id="cb26-2"><a href=""></a></span>
-<span id="cb26-3"><a href=""></a>sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
-<span id="cb26-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>,</span>
-<span id="cb26-5"><a href=""></a>                    inner <span class="op">=</span> <span class="st">"quart"</span>, split <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb26-6"><a href=""></a>               </span>
-<span id="cb26-7"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-26-output-1.png" width="877" height="435"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="cleaning-up-our-plots" class="slide level2 smaller">
-<h2>Cleaning up our plots</h2>
-<h4 id="my-minimum-expectation"><strong>My minimum expectation:</strong></h4>
-<div id="5fa87111" class="cell" data-execution_count="26">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27" data-code-line-numbers="1-11|6-9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
-<span id="cb27-2"><a href=""></a></span>
-<span id="cb27-3"><a href=""></a>g1 <span class="op">=</span> sns.violinplot(data <span class="op">=</span> birds_filt, x <span class="op">=</span> <span class="st">"speed"</span>, y <span class="op">=</span> <span class="st">"sky"</span>, hue <span class="op">=</span> <span class="st">"time_of_day"</span>,</span>
-<span id="cb27-4"><a href=""></a>                    palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
-<span id="cb27-5"><a href=""></a></span>
-<span id="cb27-6"><a href=""></a>g1.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Speed (mph)"</span>)</span>
-<span id="cb27-7"><a href=""></a>g1.<span class="bu">set</span>(ylabel <span class="op">=</span> <span class="va">None</span>)</span>
-<span id="cb27-8"><a href=""></a>g1.<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Speed of plane collisions with birds"</span>)</span>
-<span id="cb27-9"><a href=""></a>g1.legend(title <span class="op">=</span> <span class="st">"Time of day"</span>)</span>
-<span id="cb27-10"><a href=""></a></span>
-<span id="cb27-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-27-output-1.png" width="857" height="455"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="aside-correlations" class="slide level2 smaller">
-<h2>Aside: Correlations</h2>
-<div id="d2eb8b89" class="cell" data-execution_count="27">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28" data-code-line-numbers="1-16|3|5|7|9,11|13,14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
-<span id="cb28-2"><a href=""></a></span>
-<span id="cb28-3"><a href=""></a>birds_num <span class="op">=</span> birds.select_dtypes(include <span class="op">=</span> <span class="st">'number'</span>)</span>
-<span id="cb28-4"><a href=""></a></span>
-<span id="cb28-5"><a href=""></a>corr <span class="op">=</span> birds_num.corr()</span>
-<span id="cb28-6"><a href=""></a></span>
-<span id="cb28-7"><a href=""></a>mask <span class="op">=</span> np.triu(np.ones_like(corr, dtype <span class="op">=</span> <span class="bu">bool</span>))</span>
-<span id="cb28-8"><a href=""></a></span>
-<span id="cb28-9"><a href=""></a>f, ax <span class="op">=</span> plt.subplots(figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb28-10"><a href=""></a></span>
-<span id="cb28-11"><a href=""></a>cmap <span class="op">=</span> sns.diverging_palette(<span class="dv">230</span>, <span class="dv">20</span>, as_cmap <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb28-12"><a href=""></a></span>
-<span id="cb28-13"><a href=""></a>sns.heatmap(corr, mask <span class="op">=</span> mask, cmap <span class="op">=</span> cmap, vmax <span class="op">=</span> <span class="fl">0.5</span>, center <span class="op">=</span> <span class="dv">0</span>,</span>
-<span id="cb28-14"><a href=""></a>            square <span class="op">=</span> <span class="va">True</span>, linewidths <span class="op">=</span> <span class="fl">.5</span>, cbar_kws <span class="op">=</span> {<span class="st">"shrink"</span>: <span class="fl">0.5</span>})</span>
-<span id="cb28-15"><a href=""></a>            </span>
-<span id="cb28-16"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-28-output-1.png" width="563" height="489"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="lastly-pairgrids" class="slide level2 smaller">
-<h2>Lastly: Pairgrids</h2>
-<div id="3b22a111" class="cell" data-execution_count="28">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29" data-code-line-numbers="1-11|3|5-9|"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a>sns.set_theme(style <span class="op">=</span> <span class="st">"white"</span>)</span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a>birds_sub <span class="op">=</span> birds[[<span class="st">'ac_mass'</span>, <span class="st">'height'</span>, <span class="st">'speed'</span>, <span class="st">'sky'</span>]]</span>
-<span id="cb29-4"><a href=""></a></span>
-<span id="cb29-5"><a href=""></a>g <span class="op">=</span> sns.PairGrid(birds_sub, diag_sharey <span class="op">=</span> <span class="va">False</span>, </span>
-<span id="cb29-6"><a href=""></a>                 height <span class="op">=</span> <span class="dv">2</span>, hue <span class="op">=</span> <span class="st">"sky"</span>)</span>
-<span id="cb29-7"><a href=""></a>g.map_upper(sns.scatterplot, s <span class="op">=</span> <span class="dv">15</span>)</span>
-<span id="cb29-8"><a href=""></a>g.map_lower(sns.kdeplot)</span>
-<span id="cb29-9"><a href=""></a>g.map_diag(sns.kdeplot, lw <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb29-10"><a href=""></a></span>
-<span id="cb29-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/cell-29-output-1.png" width="569" height="562"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="diwali-sales-data-metadata" class="slide level2 smaller">
-<h2>Diwali sales data: metadata</h2>
-<table>
-<colgroup>
-<col style="width: 23%">
-<col style="width: 14%">
-<col style="width: 61%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>variable</strong></th>
-<th><strong>class</strong></th>
-<th><strong>description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>User_ID</td>
-<td>double</td>
-<td>User identification number</td>
-</tr>
-<tr class="even">
-<td>Cust_name</td>
-<td>character</td>
-<td>Customer name</td>
-</tr>
-<tr class="odd">
-<td>Product_ID</td>
-<td>character</td>
-<td>Product identification number</td>
-</tr>
-<tr class="even">
-<td>Gender</td>
-<td>character</td>
-<td>Gender of the customer (e.g.&nbsp;Male, Female)</td>
-</tr>
-<tr class="odd">
-<td>Age Group</td>
-<td>character</td>
-<td>Age group of the customer</td>
-</tr>
-<tr class="even">
-<td>Age</td>
-<td>double</td>
-<td>Age of the customer</td>
-</tr>
-<tr class="odd">
-<td>Marital_Status</td>
-<td>double</td>
-<td>Marital status of customer (Married, Single)</td>
-</tr>
-<tr class="even">
-<td>State</td>
-<td>character</td>
-<td>State of the customer</td>
-</tr>
-<tr class="odd">
-<td>Zone</td>
-<td>character</td>
-<td>Geographic zone of the customer</td>
-</tr>
-<tr class="even">
-<td>Occupation</td>
-<td>character</td>
-<td>Occupation of the customer</td>
-</tr>
-<tr class="odd">
-<td>Product_Category</td>
-<td>character</td>
-<td>Category of the product</td>
-</tr>
-<tr class="even">
-<td>Orders</td>
-<td>double</td>
-<td>Number of orders made by the customer</td>
-</tr>
-<tr class="odd">
-<td>Amount</td>
-<td>double</td>
-<td>Amount in Indian rupees spent by the customer</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="livecoding-diwali-sales-data" class="slide level2 smaller">
-<h2>Livecoding: Diwali sales data</h2>
+<section id="plotting-cumulatives" class="slide level2 smaller">
+<h2>Plotting cumulatives</h2>
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Read in</a></li><li><a href="#tabset-2-2">Code</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Plot</a></li><li><a href="#tabset-2-2">Code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1">
-<div id="b8b3c3f9" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>diwali <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv'</span>, encoding <span class="op">=</span> <span class="st">'iso-8859-1'</span>)</span>
-<span id="cb30-2"><a href=""></a>diwali.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="174">
+<div id="4aec8b94" class="cell" data-fig.asp="0.5" data-execution_count="18">
+<div class="cell-output cell-output-display">
 <div>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header" style="text-align: right;">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">User_ID</th>
-<th data-quarto-table-cell-role="th">Cust_name</th>
-<th data-quarto-table-cell-role="th">Product_ID</th>
-<th data-quarto-table-cell-role="th">Gender</th>
-<th data-quarto-table-cell-role="th">Age Group</th>
-<th data-quarto-table-cell-role="th">Age</th>
-<th data-quarto-table-cell-role="th">Marital_Status</th>
-<th data-quarto-table-cell-role="th">State</th>
-<th data-quarto-table-cell-role="th">Zone</th>
-<th data-quarto-table-cell-role="th">Occupation</th>
-<th data-quarto-table-cell-role="th">Product_Category</th>
-<th data-quarto-table-cell-role="th">Orders</th>
-<th data-quarto-table-cell-role="th">Amount</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1002903</td>
-<td>Sanskriti</td>
-<td>P00125942</td>
-<td>F</td>
-<td>26-35</td>
-<td>28</td>
-<td>0</td>
-<td>Maharashtra</td>
-<td>Western</td>
-<td>Healthcare</td>
-<td>Auto</td>
-<td>1</td>
-<td>23952.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>1000732</td>
-<td>Kartik</td>
-<td>P00110942</td>
-<td>F</td>
-<td>26-35</td>
-<td>35</td>
-<td>1</td>
-<td>Andhra Pradesh</td>
-<td>Southern</td>
-<td>Govt</td>
-<td>Auto</td>
-<td>3</td>
-<td>23934.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>1001990</td>
-<td>Bindu</td>
-<td>P00118542</td>
-<td>F</td>
-<td>26-35</td>
-<td>35</td>
-<td>1</td>
-<td>Uttar Pradesh</td>
-<td>Central</td>
-<td>Automobile</td>
-<td>Auto</td>
-<td>3</td>
-<td>23924.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>1001425</td>
-<td>Sudevi</td>
-<td>P00237842</td>
-<td>M</td>
-<td>0-17</td>
-<td>16</td>
-<td>0</td>
-<td>Karnataka</td>
-<td>Southern</td>
-<td>Construction</td>
-<td>Auto</td>
-<td>2</td>
-<td>23912.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>1000588</td>
-<td>Joni</td>
-<td>P00057942</td>
-<td>M</td>
-<td>26-35</td>
-<td>28</td>
-<td>1</td>
-<td>Gujarat</td>
-<td>Western</td>
-<td>Food Processing</td>
-<td>Auto</td>
-<td>2</td>
-<td>23877.0</td>
-</tr>
-</tbody>
-</table>
-
-</div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-19-output-1.png" width="749" height="527"></p>
+</figure>
 </div>
 </div>
 </div>
 </div>
 <div id="tabset-2-2">
-<div id="542abfd6" class="cell" data-execution_count="30">
+<div id="083d565d" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>)</span>
+<span id="cb22-2"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%b %Y"</span>))</span>
+<span id="cb22-3"><a href=""></a></span>
+<span id="cb22-4"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb22-5"><a href=""></a>plt.ylabel(<span class="st">"Number of days"</span>)</span>
+<span id="cb22-6"><a href=""></a>plt.title(<span class="st">"Cumulative number of good AQI days (AQI &lt; 50)</span><span class="ch">\n</span><span class="st">Tucson, AZ"</span>)</span>
+<span id="cb22-7"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb22-8"><a href=""></a></span>
+<span id="cb22-9"><a href=""></a>sns.despine()</span>
+<span id="cb22-10"><a href=""></a></span>
+<span id="cb22-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="detrending" class="title-slide slide level1 center">
+<h1>Detrending</h1>
+
+</section>
+<section id="detrending-1" class="slide level2">
+<h2>Detrending</h2>
+<ul>
+<li><p>Detrending is removing prominent long-term trend in time series to specifically highlight any notable deviations</p></li>
+<li><p>Let’s demonstrate using multiple years of AQI data</p></li>
+</ul>
+</section>
+<section id="multiple-years-of-tucson-az-data" class="slide level2 smaller">
+<h2>Multiple years of Tucson, AZ data</h2>
+</section>
+<section id="reading-multiple-files" class="slide level2 smaller">
+<h2>Reading multiple files</h2>
+<div id="8aa141c3" class="cell" data-message="false" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="co"># Define the list of URLs</span></span>
+<span id="cb23-2"><a href=""></a>tuc_files <span class="op">=</span> [</span>
+<span id="cb23-3"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>,</span>
+<span id="cb23-4"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2021.csv"</span>,</span>
+<span id="cb23-5"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2020.csv"</span>,</span>
+<span id="cb23-6"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2019.csv"</span>,</span>
+<span id="cb23-7"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2018.csv"</span>,</span>
+<span id="cb23-8"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2017.csv"</span></span>
+<span id="cb23-9"><a href=""></a>]</span>
+<span id="cb23-10"><a href=""></a></span>
+<span id="cb23-11"><a href=""></a><span class="co"># Initialize an empty dataframe</span></span>
+<span id="cb23-12"><a href=""></a>tuc <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb23-13"><a href=""></a></span>
+<span id="cb23-14"><a href=""></a><span class="co"># Read and concatenate all data files</span></span>
+<span id="cb23-15"><a href=""></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tuc_files:</span>
+<span id="cb23-16"><a href=""></a>    data <span class="op">=</span> pd.read_csv(<span class="bu">file</span>, na_values<span class="op">=</span>[<span class="st">"."</span>, <span class="st">""</span>])</span>
+<span id="cb23-17"><a href=""></a>    tuc <span class="op">=</span> pd.concat([tuc, data], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-18"><a href=""></a></span>
+<span id="cb23-19"><a href=""></a><span class="co"># Clean column names using the clean_columns function from the skimpy package</span></span>
+<span id="cb23-20"><a href=""></a>tuc <span class="op">=</span> clean_columns(tuc)</span>
+<span id="cb23-21"><a href=""></a></span>
+<span id="cb23-22"><a href=""></a><span class="co"># Clean and transform data</span></span>
+<span id="cb23-23"><a href=""></a>tuc[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(tuc[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span>
+<span id="cb23-24"><a href=""></a>tuc <span class="op">=</span> tuc.dropna(subset<span class="op">=</span>[<span class="st">'aqi_value'</span>])</span>
+<span id="cb23-25"><a href=""></a>tuc[<span class="st">'good_aqi'</span>] <span class="op">=</span> np.where(tuc[<span class="st">'aqi_value'</span>] <span class="op">&lt;=</span> <span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb23-26"><a href=""></a>tuc <span class="op">=</span> tuc.sort_values(<span class="st">'date'</span>)</span>
+<span id="cb23-27"><a href=""></a>tuc[<span class="st">'cumsum_good_aqi'</span>] <span class="op">=</span> tuc[<span class="st">'good_aqi'</span>].cumsum()</span>
+<span id="cb23-28"><a href=""></a></span>
+<span id="cb23-29"><a href=""></a><span class="co"># Convert date to ordinal for regression</span></span>
+<span id="cb23-30"><a href=""></a>tuc[<span class="st">'date_ordinal'</span>] <span class="op">=</span> tuc[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
+<span id="cb23-31"><a href=""></a></span>
+<span id="cb23-32"><a href=""></a><span class="bu">print</span>(tuc.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           date  aqi_value main_pollutant     site_name      site_id source  \
+1826 2017-01-01         38          Ozone  SAGUARO PARK  04-019-0021    AQS   
+1827 2017-01-02         40          Ozone  SAGUARO PARK  04-019-0021    AQS   
+1828 2017-01-03         38          Ozone  SAGUARO PARK  04-019-0021    AQS   
+1829 2017-01-04         38          Ozone  SAGUARO PARK  04-019-0021    AQS   
+1830 2017-01-05         32          Ozone  SAGUARO PARK  04-019-0021    AQS   
+
+      20_year_high_2000_2019  20_year_low_2000_2019  5_year_average_2015_2019  \
+1826                     115                     35                      62.2   
+1827                      57                     31                      43.2   
+1828                      67                     29                      43.6   
+1829                      55                     27                      40.4   
+1830                      52                     28                      36.0   
+
+     date_of_20_year_high date_of_20_year_low  good_aqi  cumsum_good_aqi  \
+1826           01/01/2018          01/01/2001         1                1   
+1827           01/02/2015          01/02/2016         1                2   
+1828           01/03/2015          01/03/2005         1                3   
+1829           01/04/2015          01/04/2008         1                4   
+1830           01/05/2013          01/05/2000         1                5   
+
+      date_ordinal  
+1826        736330  
+1827        736331  
+1828        736332  
+1829        736333  
+1830        736334  </code></pre>
+</div>
+</div>
+</section>
+<section id="simple-linear-regression" class="slide level2">
+<h2>Simple Linear Regression</h2>
+<div id="52d7a61f" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a><span class="co"># Fit linear regression for the trend line</span></span>
+<span id="cb25-4"><a href=""></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb25-5"><a href=""></a>model.fit(tuc[[<span class="st">'date_ordinal'</span>]], tuc[<span class="st">'cumsum_good_aqi'</span>])</span>
+<span id="cb25-6"><a href=""></a>tuc[<span class="st">'fitted'</span>] <span class="op">=</span> model.predict(tuc[[<span class="st">'date_ordinal'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-trend-since-2017" class="slide level2 smaller">
+<h2>Plot trend since 2017</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Plot</a></li><li><a href="#tabset-3-2">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<div id="cell-tuc-3" class="cell" data-fig-asp="0.5" data-execution_count="23">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/tuc-3-output-1.png" id="tuc-3" width="753" height="527"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div id="63d02ec5" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>, color <span class="op">=</span> <span class="st">'black'</span>)</span>
+<span id="cb26-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'fitted'</span>, color<span class="op">=</span><span class="st">'pink'</span>, label<span class="op">=</span><span class="st">'Trend Line'</span>)</span>
+<span id="cb26-3"><a href=""></a></span>
+<span id="cb26-4"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
+<span id="cb26-5"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb26-6"><a href=""></a>plt.ylabel(<span class="st">"Number of days"</span>)</span>
+<span id="cb26-7"><a href=""></a>plt.title(<span class="st">"Cumulative number of good AQI days (AQI &lt; 50)</span><span class="ch">\n</span><span class="st">Tucson, AZ"</span>)</span>
+<span id="cb26-8"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb26-9"><a href=""></a>sns.despine()</span>
+<span id="cb26-10"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="detrend" class="slide level2">
+<h2>Detrend</h2>
+<p>Step 1. Fit a simple linear regression</p>
+<div id="5b15c5bf" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="co"># Convert dates to ordinal for regression</span></span>
+<span id="cb27-2"><a href=""></a>tuc[<span class="st">'date_ordinal'</span>] <span class="op">=</span> tuc[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
+<span id="cb27-3"><a href=""></a></span>
+<span id="cb27-4"><a href=""></a><span class="co"># Fit linear regression</span></span>
+<span id="cb27-5"><a href=""></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb27-6"><a href=""></a>model.fit(tuc[[<span class="st">'date_ordinal'</span>]], tuc[<span class="st">'cumsum_good_aqi'</span>])</span>
+<span id="cb27-7"><a href=""></a></span>
+<span id="cb27-8"><a href=""></a><span class="co"># Get fitted values</span></span>
+<span id="cb27-9"><a href=""></a>tuc[<span class="st">'fitted'</span>] <span class="op">=</span> model.predict(tuc[[<span class="st">'date_ordinal'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="detrend-1" class="slide level2">
+<h2>Detrend</h2>
+<p>Step 2. Divide the observed value of <code>cumsum_good_aqi</code> by the respective value in the long-term trend (i.e., <code>fitted</code>)</p>
+<div id="82b242ea" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a>tuc[<span class="st">'ratio'</span>] <span class="op">=</span> tuc[<span class="st">'cumsum_good_aqi'</span>] <span class="op">/</span> tuc[<span class="st">'fitted'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize-detrended-data" class="slide level2 smaller">
+<h2>Visualize detrended data</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Plot</a></li><li><a href="#tabset-4-2">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div id="cell-tuc-4" class="cell" data-fig-asp="0.5" data-execution_count="27">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/tuc-4-output-1.png" id="tuc-4" width="753" height="527"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2">
+<div id="81dc4680" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a>plt.axhline(y<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb29-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'ratio'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb29-3"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
+<span id="cb29-4"><a href=""></a>plt.ylim([<span class="dv">0</span>, <span class="dv">20</span>])</span>
+<span id="cb29-5"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb29-6"><a href=""></a>plt.ylabel(<span class="st">"Number of days</span><span class="ch">\n</span><span class="st">(detrended)"</span>)</span>
+<span id="cb29-7"><a href=""></a>plt.title(<span class="st">"Cumulative number of good AQI days (AQI &lt; 50)</span><span class="ch">\n</span><span class="st">Tucson, AZ (2016-2022)"</span>)</span>
+<span id="cb29-8"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb29-9"><a href=""></a>sns.despine()</span>
+<span id="cb29-10"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="air-quality-in-tucson" class="slide level2">
+<h2>Air Quality in Tucson</h2>
+<p><br><br></p>
+<div class="hand">
+<p>barely anything interesting happening!</p>
+</div>
+<div class="fragment">
+<div class="hand">
+<p>let’s look at data from somewhere with a bit more “interesting” air quality data…</p>
+</div>
+</div>
+</section>
+<section id="read-in-multiple-years-of-sf-data" class="slide level2 smaller">
+<h2>Read in multiple years of SF data</h2>
+<div id="10650a06" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a><span class="co"># Examine data</span></span>
-<span id="cb31-2"><a href=""></a>diwali.info()</span>
-<span id="cb31-3"><a href=""></a></span>
-<span id="cb31-4"><a href=""></a><span class="co"># Data types</span></span>
-<span id="cb31-5"><a href=""></a>diwali.dtypes</span>
-<span id="cb31-6"><a href=""></a></span>
-<span id="cb31-7"><a href=""></a><span class="co"># Describe numerical columns</span></span>
-<span id="cb31-8"><a href=""></a>diwali.describe()</span>
-<span id="cb31-9"><a href=""></a></span>
-<span id="cb31-10"><a href=""></a><span class="co"># Describe categories</span></span>
-<span id="cb31-11"><a href=""></a>diwali.describe(exclude <span class="op">=</span> [np.number])</span>
-<span id="cb31-12"><a href=""></a></span>
-<span id="cb31-13"><a href=""></a><span class="co"># Unique levels</span></span>
-<span id="cb31-14"><a href=""></a>categorical_cols <span class="op">=</span> diwali.select_dtypes(include <span class="op">=</span> [<span class="st">'object'</span>, <span class="st">'category'</span>]).columns</span>
-<span id="cb31-15"><a href=""></a>unique_levels <span class="op">=</span> diwali[col].unique()</span>
-<span id="cb31-16"><a href=""></a></span>
-<span id="cb31-17"><a href=""></a><span class="co"># Outliers</span></span>
-<span id="cb31-18"><a href=""></a><span class="co"># Make a copy of the diwali data </span></span>
-<span id="cb31-19"><a href=""></a>dataCopy <span class="op">=</span> diwali.copy()</span>
-<span id="cb31-20"><a href=""></a></span>
-<span id="cb31-21"><a href=""></a><span class="co"># Select only numerical columns</span></span>
-<span id="cb31-22"><a href=""></a>dataRed <span class="op">=</span> dataCopy.select_dtypes(include <span class="op">=</span> np.number)</span>
-<span id="cb31-23"><a href=""></a></span>
-<span id="cb31-24"><a href=""></a><span class="co"># List of numerical columns</span></span>
-<span id="cb31-25"><a href=""></a>dataRedColsList <span class="op">=</span> dataRed.columns[...]</span>
-<span id="cb31-26"><a href=""></a></span>
-<span id="cb31-27"><a href=""></a><span class="co"># For all values in the numerical column list from above</span></span>
-<span id="cb31-28"><a href=""></a><span class="cf">for</span> i_col <span class="kw">in</span> dataRedColsList:</span>
-<span id="cb31-29"><a href=""></a>  <span class="co"># List of the values in i_col</span></span>
-<span id="cb31-30"><a href=""></a>  dataRed_i <span class="op">=</span> dataRed.loc[:,i_col]</span>
-<span id="cb31-31"><a href=""></a>  </span>
-<span id="cb31-32"><a href=""></a>  <span class="co"># Define the 25th and 75th percentiles</span></span>
-<span id="cb31-33"><a href=""></a>  q25, q75 <span class="op">=</span> <span class="bu">round</span>((dataRed_i.quantile(q <span class="op">=</span> <span class="fl">0.25</span>)), <span class="dv">3</span>), <span class="bu">round</span>((dataRed_i.quantile(q <span class="op">=</span> <span class="fl">0.75</span>)), <span class="dv">3</span>)</span>
-<span id="cb31-34"><a href=""></a>  </span>
-<span id="cb31-35"><a href=""></a>  <span class="co"># Define the interquartile range from the 25th and 75th percentiles defined above</span></span>
-<span id="cb31-36"><a href=""></a>  IQR <span class="op">=</span> <span class="bu">round</span>((q75 <span class="op">-</span> q25), <span class="dv">3</span>)</span>
-<span id="cb31-37"><a href=""></a>  </span>
-<span id="cb31-38"><a href=""></a>  <span class="co"># Calculate the outlier cutoff </span></span>
-<span id="cb31-39"><a href=""></a>  cut_off <span class="op">=</span> IQR <span class="op">*</span> <span class="fl">1.5</span></span>
-<span id="cb31-40"><a href=""></a>  </span>
-<span id="cb31-41"><a href=""></a>  <span class="co"># Define lower and upper cut-offs</span></span>
-<span id="cb31-42"><a href=""></a>  lower, upper <span class="op">=</span> <span class="bu">round</span>((q25 <span class="op">-</span> cut_off), <span class="dv">3</span>), <span class="bu">round</span>((q75 <span class="op">+</span> cut_off), <span class="dv">3</span>)</span>
-<span id="cb31-43"><a href=""></a>  </span>
-<span id="cb31-44"><a href=""></a>  <span class="co"># Print the values</span></span>
-<span id="cb31-45"><a href=""></a>  <span class="bu">print</span>(<span class="st">' '</span>)</span>
-<span id="cb31-46"><a href=""></a>  </span>
-<span id="cb31-47"><a href=""></a>  <span class="co"># For each value of i_col, print the 25th and 75th percentiles and IQR</span></span>
-<span id="cb31-48"><a href=""></a>  <span class="bu">print</span>(i_col, <span class="st">'q25 ='</span>, q25, <span class="st">'q75 ='</span>, q75, <span class="st">'IQR ='</span>, IQR)</span>
-<span id="cb31-49"><a href=""></a>  </span>
-<span id="cb31-50"><a href=""></a>  <span class="co"># Print the lower and upper cut-offs</span></span>
-<span id="cb31-51"><a href=""></a>  <span class="bu">print</span>(<span class="st">'lower, upper:'</span>, lower, upper)</span>
-<span id="cb31-52"><a href=""></a></span>
-<span id="cb31-53"><a href=""></a>  <span class="co"># Count the number of outliers outside the (lower, upper) limits, print that value</span></span>
-<span id="cb31-54"><a href=""></a>  <span class="bu">print</span>(<span class="st">'Number of Outliers: '</span>, dataRed_i[(dataRed_i <span class="op">&lt;</span> lower) <span class="op">|</span> (dataRed_i <span class="op">&gt;</span> upper)].count())</span>
-<span id="cb31-55"><a href=""></a></span>
-<span id="cb31-56"><a href=""></a><span class="co"># Missing values</span></span>
-<span id="cb31-57"><a href=""></a>diwali.isnull().<span class="bu">sum</span>()</span>
-<span id="cb31-58"><a href=""></a></span>
-<span id="cb31-59"><a href=""></a><span class="co"># Normality - qq plot</span></span>
-<span id="cb31-60"><a href=""></a><span class="co"># Change theme to "white"</span></span>
-<span id="cb31-61"><a href=""></a>sns.set_style(<span class="st">"white"</span>)</span>
-<span id="cb31-62"><a href=""></a></span>
-<span id="cb31-63"><a href=""></a><span class="co"># Make a copy of the data </span></span>
-<span id="cb31-64"><a href=""></a>dataCopy <span class="op">=</span> diwali.copy()</span>
-<span id="cb31-65"><a href=""></a></span>
-<span id="cb31-66"><a href=""></a><span class="co"># Remove NAs</span></span>
-<span id="cb31-67"><a href=""></a>dataCopyFin <span class="op">=</span> dataCopy.dropna()</span>
-<span id="cb31-68"><a href=""></a></span>
-<span id="cb31-69"><a href=""></a><span class="co"># Specify desired column</span></span>
-<span id="cb31-70"><a href=""></a>i_col <span class="op">=</span> dataCopyFin.Amount</span>
-<span id="cb31-71"><a href=""></a></span>
-<span id="cb31-72"><a href=""></a><span class="co"># Subplots</span></span>
-<span id="cb31-73"><a href=""></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(ncols <span class="op">=</span> <span class="dv">2</span>, nrows <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb31-74"><a href=""></a></span>
-<span id="cb31-75"><a href=""></a><span class="co"># Density plot</span></span>
-<span id="cb31-76"><a href=""></a>sns.kdeplot(i_col, linewidth <span class="op">=</span> <span class="dv">5</span>, ax <span class="op">=</span> ax1)</span>
-<span id="cb31-77"><a href=""></a>ax1.set_title(<span class="st">'Amount spent (₹)'</span>)</span>
-<span id="cb31-78"><a href=""></a></span>
-<span id="cb31-79"><a href=""></a><span class="co"># Q-Q plot</span></span>
-<span id="cb31-80"><a href=""></a>sm.qqplot(i_col, line <span class="op">=</span> <span class="st">'s'</span>, ax <span class="op">=</span> ax2)</span>
-<span id="cb31-81"><a href=""></a>ax2.set_title(<span class="st">'Amount spent Q-Q plot'</span>)</span>
-<span id="cb31-82"><a href=""></a>plt.tight_layout()</span>
-<span id="cb31-83"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a><span class="co"># Define the list of URLs</span></span>
+<span id="cb30-2"><a href=""></a>sf_files <span class="op">=</span> [</span>
+<span id="cb30-3"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2022.csv"</span>,</span>
+<span id="cb30-4"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2021.csv"</span>,</span>
+<span id="cb30-5"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2020.csv"</span>,</span>
+<span id="cb30-6"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2019.csv"</span>,</span>
+<span id="cb30-7"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2018.csv"</span>,</span>
+<span id="cb30-8"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2017.csv"</span>,</span>
+<span id="cb30-9"><a href=""></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2016.csv"</span></span>
+<span id="cb30-10"><a href=""></a>]</span>
+<span id="cb30-11"><a href=""></a></span>
+<span id="cb30-12"><a href=""></a><span class="co"># Initialize an empty dataframe</span></span>
+<span id="cb30-13"><a href=""></a>sf <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb30-14"><a href=""></a></span>
+<span id="cb30-15"><a href=""></a><span class="co"># Read and concatenate all data files</span></span>
+<span id="cb30-16"><a href=""></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> sf_files:</span>
+<span id="cb30-17"><a href=""></a>    data <span class="op">=</span> pd.read_csv(<span class="bu">file</span>, na_values<span class="op">=</span>[<span class="st">"."</span>, <span class="st">""</span>])</span>
+<span id="cb30-18"><a href=""></a>    sf <span class="op">=</span> pd.concat([sf, data], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-19"><a href=""></a></span>
+<span id="cb30-20"><a href=""></a><span class="co"># Clean column names using the clean_columns function from the skimpy package</span></span>
+<span id="cb30-21"><a href=""></a>sf <span class="op">=</span> clean_columns(sf)</span>
+<span id="cb30-22"><a href=""></a></span>
+<span id="cb30-23"><a href=""></a><span class="co"># Clean and transform data</span></span>
+<span id="cb30-24"><a href=""></a>sf[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(sf[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span>
+<span id="cb30-25"><a href=""></a>sf <span class="op">=</span> sf.dropna(subset<span class="op">=</span>[<span class="st">'aqi_value'</span>])</span>
+<span id="cb30-26"><a href=""></a>sf[<span class="st">'good_aqi'</span>] <span class="op">=</span> np.where(sf[<span class="st">'aqi_value'</span>] <span class="op">&lt;=</span> <span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb30-27"><a href=""></a>sf <span class="op">=</span> sf.sort_values(<span class="st">'date'</span>)</span>
+<span id="cb30-28"><a href=""></a>sf[<span class="st">'cumsum_good_aqi'</span>] <span class="op">=</span> sf[<span class="st">'good_aqi'</span>].cumsum()</span>
+<span id="cb30-29"><a href=""></a></span>
+<span id="cb30-30"><a href=""></a><span class="co"># Convert date to ordinal for regression</span></span>
+<span id="cb30-31"><a href=""></a>sf[<span class="st">'date_ordinal'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
+<span id="cb30-32"><a href=""></a></span>
+<span id="cb30-33"><a href=""></a><span class="bu">print</span>(sf.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           date  aqi_value main_pollutant      site_name      site_id source  \
+2191 2016-01-01         32          PM2.5  Durham Armory  37-063-0015    AQS   
+2192 2016-01-02         37          PM2.5  Durham Armory  37-063-0015    AQS   
+2193 2016-01-03         45          PM2.5  Durham Armory  37-063-0015    AQS   
+2194 2016-01-04         33          PM2.5  Durham Armory  37-063-0015    AQS   
+2195 2016-01-05         27          PM2.5  Durham Armory  37-063-0015    AQS   
+
+      20_year_high_2000_2019  20_year_low_2000_2019  5_year_average_2015_2019  \
+2191                     111                     10                      39.2   
+2192                      76                      8                      36.8   
+2193                      66                     14                      38.2   
+2194                      61                      9                      30.4   
+2195                      83                      8                      26.0   
+
+     date_of_20_year_high date_of_20_year_low  good_aqi  cumsum_good_aqi  \
+2191           01/01/2000          01/01/2007         1                1   
+2192           01/02/2005          01/02/2012         1                2   
+2193           01/03/2004          01/03/2012         1                3   
+2194           01/04/2008          01/04/2007         1                4   
+2195           01/05/2001          01/05/2015         1                5   
+
+      date_ordinal  
+2191        735964  
+2192        735965  
+2193        735966  
+2194        735967  
+2195        735968  </code></pre>
+</div>
+</div>
+</section>
+<section id="simple-linear-regression-1" class="slide level2">
+<h2>Simple Linear Regression</h2>
+<div id="9257f828" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href=""></a><span class="co"># Fit linear regression for the trend line</span></span>
+<span id="cb32-2"><a href=""></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb32-3"><a href=""></a>model.fit(sf[[<span class="st">'date_ordinal'</span>]], sf[<span class="st">'cumsum_good_aqi'</span>])</span>
+<span id="cb32-4"><a href=""></a>sf[<span class="st">'fitted'</span>] <span class="op">=</span> model.predict(sf[[<span class="st">'date_ordinal'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-trend-since-2016" class="slide level2 smaller">
+<h2>Plot trend since 2016</h2>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Plot</a></li><li><a href="#tabset-5-2">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
+<div id="cell-sf-1" class="cell" data-fig-asp="0.5" data-execution_count="31">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/sf-1-output-1.png" id="sf-1" width="753" height="527"></p>
+</figure>
 </div>
 </div>
 </div>
 </div>
+<div id="tabset-5-2">
+<div id="c0e563b7" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>, color <span class="op">=</span> <span class="st">'black'</span>)</span>
+<span id="cb33-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'fitted'</span>, color<span class="op">=</span><span class="st">'pink'</span>, label<span class="op">=</span><span class="st">'Trend Line'</span>)</span>
+<span id="cb33-3"><a href=""></a></span>
+<span id="cb33-4"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
+<span id="cb33-5"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb33-6"><a href=""></a>plt.ylabel(<span class="st">"Number of days"</span>)</span>
+<span id="cb33-7"><a href=""></a>plt.title(<span class="st">"Cumulative number of good AQI days (AQI &lt; 50)</span><span class="ch">\n</span><span class="st">San Francisco, CA"</span>)</span>
+<span id="cb33-8"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb33-9"><a href=""></a>sns.despine()</span>
+<span id="cb33-10"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="detrend-2" class="slide level2">
+<h2>Detrend</h2>
+<p>Step 1. Fit a simple linear regression</p>
+<div id="78efaeca" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href=""></a><span class="co"># Convert dates to ordinal for regression</span></span>
+<span id="cb34-2"><a href=""></a>sf[<span class="st">'date_ordinal'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
+<span id="cb34-3"><a href=""></a></span>
+<span id="cb34-4"><a href=""></a><span class="co"># Fit linear regression</span></span>
+<span id="cb34-5"><a href=""></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb34-6"><a href=""></a>model.fit(sf[[<span class="st">'date_ordinal'</span>]], sf[<span class="st">'cumsum_good_aqi'</span>])</span>
+<span id="cb34-7"><a href=""></a></span>
+<span id="cb34-8"><a href=""></a><span class="co"># Get fitted values</span></span>
+<span id="cb34-9"><a href=""></a>sf[<span class="st">'fitted'</span>] <span class="op">=</span> model.predict(sf[[<span class="st">'date_ordinal'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="detrend-3" class="slide level2">
+<h2>Detrend</h2>
+<p>Step 2. Divide the observed value of <code>cumsum_good_aqi</code> by the respective value in the long-term trend (i.e., <code>fitted</code>)</p>
+<div id="1374304b" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a>sf[<span class="st">'ratio'</span>] <span class="op">=</span> sf[<span class="st">'cumsum_good_aqi'</span>] <span class="op">/</span> sf[<span class="st">'fitted'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize-detrended-data-1" class="slide level2 smaller">
+<h2>Visualize detrended data</h2>
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Plot</a></li><li><a href="#tabset-6-2">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
+<div id="cell-sf-2" class="cell" data-fig-asp="0.5" data-execution_count="35">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/sf-2-output-1.png" id="sf-2" width="753" height="527"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-6-2">
+<div id="5bc63dd0" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href=""></a>plt.axhline(y<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb36-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'ratio'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb36-3"><a href=""></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
+<span id="cb36-4"><a href=""></a>plt.xlabel(<span class="va">None</span>)</span>
+<span id="cb36-5"><a href=""></a>plt.ylabel(<span class="st">"Number of days</span><span class="ch">\n</span><span class="st">(detrended)"</span>)</span>
+<span id="cb36-6"><a href=""></a>plt.title(<span class="st">"Cumulative number of good AQI days (AQI &lt; 50)</span><span class="ch">\n</span><span class="st">San Francisco, CA (2016-2022)"</span>)</span>
+<span id="cb36-7"><a href=""></a>plt.figtext(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Source: EPA Daily Air Quality Tracker'</span>, ha<span class="op">=</span><span class="st">'center'</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb36-8"><a href=""></a>sns.despine()</span>
+<span id="cb36-9"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="detrending-2" class="slide level2">
+<h2>Detrending</h2>
+<ul>
+<li><p>In step 2 we fit a very simple model</p></li>
+<li><p>Depending on the complexity you’re trying to capture you might choose to fit a much more complex model</p></li>
+<li><p>You can also decompose the trend into multiple trends, e.g.&nbsp;monthly, long-term, seasonal, etc.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="highlighting" class="title-slide slide level1 center">
+<h1>Highlighting</h1>
+
+</section>
+<section id="data-prep" class="slide level2 smaller">
+<h2>Data prep</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="52034cce" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href=""></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb37-2"><a href=""></a></span>
+<span id="cb37-3"><a href=""></a>sf[<span class="st">'year'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].dt.year</span>
+<span id="cb37-4"><a href=""></a>sf[<span class="st">'day_of_year'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].dt.dayofyear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="185467a9" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a><span class="co"># check</span></span>
+<span id="cb38-2"><a href=""></a><span class="bu">print</span>(sf[sf[<span class="st">'day_of_year'</span>] <span class="op">&lt;</span> <span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           date  aqi_value main_pollutant              site_name      site_id  \
+2191 2016-01-01         32          PM2.5          Durham Armory  37-063-0015   
+2192 2016-01-02         37          PM2.5          Durham Armory  37-063-0015   
+1826 2017-01-01         55          PM2.5              San Pablo  06-013-1004   
+1827 2017-01-02         36          Ozone         Patterson Pass  06-001-2005   
+1461 2018-01-01         87          PM2.5           Oakland West  06-001-0011   
+1462 2018-01-02         95          PM2.5           Oakland West  06-001-0011   
+1096 2019-01-01         33          PM2.5           Redwood City  06-081-1001   
+1097 2019-01-02         50          PM2.5              Livermore  06-001-0007   
+730  2020-01-01         53          PM2.5                Oakland  06-001-0009   
+731  2020-01-02         43          PM2.5  Berkeley Aquatic Park  06-001-0013   
+365  2021-01-01         79          PM2.5           Oakland West  06-001-0011   
+366  2021-01-02         57          PM2.5  Pleasanton - Owens Ct  06-001-0015   
+0    2022-01-01         53          PM2.5                Oakland  06-001-0009   
+1    2022-01-02         55          PM2.5              Livermore  06-001-0007   
+
+     source  20_year_high_2000_2019  20_year_low_2000_2019  \
+2191    AQS                     111                     10   
+2192    AQS                      76                      8   
+1826    AQS                     162                     33   
+1827    AQS                     140                     21   
+1461    AQS                     162                     33   
+1462    AQS                     140                     21   
+1096    AQS                     162                     33   
+1097    AQS                     140                     21   
+730     AQS                     162                     33   
+731     AQS                     140                     21   
+365     AQS                     162                     33   
+366     AQS                     140                     21   
+0       AQS                     162                     33   
+1       AQS                     140                     21   
+
+      5_year_average_2015_2019 date_of_20_year_high date_of_20_year_low  \
+2191                      39.2           01/01/2000          01/01/2007   
+2192                      36.8           01/02/2005          01/02/2012   
+1826                      60.6           01/01/2001          01/01/2019   
+1827                      63.2           01/02/2001          01/02/2002   
+1461                      60.6           01/01/2001          01/01/2019   
+1462                      63.2           01/02/2001          01/02/2002   
+1096                      60.6           01/01/2001          01/01/2019   
+1097                      63.2           01/02/2001          01/02/2002   
+730                       60.6           01/01/2001          01/01/2019   
+731                       63.2           01/02/2001          01/02/2002   
+365                       60.6           01/01/2001          01/01/2019   
+366                       63.2           01/02/2001          01/02/2002   
+0                         60.6           01/01/2001          01/01/2019   
+1                         63.2           01/02/2001          01/02/2002   
+
+      good_aqi  cumsum_good_aqi  date_ordinal       fitted     ratio  year  \
+2191         1                1        735964    22.288160  0.044867  2016   
+2192         1                2        735965    22.861827  0.087482  2016   
+1826         0              267        736330   232.250591  1.149620  2017   
+1827         1              268        736331   232.824259  1.151083  2017   
+1461         0              440        736695   441.639355  0.996288  2018   
+1462         0              440        736696   442.213023  0.994996  2018   
+1096         1              589        737060   651.028119  0.904723  2019   
+1097         1              590        737061   651.601787  0.905461  2019   
+730          0              843        737425   860.416883  0.979758  2020   
+731          1              844        737426   860.990550  0.980266  2020   
+365          0             1070        737791  1070.379314  0.999646  2021   
+366          0             1070        737792  1070.952982  0.999110  2021   
+0            0             1282        738156  1279.768078  1.001744  2022   
+1            0             1282        738157  1280.341746  1.001295  2022   
+
+      day_of_year  
+2191            1  
+2192            2  
+1826            1  
+1827            2  
+1461            1  
+1462            2  
+1096            1  
+1097            2  
+730             1  
+731             2  
+365             1  
+366             2  
+0               1  
+1               2  </code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-aqi-over-years" class="slide level2 smaller">
+<h2>Plot AQI over years</h2>
+<div id="2e14c977" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, hue<span class="op">=</span><span class="st">'year'</span>, palette<span class="op">=</span><span class="st">'tab10'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb40-2"><a href=""></a>plt.xlabel(<span class="st">'Day of year'</span>)</span>
+<span id="cb40-3"><a href=""></a>plt.ylabel(<span class="st">'AQI value'</span>)</span>
+<span id="cb40-4"><a href=""></a>plt.title(<span class="st">'AQI levels in San Francisco (2016 - 2022)'</span>)</span>
+<span id="cb40-5"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-40-output-1.png" width="753" height="459"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="highlight-specific-year-2016" class="slide level2 smaller">
+<h2>Highlight specific year (2016)</h2>
+<div id="6e42c890" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="co"># Highlight the year 2016</span></span>
+<span id="cb41-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb41-3"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf[sf[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2016</span>], x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb41-4"><a href=""></a>plt.xlabel(<span class="st">'Day of year'</span>)</span>
+<span id="cb41-5"><a href=""></a>plt.ylabel(<span class="st">'AQI value'</span>)</span>
+<span id="cb41-6"><a href=""></a>plt.title(<span class="st">'AQI levels in SF in 2016</span><span class="ch">\n</span><span class="st">Versus all years 2016 - 2022'</span>)</span>
+<span id="cb41-7"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-41-output-1.png" width="753" height="459"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="highlight-specific-year-2017" class="slide level2 smaller">
+<h2>Highlight specific year (2017)</h2>
+<div id="934ab859" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href=""></a><span class="co"># Highlight the year 2017</span></span>
+<span id="cb42-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb42-3"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf[sf[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2017</span>], x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb42-4"><a href=""></a>plt.xlabel(<span class="st">'Day of year'</span>)</span>
+<span id="cb42-5"><a href=""></a>plt.ylabel(<span class="st">'AQI value'</span>)</span>
+<span id="cb42-6"><a href=""></a>plt.title(<span class="st">'AQI levels in SF in 2016</span><span class="ch">\n</span><span class="st">Versus all years 2016 - 2022'</span>)</span>
+<span id="cb42-7"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-42-output-1.png" width="753" height="459"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="highlight-specific-year-2018" class="slide level2 smaller">
+<h2>Highlight specific year (2018)</h2>
+<div id="2b43db3f" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a><span class="co"># Highlight the year 2018</span></span>
+<span id="cb43-2"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb43-3"><a href=""></a>sns.lineplot(data<span class="op">=</span>sf[sf[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2018</span>], x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb43-4"><a href=""></a>plt.xlabel(<span class="st">'Day of year'</span>)</span>
+<span id="cb43-5"><a href=""></a>plt.ylabel(<span class="st">'AQI value'</span>)</span>
+<span id="cb43-6"><a href=""></a>plt.title(<span class="st">'AQI levels in SF in 2016</span><span class="ch">\n</span><span class="st">Versus all years 2016 - 2022'</span>)</span>
+<span id="cb43-7"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-43-output-1.png" width="753" height="459"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="highlight-any-year" class="slide level2 smaller">
+<h2>Highlight any year</h2>
+<div id="1b920e0a" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a><span class="co"># Function to highlight a specific year</span></span>
+<span id="cb44-2"><a href=""></a><span class="kw">def</span> highlight_year(year_to_highlight):</span>
+<span id="cb44-3"><a href=""></a>    sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb44-4"><a href=""></a>    sns.lineplot(data<span class="op">=</span>sf[sf[<span class="st">'year'</span>] <span class="op">==</span> year_to_highlight], x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb44-5"><a href=""></a>    plt.xlabel(<span class="st">'Day of year'</span>)</span>
+<span id="cb44-6"><a href=""></a>    plt.ylabel(<span class="st">'AQI value'</span>)</span>
+<span id="cb44-7"><a href=""></a>    plt.title(<span class="ss">f'AQI levels in SF in </span><span class="sc">{</span>year_to_highlight<span class="sc">}</span><span class="ch">\n</span><span class="ss">Versus all years 2016 - 2022'</span>)</span>
+<span id="cb44-8"><a href=""></a>    plt.show()</span>
+<span id="cb44-9"><a href=""></a></span>
+<span id="cb44-10"><a href=""></a><span class="co"># Highlight any year</span></span>
+<span id="cb44-11"><a href=""></a>highlight_year(<span class="dv">2018</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-44-output-1.png" width="753" height="459"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section>
+<section id="thank-you" class="title-slide slide level1 center">
+<h1>Thank you 😊</h1>
 <div class="quarto-auto-generated-content">
-<p><img src="./logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 
 </div>
 </div>
-</section></section>
+</section>
     </div>
   </div>
 
