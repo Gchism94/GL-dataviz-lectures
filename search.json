@@ -1,0 +1,625 @@
+[
+  {
+    "objectID": "slides/week5.html#setup",
+    "href": "slides/week5.html#setup",
+    "title": "PCA + Clustering",
+    "section": "Setup",
+    "text": "Setup\n\n# Data Manipulation and Analysis\nimport pandas as pd\nimport numpy as np\n\n# Data Visualization\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Machine Learning\nfrom sklearn.decomposition import PCA\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\n\n# Statistical Analysis\nimport statsmodels.api as sm\nimport scipy.stats as stats\n\n# Increase font size of all Seaborn plot elements\nsns.set(font_scale=1.25)\n\n# Set Seaborn theme\nsns.set_theme(style=\"whitegrid\", palette=\"colorblind\")"
+  },
+  {
+    "objectID": "slides/week5.html#data-preprocessing",
+    "href": "slides/week5.html#data-preprocessing",
+    "title": "PCA + Clustering",
+    "section": "Data Preprocessing",
+    "text": "Data Preprocessing\n\nData preprocessing can refer to manipulation, filtration or augmentation of data before it is analyzed, and is often an important step in the data mining process."
+  },
+  {
+    "objectID": "slides/week5.html#datasets",
+    "href": "slides/week5.html#datasets",
+    "title": "PCA + Clustering",
+    "section": "Datasets",
+    "text": "Datasets\nHuman Freedom Index\nThe Human Freedom Index is a report that attempts to summarize the idea of “freedom” through variables for many countries around the globe."
+  },
+  {
+    "objectID": "slides/week5.html#our-data-human-freedom-index",
+    "href": "slides/week5.html#our-data-human-freedom-index",
+    "title": "PCA + Clustering",
+    "section": "Our data: Human Freedom Index",
+    "text": "Our data: Human Freedom Index\n\nhfi = pd.read_csv(\"data/hfi.csv\")\nhfi.head()\n\n\n\n\n\n\n\n\n\nyear\nISO_code\ncountries\nregion\npf_rol_procedural\npf_rol_civil\npf_rol_criminal\npf_rol\npf_ss_homicide\npf_ss_disappearances_disap\n...\nef_regulation_business_bribes\nef_regulation_business_licensing\nef_regulation_business_compliance\nef_regulation_business\nef_regulation\nef_score\nef_rank\nhf_score\nhf_rank\nhf_quartile\n\n\n\n\n0\n2016\nALB\nAlbania\nEastern Europe\n6.661503\n4.547244\n4.666508\n5.291752\n8.920429\n10.0\n...\n4.050196\n7.324582\n7.074366\n6.705863\n6.906901\n7.54\n34.0\n7.568140\n48.0\n2.0\n\n\n1\n2016\nDZA\nAlgeria\nMiddle East & North Africa\nNaN\nNaN\nNaN\n3.819566\n9.456254\n10.0\n...\n3.765515\n8.523503\n7.029528\n5.676956\n5.268992\n4.99\n159.0\n5.135886\n155.0\n4.0\n\n\n2\n2016\nAGO\nAngola\nSub-Saharan Africa\nNaN\nNaN\nNaN\n3.451814\n8.060260\n5.0\n...\n1.945540\n8.096776\n6.782923\n4.930271\n5.518500\n5.17\n155.0\n5.640662\n142.0\n4.0\n\n\n3\n2016\nARG\nArgentina\nLatin America & the Caribbean\n7.098483\n5.791960\n4.343930\n5.744791\n7.622974\n10.0\n...\n3.260044\n5.253411\n6.508295\n5.535831\n5.369019\n4.84\n160.0\n6.469848\n107.0\n3.0\n\n\n4\n2016\nARM\nArmenia\nCaucasus & Central Asia\nNaN\nNaN\nNaN\n5.003205\n8.808750\n10.0\n...\n4.575152\n9.319612\n6.491481\n6.797530\n7.378069\n7.57\n29.0\n7.241402\n57.0\n2.0\n\n\n\n\n5 rows × 123 columns"
+  },
+  {
+    "objectID": "slides/week5.html#understand-the-data",
+    "href": "slides/week5.html#understand-the-data",
+    "title": "PCA + Clustering",
+    "section": "Understand the data",
+    "text": "Understand the data\n\n.info().describe()\n\n\n\nhfi.info(verbose = True)\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 1458 entries, 0 to 1457\nData columns (total 123 columns):\n #    Column                              Dtype  \n---   ------                              -----  \n 0    year                                int64  \n 1    ISO_code                            object \n 2    countries                           object \n 3    region                              object \n 4    pf_rol_procedural                   float64\n 5    pf_rol_civil                        float64\n 6    pf_rol_criminal                     float64\n 7    pf_rol                              float64\n 8    pf_ss_homicide                      float64\n 9    pf_ss_disappearances_disap          float64\n 10   pf_ss_disappearances_violent        float64\n 11   pf_ss_disappearances_organized      float64\n 12   pf_ss_disappearances_fatalities     float64\n 13   pf_ss_disappearances_injuries       float64\n 14   pf_ss_disappearances                float64\n 15   pf_ss_women_fgm                     float64\n 16   pf_ss_women_missing                 float64\n 17   pf_ss_women_inheritance_widows      float64\n 18   pf_ss_women_inheritance_daughters   float64\n 19   pf_ss_women_inheritance             float64\n 20   pf_ss_women                         float64\n 21   pf_ss                               float64\n 22   pf_movement_domestic                float64\n 23   pf_movement_foreign                 float64\n 24   pf_movement_women                   float64\n 25   pf_movement                         float64\n 26   pf_religion_estop_establish         float64\n 27   pf_religion_estop_operate           float64\n 28   pf_religion_estop                   float64\n 29   pf_religion_harassment              float64\n 30   pf_religion_restrictions            float64\n 31   pf_religion                         float64\n 32   pf_association_association          float64\n 33   pf_association_assembly             float64\n 34   pf_association_political_establish  float64\n 35   pf_association_political_operate    float64\n 36   pf_association_political            float64\n 37   pf_association_prof_establish       float64\n 38   pf_association_prof_operate         float64\n 39   pf_association_prof                 float64\n 40   pf_association_sport_establish      float64\n 41   pf_association_sport_operate        float64\n 42   pf_association_sport                float64\n 43   pf_association                      float64\n 44   pf_expression_killed                float64\n 45   pf_expression_jailed                float64\n 46   pf_expression_influence             float64\n 47   pf_expression_control               float64\n 48   pf_expression_cable                 float64\n 49   pf_expression_newspapers            float64\n 50   pf_expression_internet              float64\n 51   pf_expression                       float64\n 52   pf_identity_legal                   float64\n 53   pf_identity_parental_marriage       float64\n 54   pf_identity_parental_divorce        float64\n 55   pf_identity_parental                float64\n 56   pf_identity_sex_male                float64\n 57   pf_identity_sex_female              float64\n 58   pf_identity_sex                     float64\n 59   pf_identity_divorce                 float64\n 60   pf_identity                         float64\n 61   pf_score                            float64\n 62   pf_rank                             float64\n 63   ef_government_consumption           float64\n 64   ef_government_transfers             float64\n 65   ef_government_enterprises           float64\n 66   ef_government_tax_income            float64\n 67   ef_government_tax_payroll           float64\n 68   ef_government_tax                   float64\n 69   ef_government                       float64\n 70   ef_legal_judicial                   float64\n 71   ef_legal_courts                     float64\n 72   ef_legal_protection                 float64\n 73   ef_legal_military                   float64\n 74   ef_legal_integrity                  float64\n 75   ef_legal_enforcement                float64\n 76   ef_legal_restrictions               float64\n 77   ef_legal_police                     float64\n 78   ef_legal_crime                      float64\n 79   ef_legal_gender                     float64\n 80   ef_legal                            float64\n 81   ef_money_growth                     float64\n 82   ef_money_sd                         float64\n 83   ef_money_inflation                  float64\n 84   ef_money_currency                   float64\n 85   ef_money                            float64\n 86   ef_trade_tariffs_revenue            float64\n 87   ef_trade_tariffs_mean               float64\n 88   ef_trade_tariffs_sd                 float64\n 89   ef_trade_tariffs                    float64\n 90   ef_trade_regulatory_nontariff       float64\n 91   ef_trade_regulatory_compliance      float64\n 92   ef_trade_regulatory                 float64\n 93   ef_trade_black                      float64\n 94   ef_trade_movement_foreign           float64\n 95   ef_trade_movement_capital           float64\n 96   ef_trade_movement_visit             float64\n 97   ef_trade_movement                   float64\n 98   ef_trade                            float64\n 99   ef_regulation_credit_ownership      float64\n 100  ef_regulation_credit_private        float64\n 101  ef_regulation_credit_interest       float64\n 102  ef_regulation_credit                float64\n 103  ef_regulation_labor_minwage         float64\n 104  ef_regulation_labor_firing          float64\n 105  ef_regulation_labor_bargain         float64\n 106  ef_regulation_labor_hours           float64\n 107  ef_regulation_labor_dismissal       float64\n 108  ef_regulation_labor_conscription    float64\n 109  ef_regulation_labor                 float64\n 110  ef_regulation_business_adm          float64\n 111  ef_regulation_business_bureaucracy  float64\n 112  ef_regulation_business_start        float64\n 113  ef_regulation_business_bribes       float64\n 114  ef_regulation_business_licensing    float64\n 115  ef_regulation_business_compliance   float64\n 116  ef_regulation_business              float64\n 117  ef_regulation                       float64\n 118  ef_score                            float64\n 119  ef_rank                             float64\n 120  hf_score                            float64\n 121  hf_rank                             float64\n 122  hf_quartile                         float64\ndtypes: float64(119), int64(1), object(3)\nmemory usage: 1.4+ MB\n\n\n\n\n\nhfi.describe()\n\n\n\n\n\n\n\n\n\nyear\npf_rol_procedural\npf_rol_civil\npf_rol_criminal\npf_rol\npf_ss_homicide\npf_ss_disappearances_disap\npf_ss_disappearances_violent\npf_ss_disappearances_organized\npf_ss_disappearances_fatalities\n...\nef_regulation_business_bribes\nef_regulation_business_licensing\nef_regulation_business_compliance\nef_regulation_business\nef_regulation\nef_score\nef_rank\nhf_score\nhf_rank\nhf_quartile\n\n\n\n\ncount\n1458.000000\n880.000000\n880.000000\n880.000000\n1378.000000\n1378.000000\n1369.000000\n1378.000000\n1279.000000\n1378.000000\n...\n1283.000000\n1357.000000\n1368.000000\n1374.000000\n1378.000000\n1378.000000\n1378.000000\n1378.000000\n1378.000000\n1378.000000\n\n\nmean\n2012.000000\n5.589355\n5.474770\n5.044070\n5.309641\n7.412980\n8.341855\n9.519458\n6.772869\n9.584972\n...\n4.886192\n7.698494\n6.981858\n6.317668\n7.019782\n6.785610\n76.973149\n6.993444\n77.007983\n2.490566\n\n\nstd\n2.582875\n2.080957\n1.428494\n1.724886\n1.529310\n2.832947\n3.225902\n1.744673\n2.768983\n1.559826\n...\n1.889168\n1.728507\n1.979200\n1.230988\n1.027625\n0.883601\n44.540142\n1.025811\n44.506549\n1.119698\n\n\nmin\n2008.000000\n0.000000\n0.000000\n0.000000\n0.000000\n0.000000\n0.000000\n0.000000\n0.000000\n0.000000\n...\n0.000000\n0.000000\n0.000000\n2.009841\n2.483540\n2.880000\n1.000000\n3.765827\n1.000000\n1.000000\n\n\n25%\n2010.000000\n4.133333\n4.549550\n3.789724\n4.131746\n6.386978\n10.000000\n10.000000\n5.000000\n9.942607\n...\n3.433786\n6.874687\n6.368178\n5.591851\n6.429498\n6.250000\n38.000000\n6.336685\n39.000000\n1.000000\n\n\n50%\n2012.000000\n5.300000\n5.300000\n4.575189\n4.910797\n8.638278\n10.000000\n10.000000\n7.500000\n10.000000\n...\n4.418371\n8.074161\n7.466692\n6.265234\n7.082075\n6.900000\n77.000000\n6.923840\n76.000000\n2.000000\n\n\n75%\n2014.000000\n7.389499\n6.410975\n6.400000\n6.513178\n9.454402\n10.000000\n10.000000\n10.000000\n10.000000\n...\n6.227978\n8.991882\n8.209310\n7.139718\n7.720955\n7.410000\n115.000000\n7.894660\n115.000000\n3.000000\n\n\nmax\n2016.000000\n9.700000\n8.773533\n8.719848\n8.723094\n9.926568\n10.000000\n10.000000\n10.000000\n10.000000\n...\n9.623811\n9.999638\n9.865488\n9.272600\n9.439828\n9.190000\n162.000000\n9.126313\n162.000000\n4.000000\n\n\n\n\n8 rows × 120 columns"
+  },
+  {
+    "objectID": "slides/week5.html#identifying-missing-values",
+    "href": "slides/week5.html#identifying-missing-values",
+    "title": "PCA + Clustering",
+    "section": "Identifying missing values",
+    "text": "Identifying missing values\n\nhfi.isna().sum()\n\nyear                   0\nISO_code               0\ncountries              0\nregion                 0\npf_rol_procedural    578\n                    ... \nef_score              80\nef_rank               80\nhf_score              80\nhf_rank               80\nhf_quartile           80\nLength: 123, dtype: int64\n\n\n\n\nA lot of missing values 🙃"
+  },
+  {
+    "objectID": "slides/week5.html#handling-missing-data",
+    "href": "slides/week5.html#handling-missing-data",
+    "title": "PCA + Clustering",
+    "section": "Handling missing data",
+    "text": "Handling missing data\nOptions\n\n\nDo nothing…\nRemove them\nImputate\n\n\n\nWe will be using pf_score from hsi: 80 missing values"
+  },
+  {
+    "objectID": "slides/week5.html#imputation",
+    "href": "slides/week5.html#imputation",
+    "title": "PCA + Clustering",
+    "section": "Imputation",
+    "text": "Imputation\n\nIn statistics, imputation is the process of replacing missing data with substituted values.\n\n\n\nConsiderations\n\n\nData distribution\nImpact on analysis\nMissing data mechanism\nMultiple imputation\nCan also be used on outliers"
+  },
+  {
+    "objectID": "slides/week5.html#mean-imputation",
+    "href": "slides/week5.html#mean-imputation",
+    "title": "PCA + Clustering",
+    "section": "Mean imputation",
+    "text": "Mean imputation\n\nDefinitionVisualCode\n\n\nHow it Works: Replace missing values with the arithmetic mean of the non-missing values in the same variable.\n\nPros:\n\n\nEasy and fast.\nWorks well with small numerical datasets\n\n\nCons:\n\n\nIt only works on the column level.\nWill give poor results on encoded categorical features.\nNot very accurate.\nDoesn’t account for the uncertainty in the imputations.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhfi_copy = hfi\n\nmean_imputer = SimpleImputer(strategy = 'mean')\nhfi_copy['mean_pf_score'] = mean_imputer.fit_transform(hfi_copy[['pf_score']])\n\nmean_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = \"Original\")\n\nmean_plot = sns.kdeplot(data = hfi_copy, x = 'mean_pf_score', linewidth = 2, label = \"Mean Imputated\")\n\nplt.legend()\n\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#median-imputation",
+    "href": "slides/week5.html#median-imputation",
+    "title": "PCA + Clustering",
+    "section": "Median imputation",
+    "text": "Median imputation\n\nDefinitionVisualCode\n\n\nHow it Works: Replace missing values with the median of the non-missing values in the same variable.\n\nPros (same as mean):\n\n\nEasy and fast.\nWorks well with small numerical datasets\n\n\nCons (same as mean):\n\n\nIt only works on the column level.\nWill give poor results on encoded categorical features.\nNot very accurate.\nDoesn’t account for the uncertainty in the imputations.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmedian_imputer = SimpleImputer(strategy = 'median')\nhfi_copy['median_pf_score'] = median_imputer.fit_transform(hfi_copy[['pf_score']])\n\nmedian_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = \"Original\")\n\nmedian_plot = sns.kdeplot(data = hfi_copy, x = 'median_pf_score', linewidth = 2, label = \"Median Imputated\")\n\nplt.legend()\n\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#data-type-conversion",
+    "href": "slides/week5.html#data-type-conversion",
+    "title": "PCA + Clustering",
+    "section": "Data type conversion",
+    "text": "Data type conversion\n\nhfi['year'] = pd.to_datetime(hfi['year'], format='%Y')\n\nhfi.head(1)\n\n\n\n\n\n\n\n\n\nyear\nISO_code\ncountries\nregion\npf_rol_procedural\npf_rol_civil\npf_rol_criminal\npf_rol\npf_ss_homicide\npf_ss_disappearances_disap\n...\nef_regulation_business_compliance\nef_regulation_business\nef_regulation\nef_score\nef_rank\nhf_score\nhf_rank\nhf_quartile\nmean_pf_score\nmedian_pf_score\n\n\n\n\n0\n2016-01-01\nALB\nAlbania\nEastern Europe\n6.661503\n4.547244\n4.666508\n5.291752\n8.920429\n10.0\n...\n7.074366\n6.705863\n6.906901\n7.54\n34.0\n7.56814\n48.0\n2.0\n7.596281\n7.596281\n\n\n\n\n1 rows × 125 columns\n\n\n\n\n\nhfi.dtypes\n\nyear                 datetime64[ns]\nISO_code                     object\ncountries                    object\nregion                       object\npf_rol_procedural           float64\n                          ...      \nhf_score                    float64\nhf_rank                     float64\nhf_quartile                 float64\nmean_pf_score               float64\nmedian_pf_score             float64\nLength: 125, dtype: object"
+  },
+  {
+    "objectID": "slides/week5.html#removing-duplicates",
+    "href": "slides/week5.html#removing-duplicates",
+    "title": "PCA + Clustering",
+    "section": "Removing duplicates",
+    "text": "Removing duplicates\n\nhfi.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 1458 entries, 0 to 1457\nColumns: 125 entries, year to median_pf_score\ndtypes: datetime64[ns](1), float64(121), object(3)\nmemory usage: 1.4+ MB\n\n\n\nhfi.drop_duplicates(inplace = True)\nhfi.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 1458 entries, 0 to 1457\nColumns: 125 entries, year to median_pf_score\ndtypes: datetime64[ns](1), float64(121), object(3)\nmemory usage: 1.4+ MB\n\n\n\n\nNo duplicates! 😊"
+  },
+  {
+    "objectID": "slides/week5.html#filtering-data",
+    "href": "slides/week5.html#filtering-data",
+    "title": "PCA + Clustering",
+    "section": "Filtering data",
+    "text": "Filtering data\n\nCategoryNumeric\n\n\n\noptions = ['United States', 'India', 'Canada', 'China']\n\nfiltered_hfi = hfi[hfi['countries'].isin(options)]\n\nunique_countries = filtered_hfi['countries'].unique()\nprint(unique_countries)\n\n['Canada' 'China' 'India' 'United States']\n\n\n\n\nLet’s look at Economic Freedom &gt; 75\n\nfiltered_hfi = hfi[hfi['pf_score'] &gt; 8]\nsns.boxplot(filtered_hfi, x = \"pf_score\", y = \"countries\", palette = \"colorblind\")\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#dimensional-reduction",
+    "href": "slides/week5.html#dimensional-reduction",
+    "title": "PCA + Clustering",
+    "section": "Dimensional reduction",
+    "text": "Dimensional reduction\n\nDimension reduction, is the transformation of data from a high-dimensional space into a low-dimensional space so that the low-dimensional representation retains some meaningful properties of the original data, ideally close to its intrinsic dimension.\n\n\nPrincipal component analysis (PCA) - Unsupervised\n\n\nMaximizes variance in the dataset.\nFinds orthogonal principal components.\nUseful for feature extraction and data visualization."
+  },
+  {
+    "objectID": "slides/week5.html#dimensional-reduction-applied",
+    "href": "slides/week5.html#dimensional-reduction-applied",
+    "title": "PCA + Clustering",
+    "section": "Dimensional reduction: applied",
+    "text": "Dimensional reduction: applied\n\nPrepPCA: variancePCA: scree plot\n\n\n\nnumeric_cols = hfi.select_dtypes(include = [np.number]).columns\n\n# Applying mean imputation only to numeric columns\nhfi[numeric_cols] = hfi[numeric_cols].fillna(hfi[numeric_cols].mean())\n\nfeatures = ['pf_rol_procedural', 'pf_rol_civil', 'pf_rol_criminal', 'pf_rol', 'hf_score', 'hf_rank', 'hf_quartile']\n\nx = hfi.loc[:, features].values\ny = hfi.loc[:, 'region'].values\nx = StandardScaler().fit_transform(x)\n\n\n\n\n\nCode\npca = PCA(n_components = 2)\nprincipalComponents = pca.fit_transform(x)\nprincipalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])\npca_variance_explained = pca.explained_variance_ratio_\nprint(\"Variance explained:\", pca_variance_explained, \"\\n\", principalDf)\n\n\nVariance explained: [0.76138995 0.15849799] \n       principal component 1  principal component 2\n0             -5.164625e-01           9.665680e-01\n1              2.366765e+00          -1.957381e+00\n2              2.147729e+00          -1.664483e+00\n3              2.784437e-01          -8.066415e-01\n4             -3.716205e-01           4.294282e-01\n...                     ...                    ...\n1453           4.181375e+00           4.496988e-01\n1454           5.213024e-01          -6.010449e-01\n1455          -1.374342e-16           2.907121e-16\n1456           1.545577e+00           5.422255e-01\n1457           3.669011e+00          -4.294948e-01\n\n[1458 rows x 2 columns]\n\n\n\n\n\n\nCode\n# Combining the scatterplot of principal components with the scree plot using the correct column names\nfig, axes = plt.subplots(nrows = 1, ncols = 2, figsize = (12, 5))\n\n# Scatterplot of Principal Components\naxes[0].scatter(principalDf['principal component 1'], principalDf['principal component 2'])\nfor i in range(len(pca.components_)):\n    axes[0].arrow(0, 0, pca.components_[i, 0], pca.components_[i, 1], head_width = 0.1, head_length = 0.15, fc = 'r', ec = 'r', linewidth = 2)\n    axes[0].text(pca.components_[i, 0] * 1.2, pca.components_[i, 1] * 1.2, f'Eigenvector {i+1}', color = 'r', fontsize = 12)\naxes[0].set_xlabel('Principal Component 1')\naxes[0].set_ylabel('Principal Component 2')\naxes[0].set_title('Scatterplot of Principal Components with Eigenvectors')\naxes[0].grid()\n\n# Scree Plot for PCA\naxes[1].bar(range(1, len(pca_variance_explained) + 1), pca_variance_explained, alpha = 0.6, color = 'g', label = 'Individual Explained Variance')\naxes[1].set_ylabel('Explained variance ratio')\naxes[1].set_xlabel('Principal components')\naxes[1].set_title('Scree Plot for PCA')\naxes[1].legend(loc='best')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#not-really",
+    "href": "slides/week5.html#not-really",
+    "title": "PCA + Clustering",
+    "section": "…Not really",
+    "text": "…Not really\nFind the optimal number of components.\n\n\nCode\n# Assuming hfi DataFrame is already defined and loaded\n\n# Select numerical columns\nnumerical_cols = hfi.select_dtypes(include=['int64', 'float64']).columns\n\n# Scale the data\nscaler = StandardScaler()\nscaled_data = scaler.fit_transform(hfi[numerical_cols])\n\n# Apply PCA\npca = PCA().fit(scaled_data)\n\n# Get explained variance ratio and cumulative explained variance\nexplained_variance_ratio = pca.explained_variance_ratio_\ncumulative_explained_variance = explained_variance_ratio.cumsum()\n\n# Decide number of components to retain 75% variance\nthreshold = 0.75\nnum_components = next(i for i, cumulative_var in enumerate(cumulative_explained_variance) if cumulative_var &gt;= threshold) + 1\n\n# Plot the explained variance\nplt.figure(figsize=(10, 6))\nplt.plot(range(1, len(cumulative_explained_variance) + 1), cumulative_explained_variance, marker='o', linestyle='--')\nplt.axhline(y=threshold, color='r', linestyle='-')\nplt.axvline(x=num_components, color='r', linestyle='-')\nplt.annotate(f'{num_components} components', xy=(num_components, threshold), xytext=(num_components+5, threshold-0.05),\n             arrowprops=dict(color='r', arrowstyle='-&gt;'),\n             fontsize=12, color='r')\nplt.title('Cumulative Explained Variance by Principal Components')\nplt.xlabel('Principal Component')\nplt.ylabel('Cumulative Explained Variance')\nplt.grid(True)\nplt.show()\n\nprint(f\"Number of components to retain 75% variance: {num_components}\")\n\n# Apply PCA with the chosen number of components\npca = PCA(n_components=num_components)\nreduced_data = pca.fit_transform(scaled_data)\n\n\n\n\n\n\n\n\n\nNumber of components to retain 75% variance: 19"
+  },
+  {
+    "objectID": "slides/week5.html#dimensional-reduction-what-now",
+    "href": "slides/week5.html#dimensional-reduction-what-now",
+    "title": "PCA + Clustering",
+    "section": "Dimensional reduction: what now?",
+    "text": "Dimensional reduction: what now?\n\n\nFeature Selection: Choose the most informative components.\nVisualization: Graph the reduced dimensions to identify patterns.\nClustering: Group similar data points using clustering algorithms.\nClassification: Predict categories using classifiers on reduced features.\nModel Evaluation: Assess model performance with metrics like accuracy.\nCross-Validation: Validate model stability with cross-validation.\nHyperparameter Tuning: Optimize model settings for better performance.\nModel Interpretation: Understand feature influence in the models.\nEnsemble Methods: Improve predictions by combining multiple models.\nDeployment: Deploy the model for real-world predictions.\nIterative Refinement: Refine analysis based on initial results.\nReporting: Summarize findings for stakeholders."
+  },
+  {
+    "objectID": "slides/week5.html#setup-1",
+    "href": "slides/week5.html#setup-1",
+    "title": "PCA + Clustering",
+    "section": "Setup",
+    "text": "Setup\n\n# Data Handling and Manipulation\nimport pandas as pd\nimport numpy as np\n\n# Data Preprocessing\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.decomposition import PCA\n\n# Model Selection and Evaluation\nfrom sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV\nfrom sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score\nfrom sklearn.mixture import GaussianMixture\n\n# Machine Learning Models\nfrom sklearn.cluster import KMeans\nfrom sklearn_extra.cluster import KMedoids\n\n# Data Visualization\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Set the default style for visualization\nsns.set_theme(style = \"white\", palette = \"colorblind\")\n\n# Increase font size of all Seaborn plot elements\nsns.set(font_scale = 1.25)"
+  },
+  {
+    "objectID": "slides/week5.html#unsupervised-learning",
+    "href": "slides/week5.html#unsupervised-learning",
+    "title": "PCA + Clustering",
+    "section": "Unsupervised Learning",
+    "text": "Unsupervised Learning"
+  },
+  {
+    "objectID": "slides/week5.html#section",
+    "href": "slides/week5.html#section",
+    "title": "PCA + Clustering",
+    "section": "",
+    "text": "Credit: Recro"
+  },
+  {
+    "objectID": "slides/week5.html#clustering-1",
+    "href": "slides/week5.html#clustering-1",
+    "title": "PCA + Clustering",
+    "section": "Clustering",
+    "text": "Clustering"
+  },
+  {
+    "objectID": "slides/week5.html#clustering-2",
+    "href": "slides/week5.html#clustering-2",
+    "title": "PCA + Clustering",
+    "section": "Clustering",
+    "text": "Clustering\nSome use cases for clustering include:\n\n\nRecommender systems:\n\nGrouping together users with similar viewing patterns on Netflix, in order to recommend similar content\n\nAnomaly detection:\n\nFraud detection, detecting defective mechanical parts\n\nGenetics:\n\nClustering DNA patterns to analyze evolutionary biology\n\nCustomer segmentation:\n\nUnderstanding different customer segments to devise marketing strategies"
+  },
+  {
+    "objectID": "slides/week5.html#question",
+    "href": "slides/week5.html#question",
+    "title": "PCA + Clustering",
+    "section": "Question",
+    "text": "Question\nHow well can we cluster freedom index scores?"
+  },
+  {
+    "objectID": "slides/week5.html#our-data-pca-reduced-human-freedom-index",
+    "href": "slides/week5.html#our-data-pca-reduced-human-freedom-index",
+    "title": "PCA + Clustering",
+    "section": "Our data: PCA reduced Human Freedom Index",
+    "text": "Our data: PCA reduced Human Freedom Index\n\ndata = pd.DataFrame(reduced_data)\ndata.rename(columns=lambda x: f'pc_{x}', inplace=True)\ndata.head()\n\n\n\n\n\n\n\n\n\npc_0\npc_1\npc_2\npc_3\npc_4\npc_5\npc_6\npc_7\npc_8\npc_9\npc_10\npc_11\npc_12\npc_13\npc_14\npc_15\npc_16\npc_17\npc_18\n\n\n\n\n0\n-2.779418\n-0.498626\n-0.469122\n3.388291\n-0.567476\n-1.303449\n0.454572\n-0.052046\n0.133608\n1.230399\n-2.633736\n0.606050\n0.235641\n-1.722504\n0.444074\n0.324110\n-0.617926\n-0.268270\n0.783196\n\n\n1\n9.374297\n0.647490\n4.321360\n-4.695996\n0.673617\n-3.207135\n0.377905\n3.219741\n1.920259\n-0.133269\n-0.611836\n0.330644\n0.257593\n2.319075\n0.043825\n-0.332113\n1.519408\n-2.257394\n-0.136551\n\n\n2\n8.850868\n-2.931084\n-2.220593\n-2.101012\n0.813824\n-0.216572\n1.326312\n-0.322258\n4.361289\n1.114293\n-0.712086\n-1.845935\n-1.142163\n0.491723\n-1.220653\n0.080392\n1.176487\n-0.101754\n-2.486788\n\n\n3\n1.708082\n-6.713720\n-2.768402\n-5.725119\n1.732627\n1.340520\n4.634925\n1.046818\n3.128577\n-0.813029\n0.149610\n3.163957\n0.340088\n3.629223\n1.268565\n0.176024\n2.460455\n-0.238727\n1.762967\n\n\n4\n-1.640691\n2.223787\n-2.299363\n0.792955\n2.449779\n-0.371516\n-2.055607\n1.237561\n-0.784232\n-0.392335\n-0.691336\n-0.890825\n1.702541\n0.007018\n-0.580091\n-1.094487\n0.820316\n0.204686\n0.256845"
+  },
+  {
+    "objectID": "slides/week5.html#clustering-methods",
+    "href": "slides/week5.html#clustering-methods",
+    "title": "PCA + Clustering",
+    "section": "Clustering methods",
+    "text": "Clustering methods"
+  },
+  {
+    "objectID": "slides/week5.html#k-means-clustering",
+    "href": "slides/week5.html#k-means-clustering",
+    "title": "PCA + Clustering",
+    "section": "K-Means Clustering",
+    "text": "K-Means Clustering\n\nVisualFormulaKey points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe goal of K-Means is to minimize the variance within each cluster. The variance is measured as the sum of squared distances between each point and its corresponding cluster centroid. The objective function, which K-Means aims to minimize, can be defined as:\n\n\\(J = \\sum_{i=1}^{k} \\sum_{x \\in C_i} ||x - \\mu_i||^2\\)\nWhere:\n\n\n\\(J\\) is the objective function\n\\(k\\) is the number of clusters\n\\(C_i\\) is the set of points belonging to a cluster \\(i\\).\n\\(x\\) is a point in the cluster \\(C_i\\)\n\\(||x - \\mu_i||^2\\) is the squared Euclidean distance between a point \\(x\\) and the centroid \\(\\mu_i\\)​, which measures the dissimilarity between them.\n\n\n\n\n\nInitialization: Randomly selects \\(k\\) initial centroids.\nAssignment Step: Assigns each data point to the closest centroid based on Euclidean distance.\nUpdate Step: Recalculates centroids as the mean of assigned points in each cluster.\nConvergence: Iterates until the centroids stabilize (minimal change from one iteration to the next).\nObjective: Minimizes the within-cluster sum of squares (WCSS), the sum of squared distances between points and their corresponding centroid.\nOptimal \\(k\\): Determined experimentally, often using methods like the Elbow Method.\nSensitivity: Results can vary based on initial centroid selection; techniques like “k-means++” improve initial centroid choices.\nEfficiency: Generally good, but worsens with increasing \\(k\\) and data dimensionality; sensitive to outliers."
+  },
+  {
+    "objectID": "slides/week5.html#choosing-the-right-number-of-clusters",
+    "href": "slides/week5.html#choosing-the-right-number-of-clusters",
+    "title": "PCA + Clustering",
+    "section": "Choosing the right number of clusters",
+    "text": "Choosing the right number of clusters\nFour main methods:\n\n\nElbow Method\n\nIdentifies the \\(k\\) at which the within-cluster sum of squares (WCSS) starts to diminish more slowly.\n\nSilhouette Score\n\nMeasures how similar an object is to its own cluster compared to other clusters.\n\nDavies-Bouldin Index\n\nEvaluates intra-cluster similarity and inter-cluster differences.\n\nCalinski-Harabasz Index (Variance Ratio Criterion)\n\nMeasures the ratio of the sum of between-clusters dispersion and of intra-cluster dispersion for all clusters.\n\nBIC\n\nIdentifies the optimal number of clusters by penalizing models for excessive parameters, striking a balance between simplicity and accuracy."
+  },
+  {
+    "objectID": "slides/week5.html#systematic-comparison-equal-clusters",
+    "href": "slides/week5.html#systematic-comparison-equal-clusters",
+    "title": "PCA + Clustering",
+    "section": "Systematic comparison: Equal clusters",
+    "text": "Systematic comparison: Equal clusters\n\nElbowDavies-BoulinSilhouetteCalinski-HarabaszBIC"
+  },
+  {
+    "objectID": "slides/week5.html#systematic-comparison-unequal-clusters",
+    "href": "slides/week5.html#systematic-comparison-unequal-clusters",
+    "title": "PCA + Clustering",
+    "section": "Systematic comparison: Unequal clusters",
+    "text": "Systematic comparison: Unequal clusters\n\nElbowDavies-BoulinSilhouetteCalinski-HarabaszBIC"
+  },
+  {
+    "objectID": "slides/week5.html#systematic-comparison---accuracy",
+    "href": "slides/week5.html#systematic-comparison---accuracy",
+    "title": "PCA + Clustering",
+    "section": "Systematic comparison - accuracy",
+    "text": "Systematic comparison - accuracy"
+  },
+  {
+    "objectID": "slides/week5.html#calinski-harabasz-index",
+    "href": "slides/week5.html#calinski-harabasz-index",
+    "title": "PCA + Clustering",
+    "section": "Calinski-Harabasz Index",
+    "text": "Calinski-Harabasz Index\n\nVisualFormulaPros + cons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(CH = \\frac{SS_B / (k - 1)}{SS_W / (n - k)}\\)\nwhere:\n\n\n\\(CH\\) is the Calinski-Harabasz score.\n\\(SS_B\\)​ is the between-cluster variance.\n\\(SS_W\\)​ is the within-cluster variance.\n\\(k\\) is the number of clusters.\n\\(n\\) is the number of data points.\n\n\n\n\nPros:\n\n\nClear Interpretation: High values indicate better-defined clusters.\nComputationally Efficient: Less resource-intensive than many alternatives.\nScale-Invariant: Effective across datasets of varying sizes.\nNo Labeled Data Required: Useful for unsupervised learning scenarios.\n\n\nCons:\n\n\nCluster Structure Bias: Prefers convex clusters of similar sizes.\nSample Size Sensitivity: Can favor more clusters in larger datasets.\nNot Ideal for Overlapping Clusters: Assumes distinct, non-overlapping clusters."
+  },
+  {
+    "objectID": "slides/week5.html#bic-2",
+    "href": "slides/week5.html#bic-2",
+    "title": "PCA + Clustering",
+    "section": "BIC",
+    "text": "BIC\n\nVisualFormulaPros + cons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\text{BIC} = -2 \\ln(\\hat{L}) + k \\ln(n)\\)\nwhere:\n\n\n\\(\\hat{L}\\) is the maximized value of the likelihood function of the model,\n\\(k\\) is the number of parameters in the model,\n\\(n\\) is the number of observations.\n\n\n\n\nPros:\n\n\nPenalizes Complexity: Helps avoid overfitting by penalizing models with more parameters.\nObjective Selection: Facilitates choosing the model with the best balance between fit and simplicity.\nApplicability: Useful across various model types, including clustering and regression.\n\n\nCons:\n\n\nComputationally Intensive: Requires fitting multiple models to calculate, which can be resource-heavy.\nSensitivity to Model Assumptions: Performance depends on the underlying assumptions of the model being correct.\nNot Always Intuitive: Determining the absolute best model may still require domain knowledge and additional diagnostics."
+  },
+  {
+    "objectID": "slides/week5.html#k-means-clustering-applied",
+    "href": "slides/week5.html#k-means-clustering-applied",
+    "title": "PCA + Clustering",
+    "section": "K-Means Clustering: applied",
+    "text": "K-Means Clustering: applied\n\nCalinski-Harabasz IndexModel summaryVisualize results\n\n\n\n\nCode\n# Finding the optimal number of clusters using Calinski-Harabasz Index\ncalinski_harabasz_scores = []\ncluster_range = range(2, 11)  # Define the range for number of clusters\n\nfor n_clusters in cluster_range:\n    kmeans = KMeans(n_clusters=n_clusters, random_state=0)\n    kmeans.fit(data)\n    labels = kmeans.labels_\n    score = calinski_harabasz_score(data, labels)\n    calinski_harabasz_scores.append(score)\n\n# Plotting the Calinski-Harabasz scores\nplt.plot(cluster_range, calinski_harabasz_scores, marker='o')\nplt.title('Calinski-Harabasz Index for Different Numbers of Clusters')\nplt.xlabel('Number of Clusters')\nplt.ylabel('Calinski-Harabasz Index')\nplt.grid(True)\nplt.show()\n\n# Finding the number of clusters that maximizes the Calinski-Harabasz Index\noptimal_n_clusters = cluster_range[calinski_harabasz_scores.index(max(calinski_harabasz_scores))]\nprint(f\"The optimal number of clusters is: {optimal_n_clusters}\")\n\n\n\n\n\n\n\n\n\nThe optimal number of clusters is: 2\n\n\n\n\n\n\nCode\n# K-Means Clustering with the optimal number of clusters\nkmeans = KMeans(n_clusters=optimal_n_clusters, random_state=0)\nkmeans.fit(data)\nclusters = kmeans.predict(data)\n\n# Adding cluster labels to the DataFrame\ndata['Cluster'] = clusters\n\n# Model Summary\nprint(\"Cluster Centers:\\n\", kmeans.cluster_centers_)\n\n# Evaluate clustering performance using the Calinski-Harabasz Index\ncalinski_harabasz_score_final = calinski_harabasz_score(data.drop(columns='Cluster'), clusters)\nprint(f\"For n_clusters = {optimal_n_clusters}, the Calinski-Harabasz Index is : {calinski_harabasz_score_final:.3f}\")\n\n\nCluster Centers:\n [[ 3.57757098e+00 -1.04988251e-01 -1.51266405e-01  1.54919176e-01\n  -2.45358544e-01  2.86939824e-02 -6.80945889e-02  1.91358888e-02\n  -1.19577566e-02  1.65169142e-02  1.28281368e-01  8.39448205e-03\n  -1.70569480e-02  2.60398442e-02 -1.02691897e-02 -1.68828156e-02\n  -1.26498964e-02 -2.84248964e-02 -6.75413222e-03]\n [-6.81306346e+00  1.99937784e-01  2.88069091e-01 -2.95025364e-01\n   4.67256510e-01 -5.46443170e-02  1.29678141e-01 -3.64420512e-02\n   2.27721420e-02 -3.14545218e-02 -2.44296788e-01 -1.59863045e-02\n   3.24829528e-02 -4.95898228e-02  1.95564648e-02  3.21513381e-02\n   2.40902409e-02  5.41318744e-02  1.28624510e-02]]\nFor n_clusters = 2, the Calinski-Harabasz Index is : 537.253\n\n\n\n\n\n\nCode\npca = PCA(n_components = 2)\nreduced_data_PCA = pca.fit_transform(data)\nsns.scatterplot(x = reduced_data_PCA[:, 0], y = reduced_data_PCA[:, 1], hue = clusters, alpha = 0.75, palette = \"colorblind\")\nplt.title('Human Freedom Index Clustered (PCA-reduced Features)')\nplt.xlabel('PCA 1')\nplt.ylabel('PCA 2')\nplt.legend(title = 'Cluster')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#conclusions",
+    "href": "slides/week5.html#conclusions",
+    "title": "PCA + Clustering",
+    "section": "Conclusions",
+    "text": "Conclusions\n\n\nClear Separation:\n\nTwo distinct clusters (Cluster 0 and Cluster 1) are evident, indicating effective separation by PCA.\n\nCluster Characteristics:\n\nCluster 1 (orange) is compact and concentrated around the origin.\nCluster 0 (blue) is more spread out across the PCA axes.\n\nSlight Overlap:\n\nThere is a transition zone between the clusters, suggesting some borderline cases.\n\nPCA Components:\n\nThe axes represent the first two principal components, highlighting significant differences in the clusters.\n\nImplications:\n\nThe clusters likely reflect differences in Human Freedom Index scores, with further analysis needed to understand specific feature contributions.\n\n\n\n\n\n\n🔗 GL-dataviz-lectures"
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "With this plugin you can add a chalkboard to reveal.js. The plugin provides two possibilities to include handwritten notes to your presentation:\n\nyou can make notes directly on the slides, e.g. to comment on certain aspects,\nyou can open a chalkboard or whiteboard on which you can make notes.\n\nThe main use case in mind when implementing the plugin is classroom usage in which you may want to explain some course content and quickly need to make some notes.\nThe plugin records all drawings made so that they can be play backed using the autoSlide feature or the audio-slideshow plugin.\nCheck out the live demo\nThe chalkboard effect is based on Chalkboard by Mohamed Moustafa.\n\n\nCopy the file plugin.js and the img directory into the plugin folder of your reveal.js presentation, i.e. plugin/chalkboard and load the plugin as shown below.\n&lt;script src=\"plugin/chalkboard/plugin.js\"&gt;&lt;/script&gt;\n&lt;script src=\"plugin/customcontrols/plugin.js\"&gt;&lt;/script&gt;\n\n&lt;script&gt;\n    Reveal.initialize({\n        // ...\n        plugins: [ RevealChalkboard, RevealCustomControls ],\n        // ...\n    });\n&lt;/script&gt;\nThe following stylesheet\n&lt;link rel=\"stylesheet\" href=\"plugin/chalkboard/style.css\"&gt;\n&lt;link rel=\"stylesheet\" href=\"plugin/customcontrols/style.css\"&gt;\nhas to be included to the head section of you HTML-file.\nIn order to include buttons for opening and closing the notes canvas or the chalkboard you should make sure that font-awesome is available. The easiest way is to include\n&lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css\"&gt;\nto the head section of you HTML-file.\n\n\n\n\n\n\nClick on the pen symbols at the bottom left to toggle the notes canvas or chalkboard\nClick on the color picker at the left to change the color (the color picker is only visible if the notes canvas or chalkboard is active)\nClick on the up/down arrows on the left to the switch among multiple chalkboardd (the up/down arrows are only available for the chlakboard)\nClick the left mouse button and drag to write on notes canvas or chalkboard\nClick the right mouse button and drag to wipe away previous drawings\nTouch and move to write on notes canvas or chalkboard\nTouch and hold for half a second, then move to wipe away previous drawings\n\n\n\n\n\nPress the ‘BACKSPACE’ key to delete all chalkboard drawings\nPress the ‘DEL’ key to clear the notes canvas or chalkboard\nPress the ‘c’ key to toggle the notes canvas\nPress the ‘b’ key to toggle the chalkboard\nPress the ‘d’ key to download drawings\nPress the ‘x’ key to cycle colors forward\nPress the ‘y’ key to cycle colors backward\n\n\n\n\n\nIf the autoSlide feature is set or if the audio-slideshow plugin is used, pre-recorded chalkboard drawings can be played. The slideshow plays back the user interaction with the chalkboard in the same way as it was conducted when recording the data.\n\n\n\nThe plugin supports multiplexing via the multiplex plugin or the seminar plugin.\n\n\n\nIf the slideshow is opened in print mode, the chalkboard drawings in the session storage (see storage option - print version must be opened in the same tab or window as the original slideshow) or provided in a file (see src option) are included in the PDF-file. Each drawing on the chalkboard is added after the slide that was shown when opening the chalkboard. Drawings on the notes canvas are not included in the PDF-file.\n\n\n\nThe plugin has several configuration options:\n\nboardmarkerWidth: an integer, the drawing width of the boardmarker; larger values draw thicker lines.\nchalkWidth: an integer, the drawing width of the chalk; larger values draw thicker lines.\nchalkEffect: a float in the range [0.0, 1.0], the intesity of the chalk effect on the chalk board. Full effect (default) 1.0, no effect 0.0.\nstorage: Optional variable name for session storage of drawings.\nsrc: Optional filename for pre-recorded drawings.\nreadOnly: Configuation option allowing to prevent changes to existing drawings. If set to true no changes can be made, if set to false false changes can be made, if unset or set to undefined no changes to the drawings can be made after returning to a slide or fragment for which drawings had been recorded before. In any case the recorded drawings for a slide or fragment can be cleared by pressing the ‘DEL’ key (i.e. by using the RevealChalkboard.clear() function).\ntransition: Gives the duration (in milliseconds) of the transition for a slide change, so that the notes canvas is drawn after the transition is completed.\ntheme: Can be set to either \"chalkboard\" or \"whiteboard\".\n\nThe following configuration options allow to change the appearance of the notes canvas and the chalkboard. All of these options require two values, the first gives the value for the notes canvas, the second for the chalkboard.\n\nbackground: The first value expects a (semi-)transparent color which is used to provide visual feedback that the notes canvas is enabled, the second value expects a filename to a background image for the chalkboard.\ngrid: By default whiteboard and chalkboard themes include a grid pattern on the background. This pattern can be modified by setting the color, the distance between lines, and the line width, e.g. { color: 'rgb(127,127,255,0.1)', distance: 40, width: 2}. Alternatively, the grid can be removed by setting the value to false.\neraser: An image path and radius for the eraser.\nboardmarkers: A list of boardmarkers with given color and cursor.\nchalks: A list of chalks with given color and cursor.\nrememberColor: Whether to remember the last selected color for the slide canvas or the board.\n\nAll of the configurations are optional and the default values shown below are used if the options are not provided.\nReveal.initialize({\n    // ...\n    chalkboard: {\n        boardmarkerWidth: 3,\n        chalkWidth: 7,\n        chalkEffect: 1.0,\n        storage: null,\n        src: null,\n        readOnly: undefined,\n        transition: 800,\n        theme: \"chalkboard\",\n        background: [ 'rgba(127,127,127,.1)' , path + 'img/blackboard.png' ],\n        grid: { color: 'rgb(50,50,10,0.5)', distance: 80, width: 2},\n        eraser: { src: path + 'img/sponge.png', radius: 20},\n        boardmarkers : [\n                { color: 'rgba(100,100,100,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},\n                { color: 'rgba(30,144,255, 1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},\n                { color: 'rgba(220,20,60,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},\n                { color: 'rgba(50,205,50,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},\n                { color: 'rgba(255,140,0,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},\n                { color: 'rgba(150,0,20150,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},\n                { color: 'rgba(255,220,0,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}\n        ],\n        chalks: [\n                { color: 'rgba(255,255,255,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},\n                { color: 'rgba(96, 154, 244, 0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},\n                { color: 'rgba(237, 20, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},\n                { color: 'rgba(20, 237, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},\n                { color: 'rgba(220, 133, 41, 0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},\n                { color: 'rgba(220,0,220,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},\n                { color: 'rgba(255,220,0,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}\n        ]\n    },\n    customcontrols: {\n        controls: [\n            { icon: '&lt;i class=\"fa fa-pen-square\"&gt;&lt;/i&gt;',\n              title: 'Toggle chalkboard (B)',\n              action: 'RevealChalkboard.toggleChalkboard();'\n            },\n            { icon: '&lt;i class=\"fa fa-pen\"&gt;&lt;/i&gt;',\n              title: 'Toggle notes canvas (C)',\n              action: 'RevealChalkboard.toggleNotesCanvas();'\n            }\n        ]\n    },\n    // ...\n\n});\n\n\n\nMIT licensed\nCopyright (C) 2021 Asvin Goel"
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#installation",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#installation",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "Copy the file plugin.js and the img directory into the plugin folder of your reveal.js presentation, i.e. plugin/chalkboard and load the plugin as shown below.\n&lt;script src=\"plugin/chalkboard/plugin.js\"&gt;&lt;/script&gt;\n&lt;script src=\"plugin/customcontrols/plugin.js\"&gt;&lt;/script&gt;\n\n&lt;script&gt;\n    Reveal.initialize({\n        // ...\n        plugins: [ RevealChalkboard, RevealCustomControls ],\n        // ...\n    });\n&lt;/script&gt;\nThe following stylesheet\n&lt;link rel=\"stylesheet\" href=\"plugin/chalkboard/style.css\"&gt;\n&lt;link rel=\"stylesheet\" href=\"plugin/customcontrols/style.css\"&gt;\nhas to be included to the head section of you HTML-file.\nIn order to include buttons for opening and closing the notes canvas or the chalkboard you should make sure that font-awesome is available. The easiest way is to include\n&lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css\"&gt;\nto the head section of you HTML-file."
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#usage",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#usage",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "Click on the pen symbols at the bottom left to toggle the notes canvas or chalkboard\nClick on the color picker at the left to change the color (the color picker is only visible if the notes canvas or chalkboard is active)\nClick on the up/down arrows on the left to the switch among multiple chalkboardd (the up/down arrows are only available for the chlakboard)\nClick the left mouse button and drag to write on notes canvas or chalkboard\nClick the right mouse button and drag to wipe away previous drawings\nTouch and move to write on notes canvas or chalkboard\nTouch and hold for half a second, then move to wipe away previous drawings\n\n\n\n\n\nPress the ‘BACKSPACE’ key to delete all chalkboard drawings\nPress the ‘DEL’ key to clear the notes canvas or chalkboard\nPress the ‘c’ key to toggle the notes canvas\nPress the ‘b’ key to toggle the chalkboard\nPress the ‘d’ key to download drawings\nPress the ‘x’ key to cycle colors forward\nPress the ‘y’ key to cycle colors backward"
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#playback",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#playback",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "If the autoSlide feature is set or if the audio-slideshow plugin is used, pre-recorded chalkboard drawings can be played. The slideshow plays back the user interaction with the chalkboard in the same way as it was conducted when recording the data."
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#multiplexing",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#multiplexing",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "The plugin supports multiplexing via the multiplex plugin or the seminar plugin."
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#pdf-export",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#pdf-export",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "If the slideshow is opened in print mode, the chalkboard drawings in the session storage (see storage option - print version must be opened in the same tab or window as the original slideshow) or provided in a file (see src option) are included in the PDF-file. Each drawing on the chalkboard is added after the slide that was shown when opening the chalkboard. Drawings on the notes canvas are not included in the PDF-file."
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#configuration",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#configuration",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "The plugin has several configuration options:\n\nboardmarkerWidth: an integer, the drawing width of the boardmarker; larger values draw thicker lines.\nchalkWidth: an integer, the drawing width of the chalk; larger values draw thicker lines.\nchalkEffect: a float in the range [0.0, 1.0], the intesity of the chalk effect on the chalk board. Full effect (default) 1.0, no effect 0.0.\nstorage: Optional variable name for session storage of drawings.\nsrc: Optional filename for pre-recorded drawings.\nreadOnly: Configuation option allowing to prevent changes to existing drawings. If set to true no changes can be made, if set to false false changes can be made, if unset or set to undefined no changes to the drawings can be made after returning to a slide or fragment for which drawings had been recorded before. In any case the recorded drawings for a slide or fragment can be cleared by pressing the ‘DEL’ key (i.e. by using the RevealChalkboard.clear() function).\ntransition: Gives the duration (in milliseconds) of the transition for a slide change, so that the notes canvas is drawn after the transition is completed.\ntheme: Can be set to either \"chalkboard\" or \"whiteboard\".\n\nThe following configuration options allow to change the appearance of the notes canvas and the chalkboard. All of these options require two values, the first gives the value for the notes canvas, the second for the chalkboard.\n\nbackground: The first value expects a (semi-)transparent color which is used to provide visual feedback that the notes canvas is enabled, the second value expects a filename to a background image for the chalkboard.\ngrid: By default whiteboard and chalkboard themes include a grid pattern on the background. This pattern can be modified by setting the color, the distance between lines, and the line width, e.g. { color: 'rgb(127,127,255,0.1)', distance: 40, width: 2}. Alternatively, the grid can be removed by setting the value to false.\neraser: An image path and radius for the eraser.\nboardmarkers: A list of boardmarkers with given color and cursor.\nchalks: A list of chalks with given color and cursor.\nrememberColor: Whether to remember the last selected color for the slide canvas or the board.\n\nAll of the configurations are optional and the default values shown below are used if the options are not provided.\nReveal.initialize({\n    // ...\n    chalkboard: {\n        boardmarkerWidth: 3,\n        chalkWidth: 7,\n        chalkEffect: 1.0,\n        storage: null,\n        src: null,\n        readOnly: undefined,\n        transition: 800,\n        theme: \"chalkboard\",\n        background: [ 'rgba(127,127,127,.1)' , path + 'img/blackboard.png' ],\n        grid: { color: 'rgb(50,50,10,0.5)', distance: 80, width: 2},\n        eraser: { src: path + 'img/sponge.png', radius: 20},\n        boardmarkers : [\n                { color: 'rgba(100,100,100,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},\n                { color: 'rgba(30,144,255, 1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},\n                { color: 'rgba(220,20,60,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},\n                { color: 'rgba(50,205,50,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},\n                { color: 'rgba(255,140,0,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},\n                { color: 'rgba(150,0,20150,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},\n                { color: 'rgba(255,220,0,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}\n        ],\n        chalks: [\n                { color: 'rgba(255,255,255,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},\n                { color: 'rgba(96, 154, 244, 0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},\n                { color: 'rgba(237, 20, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},\n                { color: 'rgba(20, 237, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},\n                { color: 'rgba(220, 133, 41, 0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},\n                { color: 'rgba(220,0,220,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},\n                { color: 'rgba(255,220,0,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}\n        ]\n    },\n    customcontrols: {\n        controls: [\n            { icon: '&lt;i class=\"fa fa-pen-square\"&gt;&lt;/i&gt;',\n              title: 'Toggle chalkboard (B)',\n              action: 'RevealChalkboard.toggleChalkboard();'\n            },\n            { icon: '&lt;i class=\"fa fa-pen\"&gt;&lt;/i&gt;',\n              title: 'Toggle notes canvas (C)',\n              action: 'RevealChalkboard.toggleNotesCanvas();'\n            }\n        ]\n    },\n    // ...\n\n});"
+  },
+  {
+    "objectID": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#license",
+    "href": "slides/week4_files/libs/revealjs/plugin/reveal-chalkboard/README 2.html#license",
+    "title": "Chalkboard",
+    "section": "",
+    "text": "MIT licensed\nCopyright (C) 2021 Asvin Goel"
+  },
+  {
+    "objectID": "resources/visualization.html",
+    "href": "resources/visualization.html",
+    "title": "Visualization",
+    "section": "",
+    "text": "The Stories Behind a Line\nAustralia as 100 people: You can make something like this with d3 and the potato project.\nMarrying Later, Staying Single Longer"
+  },
+  {
+    "objectID": "resources/visualization.html#interesting-and-excellent-real-world-examples",
+    "href": "resources/visualization.html#interesting-and-excellent-real-world-examples",
+    "title": "Visualization",
+    "section": "",
+    "text": "The Stories Behind a Line\nAustralia as 100 people: You can make something like this with d3 and the potato project.\nMarrying Later, Staying Single Longer"
+  },
+  {
+    "objectID": "resources/visualization.html#how-to-select-the-appropriate-chart-type",
+    "href": "resources/visualization.html#how-to-select-the-appropriate-chart-type",
+    "title": "Visualization",
+    "section": "How to select the appropriate chart type",
+    "text": "How to select the appropriate chart type\nMany people have created many useful tools for selecting the correct chart type for a given dataset or question. The Financial Times has an excellent diagram that shows what kind of charts are appropriate for which kinds of data you have:\n\nThe Financial Times’s “Visual Vocabulary” (PDF poster and interactive website)\n\nHere are some other fantastic resources too:\n\nThe Data Visualisation Catalogue: Descriptions, explanations, examples, and tools for creating 60 different types of visualizations.\nThe Data Viz Project: Descriptions and examples for 150 different types of visualizations. Also allows you to search by data shape and chart function (comparison, correlation, distribution, geographical, part to whole, trend over time, etc.).\nFrom Data to Viz: A decision tree for dozens of chart types with links to R and Python code.\nThe Chartmaker Directory: Examples of how to create 51 different types of visualizations in 31 different software packages, including Excel, Tableau, and R.\nR Graph Gallery: R code for over 400 ggplot graphs.\nEmery’s Essentials: Descriptions and examples of 26 different chart types."
+  },
+  {
+    "objectID": "resources/visualization.html#general-resources",
+    "href": "resources/visualization.html#general-resources",
+    "title": "Visualization",
+    "section": "General resources",
+    "text": "General resources\n\nStorytelling with Data: Blog and site full of resources by Cole Nussbaumer Knaflic.\nAnn K. Emery’s blog: Blog and tutorials by Ann Emery.\nEvergreen Data: Helful resources by Stephanie Evergreen.\nPolicyViz: Regular podcast and site full of helpful resources by Jon Schwabisch.\nVisualising Data: Fantastic collection of visualization resources, articles, and tutorials by Andy Kirk.\nInfo We Trust: Detailed explorations of visualizations by RJ Andrews, including a beautiful visual history of the field.\nFlowingData: Blog by Nathan Yau.\nInformation is Beautiful: Blog by David McCandless.\nJunk Charts: Blog by Kaiser Fung.\nWTF Visualizations: Visualizations that make you ask “wtf?”\nThe Data Visualization Checklist: A helpful set of criteria for grading the effectiveness of a graphic.\nData Literacy Starter Kit: Compilation of resources to become data literate by Laura Calloway.\nSeeing Data: A series of research projects about perceptions and visualizations."
+  },
+  {
+    "objectID": "resources/visualization.html#visualization-in-excel",
+    "href": "resources/visualization.html#visualization-in-excel",
+    "title": "Visualization",
+    "section": "Visualization in Excel",
+    "text": "Visualization in Excel\n\nHow to Build Data Visualizations in Excel: Detailed tutorials for creating 14 different visualizations in Excel.\nAnn Emery’s tutorials: Fantastic series of tutorials for creating charts in Excel."
+  },
+  {
+    "objectID": "resources/visualization.html#visualization-in-tableau",
+    "href": "resources/visualization.html#visualization-in-tableau",
+    "title": "Visualization",
+    "section": "Visualization in Tableau",
+    "text": "Visualization in Tableau\nBecause it is focused entirely on visualization (and because it’s a well-supported commercial product), Tableau has a phenomenal library of tutorials and training videos. There’s a helpful collections of videos here, as well."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This site serves as a reference for the content discussed by Dr. Greg Chism during the Live Faculty Sessions for INFO 526 - Data Analysis and Visualization through the University of Arizona and Great Learning."
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Welcome",
+    "section": "License",
+    "text": "License\nThis online work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International. Visit here for more information about the license."
+  },
+  {
+    "objectID": "slides/week4.html#setup",
+    "href": "slides/week4.html#setup",
+    "title": "Time Series Visualizations",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom matplotlib.dates import DateFormatter\nimport matplotlib.dates as mdates\nfrom skimpy import clean_columns\n\n# Set the theme for seaborn\nsns.set_theme(style=\"white\", palette=\"colorblind\")\n\n# Set figure parameters\nplt.rcParams['figure.figsize'] = [8, 8 * 0.618]\nplt.rcParams['figure.autolayout'] = True"
+  },
+  {
+    "objectID": "slides/week4.html#air-quality-index",
+    "href": "slides/week4.html#air-quality-index",
+    "title": "Time Series Visualizations",
+    "section": "Air Quality Index",
+    "text": "Air Quality Index\n\nThe AQI is the Environmental Protection Agency’s index for reporting air quality\nHigher values of AQI indicate worse air quality\n\n\n\n\n\n\n\n\nSource: https://www.airnow.gov/aqi/aqi-basics/"
+  },
+  {
+    "objectID": "slides/week4.html#aqi-levels",
+    "href": "slides/week4.html#aqi-levels",
+    "title": "Time Series Visualizations",
+    "section": "AQI levels",
+    "text": "AQI levels\nThe previous graphic in tabular form, to be used later…\n\naqi_levels = pd.DataFrame({\n    'aqi_min': [0, 51, 101, 151, 201, 301],\n    'aqi_max': [50, 100, 150, 200, 300, 400],\n    'color': [\"#D8EEDA\", \"#F1E7D4\", \"#F8E4D8\", \"#FEE2E1\", \"#F4E3F7\", \"#F9D0D4\"],\n    'level': [\"Good\", \"Moderate\", \"Unhealthy for sensitive groups\", \"Unhealthy\", \"Very unhealthy\", \"Hazardous\"]\n})\n\naqi_levels['aqi_mid'] = (aqi_levels['aqi_min'] + aqi_levels['aqi_max']) / 2"
+  },
+  {
+    "objectID": "slides/week4.html#aqi-data",
+    "href": "slides/week4.html#aqi-data",
+    "title": "Time Series Visualizations",
+    "section": "AQI data",
+    "text": "AQI data\n\nSource: EPA’s Daily Air Quality Tracker\n2016 - 2022 AQI (Ozone and PM2.5 combined) for Tucson, AZ core-based statistical area (CBSA), one file per year\n2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year"
+  },
+  {
+    "objectID": "slides/week4.html#tucson-az",
+    "href": "slides/week4.html#tucson-az",
+    "title": "Time Series Visualizations",
+    "section": "2022 Tucson, AZ",
+    "text": "2022 Tucson, AZ\n\nRead + headInfoDescribeMissing values\n\n\n\ntuc_2022 = pd.read_csv(\"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv\")\n\ntuc_2022 = clean_columns(tuc_2022)\n\ntuc_2022.head()\n\n\n\n\n\n\n\n\n\ndate\naqi_value\nmain_pollutant\nsite_name\nsite_id\nsource\n20_year_high_2000_2019\n20_year_low_2000_2019\n5_year_average_2015_2019\ndate_of_20_year_high\ndate_of_20_year_low\n\n\n\n\n0\n01/01/2022\n40\nPM2.5\nGERONIMO\n04-019-1113\nAQS\n115\n35\n62.2\n01/01/2018\n01/01/2001\n\n\n1\n01/02/2022\n55\nPM2.5\nGERONIMO\n04-019-1113\nAQS\n57\n31\n43.2\n01/02/2015\n01/02/2016\n\n\n2\n01/03/2022\n55\nPM2.5\nGERONIMO\n04-019-1113\nAQS\n67\n29\n43.6\n01/03/2015\n01/03/2005\n\n\n3\n01/04/2022\n48\nPM2.5\nGERONIMO\n04-019-1113\nAQS\n55\n27\n40.4\n01/04/2015\n01/04/2008\n\n\n4\n01/05/2022\n50\nPM2.5\nGERONIMO\n04-019-1113\nAQS\n52\n28\n36.0\n01/05/2013\n01/05/2000\n\n\n\n\n\n\n\n\n\n\n\ntuc_2022.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 365 entries, 0 to 364\nData columns (total 11 columns):\n #   Column                    Non-Null Count  Dtype  \n---  ------                    --------------  -----  \n 0   date                      365 non-null    object \n 1   aqi_value                 365 non-null    int64  \n 2   main_pollutant            365 non-null    object \n 3   site_name                 365 non-null    object \n 4   site_id                   365 non-null    object \n 5   source                    365 non-null    object \n 6   20_year_high_2000_2019    365 non-null    int64  \n 7   20_year_low_2000_2019     365 non-null    int64  \n 8   5_year_average_2015_2019  365 non-null    float64\n 9   date_of_20_year_high      365 non-null    object \n 10  date_of_20_year_low       365 non-null    object \ndtypes: float64(1), int64(3), object(7)\nmemory usage: 31.5+ KB\n\n\n\n\n\ntuc_2022.describe()\n\n\n\n\n\n\n\n\n\naqi_value\n20_year_high_2000_2019\n20_year_low_2000_2019\n5_year_average_2015_2019\n\n\n\n\ncount\n365.000000\n365.000000\n365.000000\n365.000000\n\n\nmean\n53.895890\n83.432877\n34.095890\n49.835068\n\n\nstd\n15.886967\n27.515111\n5.734905\n10.732188\n\n\nmin\n27.000000\n44.000000\n19.000000\n33.800000\n\n\n25%\n44.000000\n59.000000\n31.000000\n40.800000\n\n\n50%\n48.000000\n77.000000\n33.000000\n47.000000\n\n\n75%\n61.000000\n105.000000\n38.000000\n57.000000\n\n\nmax\n119.000000\n161.000000\n49.000000\n82.400000\n\n\n\n\n\n\n\n\n\n\n\ntuc_2022.isnull().sum()\n\ndate                        0\naqi_value                   0\nmain_pollutant              0\nsite_name                   0\nsite_id                     0\nsource                      0\n20_year_high_2000_2019      0\n20_year_low_2000_2019       0\n5_year_average_2015_2019    0\ndate_of_20_year_high        0\ndate_of_20_year_low         0\ndtype: int64"
+  },
+  {
+    "objectID": "slides/week4.html#first-look",
+    "href": "slides/week4.html#first-look",
+    "title": "Time Series Visualizations",
+    "section": "First look",
+    "text": "First look\n\nThis plot looks quite bizarre. What might be going on?\n\n\nsns.lineplot(data=tuc_2022, x='date', y='aqi_value')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#transforming-date",
+    "href": "slides/week4.html#transforming-date",
+    "title": "Time Series Visualizations",
+    "section": "Transforming date",
+    "text": "Transforming date\nUsing pd.to_datetime():\n\ntuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')\n\nprint(tuc_2022.info())\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 365 entries, 0 to 364\nData columns (total 11 columns):\n #   Column                    Non-Null Count  Dtype         \n---  ------                    --------------  -----         \n 0   date                      365 non-null    datetime64[ns]\n 1   aqi_value                 365 non-null    int64         \n 2   main_pollutant            365 non-null    object        \n 3   site_name                 365 non-null    object        \n 4   site_id                   365 non-null    object        \n 5   source                    365 non-null    object        \n 6   20_year_high_2000_2019    365 non-null    int64         \n 7   20_year_low_2000_2019     365 non-null    int64         \n 8   5_year_average_2015_2019  365 non-null    float64       \n 9   date_of_20_year_high      365 non-null    object        \n 10  date_of_20_year_low       365 non-null    object        \ndtypes: datetime64[ns](1), float64(1), int64(3), object(6)\nmemory usage: 31.5+ KB\nNone"
+  },
+  {
+    "objectID": "slides/week4.html#investigating-aqi-values",
+    "href": "slides/week4.html#investigating-aqi-values",
+    "title": "Time Series Visualizations",
+    "section": "Investigating AQI values",
+    "text": "Investigating AQI values\n\nTake a peek at distinct values of AQI\n\n\n# Check distinct values of aqi_value\ndistinct_aqi_values = tuc_2022['aqi_value'].unique()\nprint(distinct_aqi_values)\n\n[ 40  55  48  50  45  42  41  38  37  43  44  35  46  52  49  58  64  51\n  47  61  71  54  77  84  90  67  97 101  87 100  93  53  74  80 105 119\n 108  94  31  39  34  59  32  28  27  33  36  60  81]\n\n\n\n\".\" likely indicates NA, and it’s causing the entire column to be read in as characters"
+  },
+  {
+    "objectID": "slides/week4.html#rewind-and-start-over",
+    "href": "slides/week4.html#rewind-and-start-over",
+    "title": "Time Series Visualizations",
+    "section": "Rewind, and start over",
+    "text": "Rewind, and start over\n\n# Reload data with correct NA values\ntuc_2022 = pd.read_csv(\"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv\", na_values=[\".\", \"\"])\n\n# Clean and transform data again\ntuc_2022 = clean_columns(tuc_2022)\ntuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')\n\n# Check the structure of the data\nprint(tuc_2022.info())\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 365 entries, 0 to 364\nData columns (total 11 columns):\n #   Column                    Non-Null Count  Dtype         \n---  ------                    --------------  -----         \n 0   date                      365 non-null    datetime64[ns]\n 1   aqi_value                 365 non-null    int64         \n 2   main_pollutant            365 non-null    object        \n 3   site_name                 365 non-null    object        \n 4   site_id                   365 non-null    object        \n 5   source                    365 non-null    object        \n 6   20_year_high_2000_2019    365 non-null    int64         \n 7   20_year_low_2000_2019     365 non-null    int64         \n 8   5_year_average_2015_2019  365 non-null    float64       \n 9   date_of_20_year_high      365 non-null    object        \n 10  date_of_20_year_low       365 non-null    object        \ndtypes: datetime64[ns](1), float64(1), int64(3), object(6)\nmemory usage: 31.5+ KB\nNone"
+  },
+  {
+    "objectID": "slides/week4.html#another-look",
+    "href": "slides/week4.html#another-look",
+    "title": "Time Series Visualizations",
+    "section": "Another look",
+    "text": "Another look\n\nsns.lineplot(data=tuc_2022, x='date', y='aqi_value')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#visualizing-tucson-aqi",
+    "href": "slides/week4.html#visualizing-tucson-aqi",
+    "title": "Time Series Visualizations",
+    "section": "Visualizing Tucson AQI",
+    "text": "Visualizing Tucson AQI"
+  },
+  {
+    "objectID": "slides/week4.html#live-coding",
+    "href": "slides/week4.html#live-coding",
+    "title": "Time Series Visualizations",
+    "section": "Live coding",
+    "text": "Live coding\n\n\nSetup\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom matplotlib.dates import DateFormatter\nimport matplotlib.dates as mdates\nfrom skimpy import clean_columns\n\n# Set the theme for seaborn\nsns.set_theme(style=\"white\", palette=\"colorblind\")\n\n# Set figure parameters\nplt.rcParams['figure.figsize'] = [8, 8 * 0.618]\nplt.rcParams['figure.autolayout'] = True\naqi_levels = pd.DataFrame({\n    'aqi_min': [0, 51, 101, 151, 201, 301],\n    'aqi_max': [50, 100, 150, 200, 300, 400],\n    'color': [\"#D8EEDA\", \"#F1E7D4\", \"#F8E4D8\", \"#FEE2E1\", \"#F4E3F7\", \"#F9D0D4\"],\n    'level': [\"Good\", \"Moderate\", \"Unhealthy for sensitive groups\", \"Unhealthy\", \"Very unhealthy\", \"Hazardous\"]\n})\n\naqi_levels['aqi_mid'] = (aqi_levels['aqi_min'] + aqi_levels['aqi_max']) / 2\n\ntuc_2022 = pd.read_csv(\"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv\", na_values=[\".\", \"\"])\n\ntuc_2022 = clean_columns(tuc_2022)\ntuc_2022['date'] = pd.to_datetime(tuc_2022['date'], format='%m/%d/%Y')\n\n\nReveal below for code developed during live coding session.\n\n\nCode\n# Plot background AQI levels\nfor _, row in aqi_levels.iterrows():\n    plt.axhspan(row['aqi_min'], row['aqi_max'], color=row['color'], alpha=0.5, lw=0)\n\n# Plot AQI values\nsns.lineplot(data=tuc_2022.dropna(subset=['aqi_value']), x='date', y='aqi_value', linewidth=1.5, color=\"black\")\n\n# Annotate AQI levels\nfor _, row in aqi_levels.iterrows():\n    plt.text(pd.Timestamp('2023-02-28'), row['aqi_mid'], row['level'], ha='right', size=14, color='gray', weight='bold')\n\n# Additional annotations and formatting\nplt.annotate('2022', xy=(pd.Timestamp('2022-01-01'), -100), size=12, ha='center')\nplt.annotate('2023', xy=(pd.Timestamp('2023-03-01'), -100), size=12, ha='center')\n\nplt.xlim(pd.Timestamp('2022-01-01'), pd.Timestamp('2023-03-01'))\nplt.ylim(0, 400)\nplt.xlabel(None)\nplt.ylabel('AQI')\nplt.title('Ozone and PM2.5 Daily AQI Values\\nTucson, AZ')\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\nplt.gca().xaxis.set_major_formatter(DateFormatter('%b'))\nplt.gca().xaxis.set_major_locator(mdates.MonthLocator())\n\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#cumulatives-over-time",
+    "href": "slides/week4.html#cumulatives-over-time",
+    "title": "Time Series Visualizations",
+    "section": "Cumulatives over time",
+    "text": "Cumulatives over time\n\nWhen visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them\nIn our example we’ll calculate the number of days with “good” AQI (\\(\\le\\) 50) and plot that value on the y-axis and the date on the x-axis"
+  },
+  {
+    "objectID": "slides/week4.html#calculating-cumulatives-1",
+    "href": "slides/week4.html#calculating-cumulatives-1",
+    "title": "Time Series Visualizations",
+    "section": "Calculating cumulatives",
+    "text": "Calculating cumulatives\nStep 1. Arrange your data\n\ntuc_2022 = tuc_2022[['date', 'aqi_value']].dropna().sort_values('date')"
+  },
+  {
+    "objectID": "slides/week4.html#calculating-cumulatives-2",
+    "href": "slides/week4.html#calculating-cumulatives-2",
+    "title": "Time Series Visualizations",
+    "section": "Calculating cumulatives",
+    "text": "Calculating cumulatives\nStep 2. Identify good days\n\ntuc_2022['good_aqi'] = np.where(tuc_2022['aqi_value'] &lt;= 50, 1, 0)"
+  },
+  {
+    "objectID": "slides/week4.html#calculating-cumulatives-3",
+    "href": "slides/week4.html#calculating-cumulatives-3",
+    "title": "Time Series Visualizations",
+    "section": "Calculating cumulatives",
+    "text": "Calculating cumulatives\nStep 3. Sum over time\n\ntuc_2022['cumsum_good_aqi'] = tuc_2022['good_aqi'].cumsum()"
+  },
+  {
+    "objectID": "slides/week4.html#plotting-cumulatives",
+    "href": "slides/week4.html#plotting-cumulatives",
+    "title": "Time Series Visualizations",
+    "section": "Plotting cumulatives",
+    "text": "Plotting cumulatives\n\nPlotCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsns.lineplot(data=tuc_2022, x='date', y='cumsum_good_aqi')\nplt.gca().xaxis.set_major_formatter(DateFormatter(\"%b %Y\"))\n\nplt.xlabel(None)\nplt.ylabel(\"Number of days\")\nplt.title(\"Cumulative number of good AQI days (AQI &lt; 50)\\nTucson, AZ\")\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\n\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#detrending-1",
+    "href": "slides/week4.html#detrending-1",
+    "title": "Time Series Visualizations",
+    "section": "Detrending",
+    "text": "Detrending\n\nDetrending is removing prominent long-term trend in time series to specifically highlight any notable deviations\nLet’s demonstrate using multiple years of AQI data"
+  },
+  {
+    "objectID": "slides/week4.html#multiple-years-of-tucson-az-data",
+    "href": "slides/week4.html#multiple-years-of-tucson-az-data",
+    "title": "Time Series Visualizations",
+    "section": "Multiple years of Tucson, AZ data",
+    "text": "Multiple years of Tucson, AZ data"
+  },
+  {
+    "objectID": "slides/week4.html#reading-multiple-files",
+    "href": "slides/week4.html#reading-multiple-files",
+    "title": "Time Series Visualizations",
+    "section": "Reading multiple files",
+    "text": "Reading multiple files\n\n# Define the list of URLs\ntuc_files = [\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2021.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2020.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2019.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2018.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2017.csv\"\n]\n\n# Initialize an empty dataframe\ntuc = pd.DataFrame()\n\n# Read and concatenate all data files\nfor file in tuc_files:\n    data = pd.read_csv(file, na_values=[\".\", \"\"])\n    tuc = pd.concat([tuc, data], ignore_index=True)\n\n# Clean column names using the clean_columns function from the skimpy package\ntuc = clean_columns(tuc)\n\n# Clean and transform data\ntuc['date'] = pd.to_datetime(tuc['date'], format='%m/%d/%Y')\ntuc = tuc.dropna(subset=['aqi_value'])\ntuc['good_aqi'] = np.where(tuc['aqi_value'] &lt;= 50, 1, 0)\ntuc = tuc.sort_values('date')\ntuc['cumsum_good_aqi'] = tuc['good_aqi'].cumsum()\n\n# Convert date to ordinal for regression\ntuc['date_ordinal'] = tuc['date'].apply(lambda x: x.toordinal())\n\nprint(tuc.head())\n\n           date  aqi_value main_pollutant     site_name      site_id source  \\\n1826 2017-01-01         38          Ozone  SAGUARO PARK  04-019-0021    AQS   \n1827 2017-01-02         40          Ozone  SAGUARO PARK  04-019-0021    AQS   \n1828 2017-01-03         38          Ozone  SAGUARO PARK  04-019-0021    AQS   \n1829 2017-01-04         38          Ozone  SAGUARO PARK  04-019-0021    AQS   \n1830 2017-01-05         32          Ozone  SAGUARO PARK  04-019-0021    AQS   \n\n      20_year_high_2000_2019  20_year_low_2000_2019  5_year_average_2015_2019  \\\n1826                     115                     35                      62.2   \n1827                      57                     31                      43.2   \n1828                      67                     29                      43.6   \n1829                      55                     27                      40.4   \n1830                      52                     28                      36.0   \n\n     date_of_20_year_high date_of_20_year_low  good_aqi  cumsum_good_aqi  \\\n1826           01/01/2018          01/01/2001         1                1   \n1827           01/02/2015          01/02/2016         1                2   \n1828           01/03/2015          01/03/2005         1                3   \n1829           01/04/2015          01/04/2008         1                4   \n1830           01/05/2013          01/05/2000         1                5   \n\n      date_ordinal  \n1826        736330  \n1827        736331  \n1828        736332  \n1829        736333  \n1830        736334"
+  },
+  {
+    "objectID": "slides/week4.html#simple-linear-regression",
+    "href": "slides/week4.html#simple-linear-regression",
+    "title": "Time Series Visualizations",
+    "section": "Simple Linear Regression",
+    "text": "Simple Linear Regression\n\nfrom sklearn.linear_model import LinearRegression\n\n# Fit linear regression for the trend line\nmodel = LinearRegression()\nmodel.fit(tuc[['date_ordinal']], tuc['cumsum_good_aqi'])\ntuc['fitted'] = model.predict(tuc[['date_ordinal']])"
+  },
+  {
+    "objectID": "slides/week4.html#plot-trend-since-2017",
+    "href": "slides/week4.html#plot-trend-since-2017",
+    "title": "Time Series Visualizations",
+    "section": "Plot trend since 2017",
+    "text": "Plot trend since 2017\n\nPlotCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsns.lineplot(data=tuc, x='date', y='cumsum_good_aqi', color = 'black')\nsns.lineplot(data=tuc, x='date', y='fitted', color='pink', label='Trend Line')\n\nplt.gca().xaxis.set_major_formatter(DateFormatter(\"%Y\"))\nplt.xlabel(None)\nplt.ylabel(\"Number of days\")\nplt.title(\"Cumulative number of good AQI days (AQI &lt; 50)\\nTucson, AZ\")\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#detrend",
+    "href": "slides/week4.html#detrend",
+    "title": "Time Series Visualizations",
+    "section": "Detrend",
+    "text": "Detrend\nStep 1. Fit a simple linear regression\n\n# Convert dates to ordinal for regression\ntuc['date_ordinal'] = tuc['date'].apply(lambda x: x.toordinal())\n\n# Fit linear regression\nmodel = LinearRegression()\nmodel.fit(tuc[['date_ordinal']], tuc['cumsum_good_aqi'])\n\n# Get fitted values\ntuc['fitted'] = model.predict(tuc[['date_ordinal']])"
+  },
+  {
+    "objectID": "slides/week4.html#detrend-1",
+    "href": "slides/week4.html#detrend-1",
+    "title": "Time Series Visualizations",
+    "section": "Detrend",
+    "text": "Detrend\nStep 2. Divide the observed value of cumsum_good_aqi by the respective value in the long-term trend (i.e., fitted)\n\ntuc['ratio'] = tuc['cumsum_good_aqi'] / tuc['fitted']"
+  },
+  {
+    "objectID": "slides/week4.html#visualize-detrended-data",
+    "href": "slides/week4.html#visualize-detrended-data",
+    "title": "Time Series Visualizations",
+    "section": "Visualize detrended data",
+    "text": "Visualize detrended data\n\nPlotCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nplt.axhline(y=1, color='gray')\nsns.lineplot(data=tuc, x='date', y='ratio', color='black')\nplt.gca().xaxis.set_major_formatter(DateFormatter(\"%Y\"))\nplt.ylim([0, 20])\nplt.xlabel(None)\nplt.ylabel(\"Number of days\\n(detrended)\")\nplt.title(\"Cumulative number of good AQI days (AQI &lt; 50)\\nTucson, AZ (2016-2022)\")\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#air-quality-in-tucson",
+    "href": "slides/week4.html#air-quality-in-tucson",
+    "title": "Time Series Visualizations",
+    "section": "Air Quality in Tucson",
+    "text": "Air Quality in Tucson\n\n\nbarely anything interesting happening!\n\n\n\nlet’s look at data from somewhere with a bit more “interesting” air quality data…"
+  },
+  {
+    "objectID": "slides/week4.html#read-in-multiple-years-of-sf-data",
+    "href": "slides/week4.html#read-in-multiple-years-of-sf-data",
+    "title": "Time Series Visualizations",
+    "section": "Read in multiple years of SF data",
+    "text": "Read in multiple years of SF data\n\n\nCode\n# Define the list of URLs\nsf_files = [\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2022.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2021.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2020.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2019.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2018.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2017.csv\",\n    \"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/san-francisco/ad_aqi_tracker_data-2016.csv\"\n]\n\n# Initialize an empty dataframe\nsf = pd.DataFrame()\n\n# Read and concatenate all data files\nfor file in sf_files:\n    data = pd.read_csv(file, na_values=[\".\", \"\"])\n    sf = pd.concat([sf, data], ignore_index=True)\n\n# Clean column names using the clean_columns function from the skimpy package\nsf = clean_columns(sf)\n\n# Clean and transform data\nsf['date'] = pd.to_datetime(sf['date'], format='%m/%d/%Y')\nsf = sf.dropna(subset=['aqi_value'])\nsf['good_aqi'] = np.where(sf['aqi_value'] &lt;= 50, 1, 0)\nsf = sf.sort_values('date')\nsf['cumsum_good_aqi'] = sf['good_aqi'].cumsum()\n\n# Convert date to ordinal for regression\nsf['date_ordinal'] = sf['date'].apply(lambda x: x.toordinal())\n\nprint(sf.head())\n\n\n           date  aqi_value main_pollutant      site_name      site_id source  \\\n2191 2016-01-01         32          PM2.5  Durham Armory  37-063-0015    AQS   \n2192 2016-01-02         37          PM2.5  Durham Armory  37-063-0015    AQS   \n2193 2016-01-03         45          PM2.5  Durham Armory  37-063-0015    AQS   \n2194 2016-01-04         33          PM2.5  Durham Armory  37-063-0015    AQS   \n2195 2016-01-05         27          PM2.5  Durham Armory  37-063-0015    AQS   \n\n      20_year_high_2000_2019  20_year_low_2000_2019  5_year_average_2015_2019  \\\n2191                     111                     10                      39.2   \n2192                      76                      8                      36.8   \n2193                      66                     14                      38.2   \n2194                      61                      9                      30.4   \n2195                      83                      8                      26.0   \n\n     date_of_20_year_high date_of_20_year_low  good_aqi  cumsum_good_aqi  \\\n2191           01/01/2000          01/01/2007         1                1   \n2192           01/02/2005          01/02/2012         1                2   \n2193           01/03/2004          01/03/2012         1                3   \n2194           01/04/2008          01/04/2007         1                4   \n2195           01/05/2001          01/05/2015         1                5   \n\n      date_ordinal  \n2191        735964  \n2192        735965  \n2193        735966  \n2194        735967  \n2195        735968"
+  },
+  {
+    "objectID": "slides/week4.html#simple-linear-regression-1",
+    "href": "slides/week4.html#simple-linear-regression-1",
+    "title": "Time Series Visualizations",
+    "section": "Simple Linear Regression",
+    "text": "Simple Linear Regression\n\n# Fit linear regression for the trend line\nmodel = LinearRegression()\nmodel.fit(sf[['date_ordinal']], sf['cumsum_good_aqi'])\nsf['fitted'] = model.predict(sf[['date_ordinal']])"
+  },
+  {
+    "objectID": "slides/week4.html#plot-trend-since-2016",
+    "href": "slides/week4.html#plot-trend-since-2016",
+    "title": "Time Series Visualizations",
+    "section": "Plot trend since 2016",
+    "text": "Plot trend since 2016\n\nPlotCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsns.lineplot(data=sf, x='date', y='cumsum_good_aqi', color = 'black')\nsns.lineplot(data=sf, x='date', y='fitted', color='pink', label='Trend Line')\n\nplt.gca().xaxis.set_major_formatter(DateFormatter(\"%Y\"))\nplt.xlabel(None)\nplt.ylabel(\"Number of days\")\nplt.title(\"Cumulative number of good AQI days (AQI &lt; 50)\\nSan Francisco, CA\")\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#detrend-2",
+    "href": "slides/week4.html#detrend-2",
+    "title": "Time Series Visualizations",
+    "section": "Detrend",
+    "text": "Detrend\nStep 1. Fit a simple linear regression\n\n# Convert dates to ordinal for regression\nsf['date_ordinal'] = sf['date'].apply(lambda x: x.toordinal())\n\n# Fit linear regression\nmodel = LinearRegression()\nmodel.fit(sf[['date_ordinal']], sf['cumsum_good_aqi'])\n\n# Get fitted values\nsf['fitted'] = model.predict(sf[['date_ordinal']])"
+  },
+  {
+    "objectID": "slides/week4.html#detrend-3",
+    "href": "slides/week4.html#detrend-3",
+    "title": "Time Series Visualizations",
+    "section": "Detrend",
+    "text": "Detrend\nStep 2. Divide the observed value of cumsum_good_aqi by the respective value in the long-term trend (i.e., fitted)\n\nsf['ratio'] = sf['cumsum_good_aqi'] / sf['fitted']"
+  },
+  {
+    "objectID": "slides/week4.html#visualize-detrended-data-1",
+    "href": "slides/week4.html#visualize-detrended-data-1",
+    "title": "Time Series Visualizations",
+    "section": "Visualize detrended data",
+    "text": "Visualize detrended data\n\nPlotCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nplt.axhline(y=1, color='gray')\nsns.lineplot(data=sf, x='date', y='ratio', color='black')\nplt.gca().xaxis.set_major_formatter(DateFormatter(\"%Y\"))\nplt.xlabel(None)\nplt.ylabel(\"Number of days\\n(detrended)\")\nplt.title(\"Cumulative number of good AQI days (AQI &lt; 50)\\nSan Francisco, CA (2016-2022)\")\nplt.figtext(0.5, -0.1, 'Source: EPA Daily Air Quality Tracker', ha='center', size=10)\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#detrending-2",
+    "href": "slides/week4.html#detrending-2",
+    "title": "Time Series Visualizations",
+    "section": "Detrending",
+    "text": "Detrending\n\nIn step 2 we fit a very simple model\nDepending on the complexity you’re trying to capture you might choose to fit a much more complex model\nYou can also decompose the trend into multiple trends, e.g. monthly, long-term, seasonal, etc."
+  },
+  {
+    "objectID": "slides/week4.html#data-prep",
+    "href": "slides/week4.html#data-prep",
+    "title": "Time Series Visualizations",
+    "section": "Data prep",
+    "text": "Data prep\n\n\n\nfrom datetime import datetime\n\nsf['year'] = sf['date'].dt.year\nsf['day_of_year'] = sf['date'].dt.dayofyear\n\n\n\n# check\nprint(sf[sf['day_of_year'] &lt; 3])\n\n           date  aqi_value main_pollutant              site_name      site_id  \\\n2191 2016-01-01         32          PM2.5          Durham Armory  37-063-0015   \n2192 2016-01-02         37          PM2.5          Durham Armory  37-063-0015   \n1826 2017-01-01         55          PM2.5              San Pablo  06-013-1004   \n1827 2017-01-02         36          Ozone         Patterson Pass  06-001-2005   \n1461 2018-01-01         87          PM2.5           Oakland West  06-001-0011   \n1462 2018-01-02         95          PM2.5           Oakland West  06-001-0011   \n1096 2019-01-01         33          PM2.5           Redwood City  06-081-1001   \n1097 2019-01-02         50          PM2.5              Livermore  06-001-0007   \n730  2020-01-01         53          PM2.5                Oakland  06-001-0009   \n731  2020-01-02         43          PM2.5  Berkeley Aquatic Park  06-001-0013   \n365  2021-01-01         79          PM2.5           Oakland West  06-001-0011   \n366  2021-01-02         57          PM2.5  Pleasanton - Owens Ct  06-001-0015   \n0    2022-01-01         53          PM2.5                Oakland  06-001-0009   \n1    2022-01-02         55          PM2.5              Livermore  06-001-0007   \n\n     source  20_year_high_2000_2019  20_year_low_2000_2019  \\\n2191    AQS                     111                     10   \n2192    AQS                      76                      8   \n1826    AQS                     162                     33   \n1827    AQS                     140                     21   \n1461    AQS                     162                     33   \n1462    AQS                     140                     21   \n1096    AQS                     162                     33   \n1097    AQS                     140                     21   \n730     AQS                     162                     33   \n731     AQS                     140                     21   \n365     AQS                     162                     33   \n366     AQS                     140                     21   \n0       AQS                     162                     33   \n1       AQS                     140                     21   \n\n      5_year_average_2015_2019 date_of_20_year_high date_of_20_year_low  \\\n2191                      39.2           01/01/2000          01/01/2007   \n2192                      36.8           01/02/2005          01/02/2012   \n1826                      60.6           01/01/2001          01/01/2019   \n1827                      63.2           01/02/2001          01/02/2002   \n1461                      60.6           01/01/2001          01/01/2019   \n1462                      63.2           01/02/2001          01/02/2002   \n1096                      60.6           01/01/2001          01/01/2019   \n1097                      63.2           01/02/2001          01/02/2002   \n730                       60.6           01/01/2001          01/01/2019   \n731                       63.2           01/02/2001          01/02/2002   \n365                       60.6           01/01/2001          01/01/2019   \n366                       63.2           01/02/2001          01/02/2002   \n0                         60.6           01/01/2001          01/01/2019   \n1                         63.2           01/02/2001          01/02/2002   \n\n      good_aqi  cumsum_good_aqi  date_ordinal       fitted     ratio  year  \\\n2191         1                1        735964    22.288160  0.044867  2016   \n2192         1                2        735965    22.861827  0.087482  2016   \n1826         0              267        736330   232.250591  1.149620  2017   \n1827         1              268        736331   232.824259  1.151083  2017   \n1461         0              440        736695   441.639355  0.996288  2018   \n1462         0              440        736696   442.213023  0.994996  2018   \n1096         1              589        737060   651.028119  0.904723  2019   \n1097         1              590        737061   651.601787  0.905461  2019   \n730          0              843        737425   860.416883  0.979758  2020   \n731          1              844        737426   860.990550  0.980266  2020   \n365          0             1070        737791  1070.379314  0.999646  2021   \n366          0             1070        737792  1070.952982  0.999110  2021   \n0            0             1282        738156  1279.768078  1.001744  2022   \n1            0             1282        738157  1280.341746  1.001295  2022   \n\n      day_of_year  \n2191            1  \n2192            2  \n1826            1  \n1827            2  \n1461            1  \n1462            2  \n1096            1  \n1097            2  \n730             1  \n731             2  \n365             1  \n366             2  \n0               1  \n1               2"
+  },
+  {
+    "objectID": "slides/week4.html#plot-aqi-over-years",
+    "href": "slides/week4.html#plot-aqi-over-years",
+    "title": "Time Series Visualizations",
+    "section": "Plot AQI over years",
+    "text": "Plot AQI over years\n\nsns.lineplot(data=sf, x='day_of_year', y='aqi_value', hue='year', palette='tab10', legend=False)\nplt.xlabel('Day of year')\nplt.ylabel('AQI value')\nplt.title('AQI levels in San Francisco (2016 - 2022)')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#highlight-specific-year-2016",
+    "href": "slides/week4.html#highlight-specific-year-2016",
+    "title": "Time Series Visualizations",
+    "section": "Highlight specific year (2016)",
+    "text": "Highlight specific year (2016)\n\n\nCode\n# Highlight the year 2016\nsns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')\nsns.lineplot(data=sf[sf['year'] == 2016], x='day_of_year', y='aqi_value', color='red')\nplt.xlabel('Day of year')\nplt.ylabel('AQI value')\nplt.title('AQI levels in SF in 2016\\nVersus all years 2016 - 2022')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#highlight-specific-year-2017",
+    "href": "slides/week4.html#highlight-specific-year-2017",
+    "title": "Time Series Visualizations",
+    "section": "Highlight specific year (2017)",
+    "text": "Highlight specific year (2017)\n\n\nCode\n# Highlight the year 2017\nsns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')\nsns.lineplot(data=sf[sf['year'] == 2017], x='day_of_year', y='aqi_value', color='red')\nplt.xlabel('Day of year')\nplt.ylabel('AQI value')\nplt.title('AQI levels in SF in 2017\\nVersus all years 2016 - 2022')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#highlight-specific-year-2018",
+    "href": "slides/week4.html#highlight-specific-year-2018",
+    "title": "Time Series Visualizations",
+    "section": "Highlight specific year (2018)",
+    "text": "Highlight specific year (2018)\n\n\nCode\n# Highlight the year 2018\nsns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')\nsns.lineplot(data=sf[sf['year'] == 2018], x='day_of_year', y='aqi_value', color='red')\nplt.xlabel('Day of year')\nplt.ylabel('AQI value')\nplt.title('AQI levels in SF in 2018\\nVersus all years 2016 - 2022')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week4.html#highlight-any-year",
+    "href": "slides/week4.html#highlight-any-year",
+    "title": "Time Series Visualizations",
+    "section": "Highlight any year",
+    "text": "Highlight any year\n\n\nCode\n# Function to highlight a specific year\ndef highlight_year(year_to_highlight):\n    sns.lineplot(data=sf, x='day_of_year', y='aqi_value', color='gray')\n    sns.lineplot(data=sf[sf['year'] == year_to_highlight], x='day_of_year', y='aqi_value', color='red')\n    plt.xlabel('Day of year')\n    plt.ylabel('AQI value')\n    plt.title(f'AQI levels in SF in {year_to_highlight}\\nVersus all years 2016 - 2022')\n    plt.show()\n\n# Highlight any year\nhighlight_year(2018)"
+  }
+]
