@@ -452,7 +452,7 @@ Dr.&nbsp;Greg Chism
 <h2>Datasets</h2>
 <p><strong>Human Freedom Index</strong></p>
 <p>The Human Freedom Index is a report that attempts to summarize the idea of “freedom” through variables for many countries around the globe.</p>
-<div id="db8e11b4" class="cell" data-execution_count="3">
+<div id="1c4d4826" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -464,10 +464,10 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="our-data-human-freedom-index" class="slide level2 smaller">
 <h2>Our data: Human Freedom Index</h2>
-<div id="ac0271b3" class="cell" data-execution_count="4">
+<div id="053c64ce" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>hfi <span class="op">=</span> pd.read_csv(<span class="st">"data/hfi.csv"</span>)</span>
 <span id="cb2-2"><a></a>hfi.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="62">
 <div>
 <div>
 <style scoped="">
@@ -647,7 +647,7 @@ Dr.&nbsp;Greg Chism
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>.info()</code></a></li><li><a href="#tabset-1-2"><code>.describe()</code></a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div id="5e021ced" class="cell" data-execution_count="5">
+<div id="8e0d1f07" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>hfi.info(verbose <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -784,9 +784,9 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-1-2">
-<div id="32fa793f" class="cell" data-execution_count="6">
+<div id="ba36907d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>hfi.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="64">
 <div>
 <div>
 <style scoped="">
@@ -1037,9 +1037,9 @@ memory usage: 1.4+ MB</code></pre>
 </section>
 <section id="identifying-missing-values" class="slide level2 smaller">
 <h2>Identifying missing values</h2>
-<div id="ae9d8519" class="cell" data-execution_count="7">
+<div id="c616f260" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>hfi.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>year                   0
 ISO_code               0
 countries              0
@@ -1125,7 +1125,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-2-2">
-<div id="e32a3c4a" class="cell" data-fig.asp="0.625" data-execution_count="8">
+<div id="858ccfd1" class="cell" data-fig.asp="0.625" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1136,7 +1136,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-2-3">
-<div id="faf6804a" class="cell" data-execution_count="9">
+<div id="3ea964af" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8" data-code-line-numbers="1-12|1|3,4|6,8,10,12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>hfi_copy <span class="op">=</span> hfi</span>
 <span id="cb8-2"><a></a></span>
 <span id="cb8-3"><a></a>mean_imputer <span class="op">=</span> SimpleImputer(strategy <span class="op">=</span> <span class="st">'mean'</span>)</span>
@@ -1181,7 +1181,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-3-2">
-<div id="088b8735" class="cell" data-fig.asp="0.625" data-ref.label="mean_imp" data-execution_count="10">
+<div id="35beacb6" class="cell" data-fig.asp="0.625" data-ref.label="mean_imp" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1192,7 +1192,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-3-3">
-<div id="0bf2562b" class="cell" data-execution_count="11">
+<div id="2ab4724f" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-10|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>median_imputer <span class="op">=</span> SimpleImputer(strategy <span class="op">=</span> <span class="st">'median'</span>)</span>
 <span id="cb9-2"><a></a>hfi_copy[<span class="st">'median_pf_score'</span>] <span class="op">=</span> median_imputer.fit_transform(hfi_copy[[<span class="st">'pf_score'</span>]])</span>
 <span id="cb9-3"><a></a></span>
@@ -1210,11 +1210,11 @@ Length: 123, dtype: int64</code></pre>
 </section>
 <section id="data-type-conversion" class="slide level2 smaller">
 <h2>Data type conversion</h2>
-<div id="6ca1fed4" class="cell" data-execution_count="12">
+<div id="3d8adff3" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>hfi[<span class="st">'year'</span>] <span class="op">=</span> pd.to_datetime(hfi[<span class="st">'year'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
 <span id="cb10-2"><a></a></span>
 <span id="cb10-3"><a></a>hfi.head(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="68">
 <div>
 <div>
 <style scoped="">
@@ -1291,9 +1291,9 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="da1e7b48" class="cell" data-execution_count="13">
+<div id="e9514918" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>hfi.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="69">
 <pre><code>year                 datetime64[ns]
 ISO_code                     object
 countries                    object
@@ -1311,7 +1311,7 @@ Length: 125, dtype: object</code></pre>
 </section>
 <section id="removing-duplicates" class="slide level2 smaller">
 <h2>Removing duplicates</h2>
-<div id="bac46eb0" class="cell" data-execution_count="14">
+<div id="c03556e9" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>hfi.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -1321,7 +1321,7 @@ dtypes: datetime64[ns](1), float64(121), object(3)
 memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
-<div id="e2ddff78" class="cell" data-execution_count="15">
+<div id="2ca5ab91" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>hfi.drop_duplicates(inplace <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb15-2"><a></a>hfi.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1344,7 +1344,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Category</a></li><li><a href="#tabset-4-2">Numeric</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1">
-<div id="0e259e7f" class="cell" data-execution_count="16">
+<div id="da641979" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17" data-code-line-numbers="1-6|1|2|5,6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>options <span class="op">=</span> [<span class="st">'United States'</span>, <span class="st">'India'</span>, <span class="st">'Canada'</span>, <span class="st">'China'</span>]</span>
 <span id="cb17-2"><a></a></span>
 <span id="cb17-3"><a></a>filtered_hfi <span class="op">=</span> hfi[hfi[<span class="st">'countries'</span>].isin(options)]</span>
@@ -1358,7 +1358,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 <div id="tabset-4-2">
 <p>Let’s look at <a href="https://www.investopedia.com/terms/i/index-of-economic-freedom.asp#:~:text=An%20index%20of%20economic%20freedom%20is%20a%20composite,criteria%20such%20as%20property%20rights%20and%20tax%20burden.">Economic Freedom</a> &gt; 75</p>
-<div id="78877ad3" class="cell" data-execution_count="17">
+<div id="e1d23e58" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19" data-code-line-numbers="1-3|1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>filtered_hfi <span class="op">=</span> hfi[hfi[<span class="st">'pf_score'</span>] <span class="op">&gt;</span> <span class="dv">8</span>]</span>
 <span id="cb19-2"><a></a>sns.boxplot(filtered_hfi, x <span class="op">=</span> <span class="st">"pf_score"</span>, y <span class="op">=</span> <span class="st">"countries"</span>, palette <span class="op">=</span> <span class="st">"colorblind"</span>)</span>
 <span id="cb19-3"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1396,7 +1396,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Prep</a></li><li><a href="#tabset-5-2">PCA: variance</a></li><li><a href="#tabset-5-3">PCA: scree plot</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1">
-<div id="c012c618" class="cell" data-execution_count="18">
+<div id="38ef1d11" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>numeric_cols <span class="op">=</span> hfi.select_dtypes(include <span class="op">=</span> [np.number]).columns</span>
 <span id="cb20-2"><a></a></span>
 <span id="cb20-3"><a></a><span class="co"># Applying mean imputation only to numeric columns</span></span>
@@ -1410,7 +1410,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-5-2">
-<div id="2452ebc1" class="cell" data-execution_count="19">
+<div id="6c25d83c" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21" data-code-line-numbers="1-5|1|2|3|4|5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
@@ -1439,7 +1439,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-5-3">
-<div id="c3d0da9a" class="cell" data-execution_count="20">
+<div id="df796690" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># Combining the scatterplot of principal components with the scree plot using the correct column names</span></span>
@@ -1485,7 +1485,7 @@ memory usage: 1.4+ MB</code></pre>
 <section id="not-really" class="slide level2 smaller">
 <h2>…Not really</h2>
 <p>Find the optimal number of components.</p>
-<div id="4e81d9e0" class="cell" data-execution_count="21">
+<div id="0c94282e" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="co"># Assuming hfi DataFrame is already defined and loaded</span></span>
@@ -1649,11 +1649,11 @@ memory usage: 1.4+ MB</code></pre>
 </section>
 <section id="our-data-pca-reduced-human-freedom-index" class="slide level2 smaller">
 <h2>Our data: PCA reduced Human Freedom Index</h2>
-<div id="284cba4f" class="cell" data-execution_count="23">
+<div id="d5f159d1" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>data <span class="op">=</span> pd.DataFrame(reduced_data)</span>
 <span id="cb27-2"><a></a>data.rename(columns<span class="op">=</span><span class="kw">lambda</span> x: <span class="ss">f'pc_</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-3"><a></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="79">
 <div>
 <div>
 <style scoped="">
@@ -1698,113 +1698,113 @@ memory usage: 1.4+ MB</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>-2.779418</td>
-<td>-0.498626</td>
-<td>-0.469122</td>
-<td>3.388291</td>
-<td>-0.567476</td>
-<td>-1.303449</td>
-<td>0.454572</td>
-<td>-0.052046</td>
-<td>0.133608</td>
-<td>1.230399</td>
-<td>-2.633736</td>
-<td>0.606050</td>
-<td>0.235641</td>
-<td>-1.722504</td>
-<td>0.444074</td>
-<td>0.324110</td>
-<td>-0.617926</td>
-<td>-0.268270</td>
-<td>0.783196</td>
+<td>-2.779417</td>
+<td>-0.498625</td>
+<td>-0.469050</td>
+<td>3.387154</td>
+<td>-0.565714</td>
+<td>-1.293394</td>
+<td>0.428505</td>
+<td>-0.042820</td>
+<td>0.160542</td>
+<td>1.176897</td>
+<td>-2.674900</td>
+<td>0.712096</td>
+<td>0.278590</td>
+<td>-1.494383</td>
+<td>0.332505</td>
+<td>-0.603650</td>
+<td>-0.014786</td>
+<td>0.795478</td>
+<td>0.868306</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>9.374297</td>
-<td>0.647490</td>
-<td>4.321360</td>
-<td>-4.695996</td>
-<td>0.673617</td>
-<td>-3.207135</td>
-<td>0.377905</td>
-<td>3.219741</td>
-<td>1.920259</td>
-<td>-0.133269</td>
-<td>-0.611836</td>
-<td>0.330644</td>
-<td>0.257593</td>
-<td>2.319075</td>
-<td>0.043825</td>
-<td>-0.332113</td>
-<td>1.519408</td>
-<td>-2.257394</td>
-<td>-0.136551</td>
+<td>9.374298</td>
+<td>0.647485</td>
+<td>4.321701</td>
+<td>-4.696370</td>
+<td>0.669672</td>
+<td>-3.202193</td>
+<td>0.362512</td>
+<td>3.230945</td>
+<td>1.914153</td>
+<td>-0.120890</td>
+<td>-0.619978</td>
+<td>0.431115</td>
+<td>0.195603</td>
+<td>2.545176</td>
+<td>0.097756</td>
+<td>0.297423</td>
+<td>-1.595755</td>
+<td>0.768002</td>
+<td>-1.560146</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>8.850868</td>
-<td>-2.931084</td>
-<td>-2.220593</td>
-<td>-2.101012</td>
-<td>0.813824</td>
-<td>-0.216572</td>
-<td>1.326312</td>
-<td>-0.322258</td>
-<td>4.361289</td>
-<td>1.114293</td>
-<td>-0.712086</td>
-<td>-1.845935</td>
-<td>-1.142163</td>
-<td>0.491723</td>
-<td>-1.220653</td>
-<td>0.080392</td>
-<td>1.176487</td>
-<td>-0.101754</td>
-<td>-2.486788</td>
+<td>8.850867</td>
+<td>-2.931099</td>
+<td>-2.220215</td>
+<td>-2.099056</td>
+<td>0.822837</td>
+<td>-0.236891</td>
+<td>1.324632</td>
+<td>-0.325880</td>
+<td>4.345285</td>
+<td>1.090834</td>
+<td>-0.737062</td>
+<td>-1.770513</td>
+<td>-1.066956</td>
+<td>0.277162</td>
+<td>-0.971713</td>
+<td>0.066117</td>
+<td>0.120581</td>
+<td>-2.101819</td>
+<td>-2.192441</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>1.708082</td>
-<td>-6.713720</td>
-<td>-2.768402</td>
-<td>-5.725119</td>
-<td>1.732627</td>
-<td>1.340520</td>
-<td>4.634925</td>
-<td>1.046818</td>
-<td>3.128577</td>
-<td>-0.813029</td>
-<td>0.149610</td>
-<td>3.163957</td>
-<td>0.340088</td>
-<td>3.629223</td>
-<td>1.268565</td>
-<td>0.176024</td>
-<td>2.460455</td>
-<td>-0.238727</td>
-<td>1.762967</td>
+<td>1.708081</td>
+<td>-6.713710</td>
+<td>-2.768878</td>
+<td>-5.724986</td>
+<td>1.733770</td>
+<td>1.343312</td>
+<td>4.665140</td>
+<td>1.045121</td>
+<td>3.156034</td>
+<td>-0.825720</td>
+<td>0.137608</td>
+<td>3.059426</td>
+<td>0.307031</td>
+<td>3.602846</td>
+<td>1.320232</td>
+<td>-0.178049</td>
+<td>-3.177705</td>
+<td>1.462441</td>
+<td>0.984773</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>-1.640691</td>
-<td>2.223787</td>
-<td>-2.299363</td>
-<td>0.792955</td>
-<td>2.449779</td>
-<td>-0.371516</td>
-<td>-2.055607</td>
-<td>1.237561</td>
-<td>-0.784232</td>
-<td>-0.392335</td>
-<td>-0.691336</td>
-<td>-0.890825</td>
-<td>1.702541</td>
-<td>0.007018</td>
-<td>-0.580091</td>
-<td>-1.094487</td>
-<td>0.820316</td>
-<td>0.204686</td>
-<td>0.256845</td>
+<td>2.223790</td>
+<td>-2.299912</td>
+<td>0.792544</td>
+<td>2.447022</td>
+<td>-0.370432</td>
+<td>-2.047721</td>
+<td>1.238573</td>
+<td>-0.781648</td>
+<td>-0.357092</td>
+<td>-0.643849</td>
+<td>-0.996104</td>
+<td>1.546228</td>
+<td>0.072526</td>
+<td>-0.482688</td>
+<td>1.071948</td>
+<td>-0.981607</td>
+<td>-0.009390</td>
+<td>0.069246</td>
 </tr>
 </tbody>
 </table>
@@ -1826,7 +1826,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Visual</a></li><li><a href="#tabset-6-2">Formula</a></li><li><a href="#tabset-6-3">Key points</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1">
-<div id="73e25b46" class="cell" data-execution_count="24">
+<div id="854005e3" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1995,7 +1995,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Visual</a></li><li><a href="#tabset-9-2">Formula</a></li><li><a href="#tabset-9-3">Pros + cons</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1">
-<div id="ea3bbc64" class="cell" data-execution_count="25">
+<div id="d657cabd" class="cell" data-execution_count="25">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -2046,7 +2046,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Visual</a></li><li><a href="#tabset-10-2">Formula</a></li><li><a href="#tabset-10-3">Pros + cons</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1">
-<div id="f3bc8fd0" class="cell" data-execution_count="26">
+<div id="db0d12b1" class="cell" data-execution_count="26">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -2094,7 +2094,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">Calinski-Harabasz Index</a></li><li><a href="#tabset-11-2">Model summary</a></li><li><a href="#tabset-11-3">Visualize results</a></li></ul>
 <div class="tab-content">
 <div id="tabset-11-1">
-<div id="9aacc7d6" class="cell" data-execution_count="27">
+<div id="c920c32e" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a><span class="co"># Finding the optimal number of clusters using Calinski-Harabasz Index</span></span>
@@ -2133,7 +2133,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-11-2">
-<div id="5cd77691" class="cell" data-execution_count="28">
+<div id="7a3b0bac" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="co"># K-Means Clustering with the optimal number of clusters</span></span>
@@ -2153,22 +2153,22 @@ memory usage: 1.4+ MB</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cluster Centers:
- [[ 3.57757098e+00 -1.04988251e-01 -1.51266405e-01  1.54919176e-01
-  -2.45358544e-01  2.86939824e-02 -6.80945889e-02  1.91358888e-02
-  -1.19577566e-02  1.65169142e-02  1.28281368e-01  8.39448205e-03
-  -1.70569480e-02  2.60398442e-02 -1.02691897e-02 -1.68828156e-02
-  -1.26498964e-02 -2.84248964e-02 -6.75413222e-03]
- [-6.81306346e+00  1.99937784e-01  2.88069091e-01 -2.95025364e-01
-   4.67256510e-01 -5.46443170e-02  1.29678141e-01 -3.64420512e-02
-   2.27721420e-02 -3.14545218e-02 -2.44296788e-01 -1.59863045e-02
-   3.24829528e-02 -4.95898228e-02  1.95564648e-02  3.21513381e-02
-   2.40902409e-02  5.41318744e-02  1.28624510e-02]]
-For n_clusters = 2, the Calinski-Harabasz Index is : 537.253</code></pre>
+ [[-6.75316120e+00  1.77878534e-01  2.76269340e-01 -2.74739272e-01
+   4.51085268e-01 -5.75450241e-02  1.21160533e-01 -4.54289028e-02
+   2.44001079e-02 -2.79616023e-02 -2.57152448e-01 -1.98378407e-02
+   2.07448831e-02 -5.76860353e-02  2.47789498e-02 -7.92472813e-03
+   3.28921467e-03 -1.61770689e-02  4.39972266e-02]
+ [ 3.61116410e+00 -9.51182053e-02 -1.47731395e-01  1.46913211e-01
+  -2.41211912e-01  3.07714444e-02 -6.47890009e-02  2.42925080e-02
+  -1.30476367e-02  1.49520989e-02  1.37508888e-01  1.06080243e-02
+  -1.10930533e-02  3.08468483e-02 -1.32502174e-02  4.23764409e-03
+  -1.75886427e-03  8.65047475e-03 -2.35269380e-02]]
+For n_clusters = 2, the Calinski-Harabasz Index is : 537.168</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-11-3">
-<div id="6c236ebb" class="cell" data-execution_count="29">
+<div id="18a5eb6f" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
@@ -2186,6 +2186,32 @@ For n_clusters = 2, the Calinski-Harabasz Index is : 537.253</code></pre>
 <p><img data-src="week5_files/figure-revealjs/cell-30-output-1.png" width="821" height="455"></p>
 </figure>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="caveat" class="slide level2">
+<h2>Caveat</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="da3cc46a" class="cell" data-execution_count="30">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="week5_files/figure-revealjs/cell-31-output-1.png" width="470" height="307"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="7693ff36" class="cell" data-execution_count="31">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="week5_files/figure-revealjs/cell-32-output-1.png" width="692" height="307"></p>
+</figure>
 </div>
 </div>
 </div>

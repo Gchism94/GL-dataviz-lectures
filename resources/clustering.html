@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>INFO 526 - Design</title>
+<title>INFO 526 - Clustering Taylor Swift Songs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,7 +71,8 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="INFO 526 - Design">
+<meta property="og:title" content="INFO 526 - Clustering Taylor Swift Songs">
+<meta property="og:description" content="Webpage for INFO 526 - Data Visualization and Analysis Instructor Sessions">
 <meta property="og:site_name" content="INFO 526">
 </head>
 
@@ -153,24 +154,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#accessibility" id="toc-accessibility" class="nav-link active" data-scroll-target="#accessibility">Accessibility</a></li>
-  <li><a href="#colors" id="toc-colors" class="nav-link" data-scroll-target="#colors">Colors</a></li>
-  <li><a href="#fonts" id="toc-fonts" class="nav-link" data-scroll-target="#fonts">Fonts</a></li>
-  <li><a href="#graphic-assets" id="toc-graphic-assets" class="nav-link" data-scroll-target="#graphic-assets">Graphic assets</a>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective"><strong>Objective:</strong></a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset:</a>
   <ul class="collapse">
-  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images">Images</a></li>
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a></li>
-  <li><a href="#vectors-photos-videos-and-other-assets" id="toc-vectors-photos-videos-and-other-assets" class="nav-link" data-scroll-target="#vectors-photos-videos-and-other-assets">Vectors, photos, videos, and other assets</a></li>
+  <li><a href="#metadata-for-taylor_album_songs.csv" id="toc-metadata-for-taylor_album_songs.csv" class="nav-link" data-scroll-target="#metadata-for-taylor_album_songs.csv">Metadata for <code>taylor_album_songs``.csv</code><strong>:</strong></a></li>
   </ul></li>
+  <li><a href="#question" id="toc-question" class="nav-link" data-scroll-target="#question"><strong>Question:</strong></a></li>
+  <li><a href="#step-1-setup-and-data-preprocessing" id="toc-step-1-setup-and-data-preprocessing" class="nav-link" data-scroll-target="#step-1-setup-and-data-preprocessing"><strong>Step 1: Setup and Data Preprocessing</strong></a></li>
+  <li><a href="#step-2-implement-gaussian-mixture-model-gmm" id="toc-step-2-implement-gaussian-mixture-model-gmm" class="nav-link" data-scroll-target="#step-2-implement-gaussian-mixture-model-gmm"><strong>Step 2:</strong> Implement Gaussian Mixture Model (GMM)</a></li>
+  <li><a href="#step-3-analysis-and-visualization" id="toc-step-3-analysis-and-visualization" class="nav-link" data-scroll-target="#step-3-analysis-and-visualization"><strong>Step 3:</strong> Analysis and Visualization</a></li>
+  <li><a href="#step-4-discussion" id="toc-step-4-discussion" class="nav-link" data-scroll-target="#step-4-discussion"><strong>Step 4:</strong> Discussion</a></li>
+  <li><a href="#submission" id="toc-submission" class="nav-link" data-scroll-target="#submission"><strong>Submission:</strong></a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/INFO-526-SU24/edit/main/resources/design.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/INFO-526-SU24/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/INFO-526-SU24/edit/main/resources/clustering.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/INFO-526-SU24/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Design</h1>
+<h1 class="title">Clustering Taylor Swift Songs</h1>
 </div>
 
 
@@ -187,69 +190,238 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="accessibility" class="level2">
-<h2 class="anchored" data-anchor-id="accessibility">Accessibility</h2>
-<ul>
-<li><a href="http://www.vischeck.com/vischeck/vischeckImage.php"><strong>Vischeck</strong></a>: Simulate how your images look for people with different forms of colorblindness (web-based)</li>
-<li><a href="http://colororacle.org/index.html"><strong>Color Oracle</strong></a>: Simulate how your images look for people with different forms of colorblindness (desktop-based, more types of colorblindness)</li>
-</ul>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective"><strong>Objective:</strong></h2>
+<p>Implement soft clustering on a dataset of music tracks to identify distinct groups based on their musical attributes.</p>
+<p><strong>Prerequisites:</strong> Ensure you have Python, Jupyter Notebook, and the required libraries (<strong><code>pandas</code></strong>, <strong><code>numpy</code></strong>, <strong><code>scikit-learn</code></strong>, <strong><code>matplotlib</code></strong>, <strong><code>seaborn</code></strong>) installed. The dataset <code>taylor_album_songs.csv</code> should be available in the <strong><code>data</code></strong> directory.</p>
 </section>
-<section id="colors" class="level2">
-<h2 class="anchored" data-anchor-id="colors">Colors</h2>
-<ul>
-<li><a href="https://color.adobe.com"><strong>Adobe Color</strong></a>: Create, share, and explore rule-based and custom color palettes.</li>
-<li><a href="http://www.colourlovers.com/"><strong>ColourLovers</strong></a>: Like Facebook for color palettes.</li>
-<li><a href="https://coolors.co/"><strong>Coolors</strong></a>: Generate random palettes that look great.</li>
-<li><a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html"><strong>viridis</strong></a>: Perceptually uniform color scales.</li>
-<li><a href="http://www.fabiocrameri.ch/colourmaps.php"><strong>Scientific Colour-Maps</strong></a>: Perceptually uniform color scales like viridis. Use them in R with <a href="https://github.com/thomasp85/scico">{scico}</a>.</li>
-<li><a href="http://colorbrewer2.org/"><strong>ColorBrewer</strong></a>: Sequential, diverging, and qualitative color palettes that take accessibility into account.</li>
-<li><a href="https://carto.com/carto-colors/"><strong>CARTOColors</strong></a>: More sequential, diverging, and qualitative color palettes that take accessibility into account. Use them with <a href="https://jakubnowosad.com/rcartocolor/">{rcartocolor}</a>.</li>
-<li><a href="https://emilhvitfeldt.github.io/paletteer/"><strong>Paletteer</strong></a>: The {paletteer} package for R includes hundreds of different palettes.</li>
-<li><a href="http://colorspace.r-forge.r-project.org/articles/ggplot2_color_scales.html#available-palettes-1"><strong>HCL palettes</strong></a>: The {colorspace} package for R includes a ton of qualitative, sequential, and diverging <a href="http://colorspace.r-forge.r-project.org/articles/hcl_palettes.html">HCL (hue-chroma-luminance)</a> palettes that use fancy mathematical rules that maintain perceptual distance</li>
-<li><a href="http://vrl.cs.brown.edu/color"><strong>Colorgorical</strong></a>: Create color palettes based on fancy mathematical rules for perceptual distance.</li>
-<li><a href="http://tristen.ca/hcl-picker/"><strong>Colorpicker for data</strong></a>: More fancy mathematical rules for color palettes (<a href="https://www.vis4.net/blog/posts/avoid-equidistant-hsv-colors/">explanation</a>).</li>
-<li><a href="http://tools.medialab.sciences-po.fr/iwanthue/"><strong>iWantHue</strong></a>: Yet another perceptual distance-based color palette builder.</li>
-<li><a href="https://photochrome.io/"><strong>Photochrome</strong></a>: Word-based color palettes.</li>
-<li><a href="https://policyviz.com/better-presentations/design-resources/design-color-tools/"><strong>PolicyViz Design Color Tools</strong></a>: Large collection of useful color resources</li>
-</ul>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset:</h2>
+<p>Since <a href="https://www.tstheerastourfilm.com/">The Eras Tour Film</a> was just released, this week we’re exploring Taylor Swift song data!</p>
+<p>Are you Ready for It?</p>
+<p>The <a href="https://taylor.wjakethompson.com/">taylor</a> R package from W. Jake Thompson is a curated data set of Taylor Swift songs, including lyrics and audio characteristics. The data comes from Genius and the Spotify API.</p>
+<p>There are three main datasets.</p>
+<blockquote class="blockquote">
+<p>The first is taylor_album_songs, which includes lyrics and audio features from the Spotify API for all songs on Taylor’s official studio albums. Notably this excludes singles released separately from an album (e.g., Only the Young, Christmas Tree Farm, etc.), and non-Taylor-owned albums that have a Taylor-owned alternative (e.g., Fearless is excluded in favor of Fearless (Taylor’s Version)). We stan artists owning their own songs.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>You can access Taylor’s entire discography with taylor_all_songs. This includes all of the songs in taylor_album_songs plus EPs, individual singles, and the original versions of albums that have been re-released as Taylor’s Version.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Finally, there is a small data set, taylor_albums, summarizing Taylor’s album release history.</p>
+</blockquote>
+<p>Information on the audio features in the dataset from Spotify are included in their <a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features">API documentation</a>.</p>
+<p>For your visualizations, the {taylor} package comes with it’s own class of color palettes, inspired by the work of Josiah Parry in the <a href="https://github.com/JosiahParry/cpcinema">{cpcinema}</a> package.</p>
+<p>You might also be interested in the <a href="https://asteves.github.io/tayloRswift/">tayoRswift package</a> by Alex Stephenson, a ggplot2 color palette based on Taylor Swift album covers. “For when your colors absolutely should not be excluded from the narrative.”</p>
+<section id="metadata-for-taylor_album_songs.csv" class="level3">
+<h3 class="anchored" data-anchor-id="metadata-for-taylor_album_songs.csv">Metadata for <code>taylor_album_songs``.csv</code><strong>:</strong></h3>
+<table class="table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 25%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">class</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>album_name</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Album name</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ep</code></td>
+<td style="text-align: left;">logical</td>
+<td style="text-align: left;">Is it an EP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>album_release</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Album release date</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>track_number</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Track number</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>track_name</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Track name</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>artist</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Artists</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>featuring</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Artists featured</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>bonus_track</code></td>
+<td style="text-align: left;">logical</td>
+<td style="text-align: left;">Is it a bonus track</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>promotional_release</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Date of promotional release</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>single_release</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Date of single release</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>track_release</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Date of track release</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>danceability</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify danceability score. A value of 0.0 is least danceable and 1.0 is most danceable.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>energy</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify energy score. Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>key</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">The key the track is in.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>loudness</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify loudness score. The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>mode</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>speechiness</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify speechiness score. Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g.&nbsp;talk show, audio book, poetry), the closer to 1.0 the attribute value.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>acousticness</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify acousticness score. A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>instrumentalness</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify instrumentalness score. Predicts whether a track contains no vocals. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>liveness</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify liveness score. Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>valence</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">Spotify valence score. A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g.&nbsp;happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g.&nbsp;sad, depressed, angry).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>tempo</code></td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>time_signature</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">An estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of “3/4”, to “7/4”.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>duration_ms</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">The duration of the track in milliseconds.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>explicit</code></td>
+<td style="text-align: left;">logical</td>
+<td style="text-align: left;">Does the track have explicit lyrics.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>key_name</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">The key the track is in. Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>mode_name</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Modality of the track.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>key_mode</code></td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">The key of the track.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>lyrics</code></td>
+<td style="text-align: left;">list</td>
+<td style="text-align: left;">Track lyrics. These values are all NA. To get the lyrics in nested tibbles, <code>install.packages("taylor")</code> and use the source data.</td>
+</tr>
+</tbody>
+</table>
+<p>(Source: <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-10-17" class="uri">TidyTuesday</a>)</p>
 </section>
-<section id="fonts" class="level2">
-<h2 class="anchored" data-anchor-id="fonts">Fonts</h2>
-<ul>
-<li><a href="https://fonts.google.com/"><strong>Google Fonts</strong></a>: Huge collection of free, well-made fonts.</li>
-<li><a href="https://www.reliablepsd.com/ultimate-google-font-pairings/"><strong>The Ultimate Collection of Google Font Pairings</strong></a>: A list of great, well-designed font pairings from all those fonts hosted by Google (for when you’re looking for good contrasting or complementary fonts).</li>
-</ul>
 </section>
-<section id="graphic-assets" class="level2">
-<h2 class="anchored" data-anchor-id="graphic-assets">Graphic assets</h2>
-<section id="images" class="level3">
-<h3 class="anchored" data-anchor-id="images">Images</h3>
-<ul>
-<li>Use the Creative Commons filters on Google Images or Flickr</li>
-<li><a href="https://unsplash.com/"><strong>Unsplash</strong></a></li>
-<li><a href="https://www.pexels.com/"><strong>Pexels</strong></a></li>
-<li><a href="https://pixabay.com/"><strong>Pixabay</strong></a></li>
-<li><a href="https://stocksnap.io/"><strong>StockSnap.io</strong></a></li>
-<li><a href="https://burst.shopify.com/"><strong>Burst</strong></a></li>
-<li><a href="https://freephotos.cc/"><strong>freephotos.cc</strong></a></li>
-</ul>
+<section id="question" class="level2">
+<h2 class="anchored" data-anchor-id="question"><strong>Question:</strong></h2>
+<p>How can Gaussian Mixture Models (GMM) be applied to identify and interpret distinct musical clusters based on Spotify’s track attributes, and what insights can be derived about the relationships and differences between these clusters?</p>
 </section>
-<section id="vectors" class="level3">
-<h3 class="anchored" data-anchor-id="vectors">Vectors</h3>
-<ul>
-<li><a href="https://thenounproject.com/"><strong>Noun Project</strong></a>: Thousands of free simple vector images</li>
-<li><a href="http://aiconica.net/"><strong>aiconica</strong></a>: 1,000+ vector icons</li>
-<li><a href="https://www.vecteezy.com/"><strong>Vecteezy</strong></a>: Thousands of free vector images</li>
-</ul>
+<section id="step-1-setup-and-data-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-setup-and-data-preprocessing"><strong>Step 1: Setup and Data Preprocessing</strong></h2>
+<ol type="1">
+<li><p>Load the dataset using <strong><code>pandas</code></strong>.</p></li>
+<li><p>Select relevant features for clustering (<strong><code>danceability</code></strong>, <strong><code>energy</code></strong>, <strong><code>loudness</code></strong>, <strong><code>speechiness</code></strong>, <strong><code>acousticness</code></strong>, <strong><code>instrumentalness</code></strong>, <strong><code>liveness</code></strong>, <strong><code>valence</code></strong>, <strong><code>tempo</code></strong>).</p></li>
+<li><p>Normalize the selected features to have the same scale.</p></li>
+</ol>
 </section>
-<section id="vectors-photos-videos-and-other-assets" class="level3">
-<h3 class="anchored" data-anchor-id="vectors-photos-videos-and-other-assets">Vectors, photos, videos, and other assets</h3>
+<section id="step-2-implement-gaussian-mixture-model-gmm" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-implement-gaussian-mixture-model-gmm"><strong>Step 2:</strong> Implement Gaussian Mixture Model (GMM)</h2>
+<ol type="1">
+<li><p>Import <strong><code>GaussianMixture</code></strong> from <strong><code>sklearn.mixture</code></strong>.</p></li>
+<li><p>Determine the optimal number of components (clusters) using a criterion like the Bayesian Information Criterion (BIC) or Akaike Information Criterion (AIC).</p></li>
+<li><p>Fit the GMM to the data.</p></li>
+</ol>
+</section>
+<section id="step-3-analysis-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-analysis-and-visualization"><strong>Step 3:</strong> Analysis and Visualization</h2>
+<ol type="1">
+<li><p>Predict the soft assignments of the samples to the clusters.</p></li>
+<li><p>Visualize the clusters using a dimensionality reduction technique like PCA (Principal Component Analysis) to reduce the data to two dimensions for plotting.</p></li>
+<li><p>Analyze the characteristics of each cluster by examining the cluster centers.</p></li>
+</ol>
+</section>
+<section id="step-4-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-discussion"><strong>Step 4:</strong> Discussion</h2>
+<ol type="1">
+<li><p>Discuss the interpretation of each cluster based on their centroids.</p></li>
+<li><p>Explore how different numbers of clusters affect the BIC/AIC and the cluster interpretation.</p></li>
+<li><p>Consider the implications of soft clustering vs.&nbsp;hard clustering in the context of music tracks.</p></li>
+</ol>
+</section>
+<section id="submission" class="level2">
+<h2 class="anchored" data-anchor-id="submission"><strong>Submission:</strong></h2>
 <ul>
-<li><a href="https://www.stockio.com/"><strong>Stockio</strong></a></li>
+<li>Submit your Jupyter Notebook via the course’s learning management system, including your code, visualizations, and a brief discussion of your findings regarding the impact of cage-free practices on egg production.</li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -814,7 +986,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/INFO-526-SU24/edit/main/resources/design.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/INFO-526-SU24/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/INFO-526-SU24/edit/main/resources/clustering.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/INFO-526-SU24/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with 💛 and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

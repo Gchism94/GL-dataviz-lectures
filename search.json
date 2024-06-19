@@ -165,7 +165,7 @@
     "href": "slides/week5.html#our-data-pca-reduced-human-freedom-index",
     "title": "PCA + Clustering",
     "section": "Our data: PCA reduced Human Freedom Index",
-    "text": "Our data: PCA reduced Human Freedom Index\n\ndata = pd.DataFrame(reduced_data)\ndata.rename(columns=lambda x: f'pc_{x}', inplace=True)\ndata.head()\n\n\n\n\n\n\n\n\n\npc_0\npc_1\npc_2\npc_3\npc_4\npc_5\npc_6\npc_7\npc_8\npc_9\npc_10\npc_11\npc_12\npc_13\npc_14\npc_15\npc_16\npc_17\npc_18\n\n\n\n\n0\n-2.779418\n-0.498626\n-0.469122\n3.388291\n-0.567476\n-1.303449\n0.454572\n-0.052046\n0.133608\n1.230399\n-2.633736\n0.606050\n0.235641\n-1.722504\n0.444074\n0.324110\n-0.617926\n-0.268270\n0.783196\n\n\n1\n9.374297\n0.647490\n4.321360\n-4.695996\n0.673617\n-3.207135\n0.377905\n3.219741\n1.920259\n-0.133269\n-0.611836\n0.330644\n0.257593\n2.319075\n0.043825\n-0.332113\n1.519408\n-2.257394\n-0.136551\n\n\n2\n8.850868\n-2.931084\n-2.220593\n-2.101012\n0.813824\n-0.216572\n1.326312\n-0.322258\n4.361289\n1.114293\n-0.712086\n-1.845935\n-1.142163\n0.491723\n-1.220653\n0.080392\n1.176487\n-0.101754\n-2.486788\n\n\n3\n1.708082\n-6.713720\n-2.768402\n-5.725119\n1.732627\n1.340520\n4.634925\n1.046818\n3.128577\n-0.813029\n0.149610\n3.163957\n0.340088\n3.629223\n1.268565\n0.176024\n2.460455\n-0.238727\n1.762967\n\n\n4\n-1.640691\n2.223787\n-2.299363\n0.792955\n2.449779\n-0.371516\n-2.055607\n1.237561\n-0.784232\n-0.392335\n-0.691336\n-0.890825\n1.702541\n0.007018\n-0.580091\n-1.094487\n0.820316\n0.204686\n0.256845"
+    "text": "Our data: PCA reduced Human Freedom Index\n\ndata = pd.DataFrame(reduced_data)\ndata.rename(columns=lambda x: f'pc_{x}', inplace=True)\ndata.head()\n\n\n\n\n\n\n\n\n\npc_0\npc_1\npc_2\npc_3\npc_4\npc_5\npc_6\npc_7\npc_8\npc_9\npc_10\npc_11\npc_12\npc_13\npc_14\npc_15\npc_16\npc_17\npc_18\n\n\n\n\n0\n-2.779417\n-0.498625\n-0.469050\n3.387154\n-0.565714\n-1.293394\n0.428505\n-0.042820\n0.160542\n1.176897\n-2.674900\n0.712096\n0.278590\n-1.494383\n0.332505\n-0.603650\n-0.014786\n0.795478\n0.868306\n\n\n1\n9.374298\n0.647485\n4.321701\n-4.696370\n0.669672\n-3.202193\n0.362512\n3.230945\n1.914153\n-0.120890\n-0.619978\n0.431115\n0.195603\n2.545176\n0.097756\n0.297423\n-1.595755\n0.768002\n-1.560146\n\n\n2\n8.850867\n-2.931099\n-2.220215\n-2.099056\n0.822837\n-0.236891\n1.324632\n-0.325880\n4.345285\n1.090834\n-0.737062\n-1.770513\n-1.066956\n0.277162\n-0.971713\n0.066117\n0.120581\n-2.101819\n-2.192441\n\n\n3\n1.708081\n-6.713710\n-2.768878\n-5.724986\n1.733770\n1.343312\n4.665140\n1.045121\n3.156034\n-0.825720\n0.137608\n3.059426\n0.307031\n3.602846\n1.320232\n-0.178049\n-3.177705\n1.462441\n0.984773\n\n\n4\n-1.640691\n2.223790\n-2.299912\n0.792544\n2.447022\n-0.370432\n-2.047721\n1.238573\n-0.781648\n-0.357092\n-0.643849\n-0.996104\n1.546228\n0.072526\n-0.482688\n1.071948\n-0.981607\n-0.009390\n0.069246"
   },
   {
     "objectID": "slides/week5.html#clustering-methods",
@@ -228,7 +228,14 @@
     "href": "slides/week5.html#k-means-clustering-applied",
     "title": "PCA + Clustering",
     "section": "K-Means Clustering: applied",
-    "text": "K-Means Clustering: applied\n\nCalinski-Harabasz IndexModel summaryVisualize results\n\n\n\n\nCode\n# Finding the optimal number of clusters using Calinski-Harabasz Index\ncalinski_harabasz_scores = []\ncluster_range = range(2, 11)  # Define the range for number of clusters\n\nfor n_clusters in cluster_range:\n    kmeans = KMeans(n_clusters=n_clusters, random_state=0)\n    kmeans.fit(data)\n    labels = kmeans.labels_\n    score = calinski_harabasz_score(data, labels)\n    calinski_harabasz_scores.append(score)\n\n# Plotting the Calinski-Harabasz scores\nplt.plot(cluster_range, calinski_harabasz_scores, marker='o')\nplt.title('Calinski-Harabasz Index for Different Numbers of Clusters')\nplt.xlabel('Number of Clusters')\nplt.ylabel('Calinski-Harabasz Index')\nplt.grid(True)\nplt.show()\n\n# Finding the number of clusters that maximizes the Calinski-Harabasz Index\noptimal_n_clusters = cluster_range[calinski_harabasz_scores.index(max(calinski_harabasz_scores))]\nprint(f\"The optimal number of clusters is: {optimal_n_clusters}\")\n\n\n\n\n\n\n\n\n\nThe optimal number of clusters is: 2\n\n\n\n\n\n\nCode\n# K-Means Clustering with the optimal number of clusters\nkmeans = KMeans(n_clusters=optimal_n_clusters, random_state=0)\nkmeans.fit(data)\nclusters = kmeans.predict(data)\n\n# Adding cluster labels to the DataFrame\ndata['Cluster'] = clusters\n\n# Model Summary\nprint(\"Cluster Centers:\\n\", kmeans.cluster_centers_)\n\n# Evaluate clustering performance using the Calinski-Harabasz Index\ncalinski_harabasz_score_final = calinski_harabasz_score(data.drop(columns='Cluster'), clusters)\nprint(f\"For n_clusters = {optimal_n_clusters}, the Calinski-Harabasz Index is : {calinski_harabasz_score_final:.3f}\")\n\n\nCluster Centers:\n [[ 3.57757098e+00 -1.04988251e-01 -1.51266405e-01  1.54919176e-01\n  -2.45358544e-01  2.86939824e-02 -6.80945889e-02  1.91358888e-02\n  -1.19577566e-02  1.65169142e-02  1.28281368e-01  8.39448205e-03\n  -1.70569480e-02  2.60398442e-02 -1.02691897e-02 -1.68828156e-02\n  -1.26498964e-02 -2.84248964e-02 -6.75413222e-03]\n [-6.81306346e+00  1.99937784e-01  2.88069091e-01 -2.95025364e-01\n   4.67256510e-01 -5.46443170e-02  1.29678141e-01 -3.64420512e-02\n   2.27721420e-02 -3.14545218e-02 -2.44296788e-01 -1.59863045e-02\n   3.24829528e-02 -4.95898228e-02  1.95564648e-02  3.21513381e-02\n   2.40902409e-02  5.41318744e-02  1.28624510e-02]]\nFor n_clusters = 2, the Calinski-Harabasz Index is : 537.253\n\n\n\n\n\n\nCode\npca = PCA(n_components = 2)\nreduced_data_PCA = pca.fit_transform(data)\nsns.scatterplot(x = reduced_data_PCA[:, 0], y = reduced_data_PCA[:, 1], hue = clusters, alpha = 0.75, palette = \"colorblind\")\nplt.title('Human Freedom Index Clustered (PCA-reduced Features)')\nplt.xlabel('PCA 1')\nplt.ylabel('PCA 2')\nplt.legend(title = 'Cluster')\nplt.show()"
+    "text": "K-Means Clustering: applied\n\nCalinski-Harabasz IndexModel summaryVisualize results\n\n\n\n\nCode\n# Finding the optimal number of clusters using Calinski-Harabasz Index\ncalinski_harabasz_scores = []\ncluster_range = range(2, 11)  # Define the range for number of clusters\n\nfor n_clusters in cluster_range:\n    kmeans = KMeans(n_clusters=n_clusters, random_state=0)\n    kmeans.fit(data)\n    labels = kmeans.labels_\n    score = calinski_harabasz_score(data, labels)\n    calinski_harabasz_scores.append(score)\n\n# Plotting the Calinski-Harabasz scores\nplt.plot(cluster_range, calinski_harabasz_scores, marker='o')\nplt.title('Calinski-Harabasz Index for Different Numbers of Clusters')\nplt.xlabel('Number of Clusters')\nplt.ylabel('Calinski-Harabasz Index')\nplt.grid(True)\nplt.show()\n\n# Finding the number of clusters that maximizes the Calinski-Harabasz Index\noptimal_n_clusters = cluster_range[calinski_harabasz_scores.index(max(calinski_harabasz_scores))]\nprint(f\"The optimal number of clusters is: {optimal_n_clusters}\")\n\n\n\n\n\n\n\n\n\nThe optimal number of clusters is: 2\n\n\n\n\n\n\nCode\n# K-Means Clustering with the optimal number of clusters\nkmeans = KMeans(n_clusters=optimal_n_clusters, random_state=0)\nkmeans.fit(data)\nclusters = kmeans.predict(data)\n\n# Adding cluster labels to the DataFrame\ndata['Cluster'] = clusters\n\n# Model Summary\nprint(\"Cluster Centers:\\n\", kmeans.cluster_centers_)\n\n# Evaluate clustering performance using the Calinski-Harabasz Index\ncalinski_harabasz_score_final = calinski_harabasz_score(data.drop(columns='Cluster'), clusters)\nprint(f\"For n_clusters = {optimal_n_clusters}, the Calinski-Harabasz Index is : {calinski_harabasz_score_final:.3f}\")\n\n\nCluster Centers:\n [[-6.75316120e+00  1.77878534e-01  2.76269340e-01 -2.74739272e-01\n   4.51085268e-01 -5.75450241e-02  1.21160533e-01 -4.54289028e-02\n   2.44001079e-02 -2.79616023e-02 -2.57152448e-01 -1.98378407e-02\n   2.07448831e-02 -5.76860353e-02  2.47789498e-02 -7.92472813e-03\n   3.28921467e-03 -1.61770689e-02  4.39972266e-02]\n [ 3.61116410e+00 -9.51182053e-02 -1.47731395e-01  1.46913211e-01\n  -2.41211912e-01  3.07714444e-02 -6.47890009e-02  2.42925080e-02\n  -1.30476367e-02  1.49520989e-02  1.37508888e-01  1.06080243e-02\n  -1.10930533e-02  3.08468483e-02 -1.32502174e-02  4.23764409e-03\n  -1.75886427e-03  8.65047475e-03 -2.35269380e-02]]\nFor n_clusters = 2, the Calinski-Harabasz Index is : 537.168\n\n\n\n\n\n\nCode\npca = PCA(n_components = 2)\nreduced_data_PCA = pca.fit_transform(data)\nsns.scatterplot(x = reduced_data_PCA[:, 0], y = reduced_data_PCA[:, 1], hue = clusters, alpha = 0.75, palette = \"colorblind\")\nplt.title('Human Freedom Index Clustered (PCA-reduced Features)')\nplt.xlabel('PCA 1')\nplt.ylabel('PCA 2')\nplt.legend(title = 'Cluster')\nplt.show()"
+  },
+  {
+    "objectID": "slides/week5.html#caveat",
+    "href": "slides/week5.html#caveat",
+    "title": "PCA + Clustering",
+    "section": "Caveat",
+    "text": "Caveat"
   },
   {
     "objectID": "slides/week5.html#conclusions",
@@ -292,6 +299,181 @@
     "title": "Chalkboard",
     "section": "",
     "text": "MIT licensed\nCopyright (C) 2021 Asvin Goel"
+  },
+  {
+    "objectID": "resources/timeseries.html",
+    "href": "resources/timeseries.html",
+    "title": "Time series analysis",
+    "section": "",
+    "text": "Analyze AQI time series data to identify underlying patterns, trends, and seasonality.\nApply ARIMA models to forecast future AQI values.\nExplore and apply detrending methods to examine the time series data without its trend component.\nInvestigate the seasonality in the data, understanding how AQI values change over different times of the year.\n\n\n\n\nSoftware and Libraries: Ensure Python, Jupyter Notebook, and necessary libraries (pandas, matplotlib, statsmodels, pmdarima) are installed.\nDatasets: Access to the provided dataset with date and aqi_value columns, among others, to perform the analysis.\n\n\n\n\n\n\n\nTime Series Data: Data points collected or recorded at specific time intervals.\nTrend: The long-term movement in time series data, showing an increase or decrease in the data over time.\nSeasonality: Regular patterns or cycles of fluctuations in time series data that occur due to seasonal factors.\n\n\n\n\n\nARIMA (AutoRegressive Integrated Moving Average): A popular statistical method for time series forecasting that captures different aspects of the data, including trend and seasonality.\nParameters (p, d, q):\n\np: The number of lag observations included in the model (AR part).\nd: The degree of differencing required to make the time series stationary.\nq: The size of the moving average window (MA part).\n\n\n\n\n\n\nStationarity: A characteristic of a time series whose statistical properties (mean, variance) do not change over time.\nDifferencing: A method of transforming a time series to make it stationary by subtracting the previous observation from the current observation.\n\n\n\n\n\nDetrending: The process of removing the trend component from a time series to analyze the cyclical and irregular components.\n\n\n\n\n\nSeasonal Decompose: A method to separate out the seasonal component from the time series data, allowing for analysis of specific patterns that repeat over fixed periods."
+  },
+  {
+    "objectID": "resources/timeseries.html#objective",
+    "href": "resources/timeseries.html#objective",
+    "title": "Time series analysis",
+    "section": "",
+    "text": "Analyze AQI time series data to identify underlying patterns, trends, and seasonality.\nApply ARIMA models to forecast future AQI values.\nExplore and apply detrending methods to examine the time series data without its trend component.\nInvestigate the seasonality in the data, understanding how AQI values change over different times of the year.\n\n\n\n\nSoftware and Libraries: Ensure Python, Jupyter Notebook, and necessary libraries (pandas, matplotlib, statsmodels, pmdarima) are installed.\nDatasets: Access to the provided dataset with date and aqi_value columns, among others, to perform the analysis.\n\n\n\n\n\n\n\nTime Series Data: Data points collected or recorded at specific time intervals.\nTrend: The long-term movement in time series data, showing an increase or decrease in the data over time.\nSeasonality: Regular patterns or cycles of fluctuations in time series data that occur due to seasonal factors.\n\n\n\n\n\nARIMA (AutoRegressive Integrated Moving Average): A popular statistical method for time series forecasting that captures different aspects of the data, including trend and seasonality.\nParameters (p, d, q):\n\np: The number of lag observations included in the model (AR part).\nd: The degree of differencing required to make the time series stationary.\nq: The size of the moving average window (MA part).\n\n\n\n\n\n\nStationarity: A characteristic of a time series whose statistical properties (mean, variance) do not change over time.\nDifferencing: A method of transforming a time series to make it stationary by subtracting the previous observation from the current observation.\n\n\n\n\n\nDetrending: The process of removing the trend component from a time series to analyze the cyclical and irregular components.\n\n\n\n\n\nSeasonal Decompose: A method to separate out the seasonal component from the time series data, allowing for analysis of specific patterns that repeat over fixed periods."
+  },
+  {
+    "objectID": "resources/timeseries.html#dataset",
+    "href": "resources/timeseries.html#dataset",
+    "title": "Time series analysis",
+    "section": "Dataset:",
+    "text": "Dataset:\nThe data this week comes from the EPA’s measurements on air quality for Tucson, AZ core-based statistical area (CBSA) for 2022.\nWe’ll use the dataset: ad_aqi_tracker_data-2022.csv, which includes daily observations on air quality, along with multi-year averages.\n\nMetadata for ad_aqi_tracker_data-2022.csv:\n\n\n\n\n\n\n\n\nVariable\nClass\nDescription\n\n\n\n\nDate\nDateTime\nDate of observation\n\n\nAQI Values\nint\nAir quality index reading\n\n\nMain Pollutant\ncharacter\nPrimary pollutant at time of reading\n\n\nSite Name\ncharacter\nName of collection site\n\n\nSite ID\ncharacter\nID of collection site\n\n\nSource\ndouble\nData source\n\n\n\nNote: You will have to change the data type for some columns to match the above.\n(Source: https://www.airnow.gov/aqi-basics)"
+  },
+  {
+    "objectID": "resources/timeseries.html#question",
+    "href": "resources/timeseries.html#question",
+    "title": "Time series analysis",
+    "section": "Question:",
+    "text": "Question:\nHow can we apply ARIMA modeling to forecast future Air Quality Index (AQI) values based on historical data, and what insights can be gained from detrending and analyzing the seasonality in AQI time series data?"
+  },
+  {
+    "objectID": "resources/timeseries.html#step-1-setup-and-data-preprocessing",
+    "href": "resources/timeseries.html#step-1-setup-and-data-preprocessing",
+    "title": "Time series analysis",
+    "section": "Step 1: Setup and Data Preprocessing",
+    "text": "Step 1: Setup and Data Preprocessing\n\nLoad the dataset into a pandas DataFrame.\nConvert the date column to datetime format and set it as the index of the DataFrame.\nConvert the aqi_value column as needed.\nPlot the aqi_value time series to visually inspect the data.\n\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom skimpy import clean_columns\n\n# Load the dataset\ndf = pd.read_csv('path_to_your_file.csv')\n\n# Clean column names\ndf = clean_columns(df)\n\n# Assign and remove NAs\ndf.replace({'.': np.nan, '': np.nan}, inplace = True)\ndf.dropna(inplace=True)\n\n# Convert 'date' to datetime and set as index\ndf['date'] = pd.to_datetime(df['date'])\ndf.set_index('date', inplace = True)\n\n# Plot the AQI values\ndf['aqi_value'].plot(title = 'AQI Time Series')\nplt.ylabel('AQI Value')\nplt.show()"
+  },
+  {
+    "objectID": "resources/timeseries.html#step-2-time-series-decomposition",
+    "href": "resources/timeseries.html#step-2-time-series-decomposition",
+    "title": "Time series analysis",
+    "section": "Step 2: Time Series Decomposition",
+    "text": "Step 2: Time Series Decomposition\n\nUse seasonal_decompose from the statsmodels package to decompose the time series into trend, seasonal, and residual components.\nPlot the decomposed components to understand the underlying patterns.\n\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\n# Decompose the time series\ndecomposition = seasonal_decompose(df['aqi_value'], model = 'additive')\n\n# Plot the decomposed components\ndecomposition.plot()\nplt.show()"
+  },
+  {
+    "objectID": "resources/timeseries.html#part-3-testing-for-stationarity",
+    "href": "resources/timeseries.html#part-3-testing-for-stationarity",
+    "title": "Time series analysis",
+    "section": "Part 3: Testing for Stationarity",
+    "text": "Part 3: Testing for Stationarity\n\nPerform an Augmented Dickey-Fuller (ADF) test to check the stationarity of the time series.\nIf the series is not stationary, apply differencing to make it stationary.\n\n\nfrom statsmodels.tsa.stattools import adfuller\n\n# Perform Augmented Dickey-Fuller test\nresult = adfuller(df['aqi_value'])\nprint('ADF Statistic: %f' % result[0])\nprint('p-value: %f' % result[1])\n\n# Interpretation\nif result[1] &gt; 0.05:\n    print(\"Series is not stationary\")\nelse:\n    print(\"Series is stationary\")"
+  },
+  {
+    "objectID": "resources/timeseries.html#step-4-arima-model",
+    "href": "resources/timeseries.html#step-4-arima-model",
+    "title": "Time series analysis",
+    "section": "Step 4: ARIMA Model",
+    "text": "Step 4: ARIMA Model\n\nUse the auto_arima function from the pmdarima package to identify the optimal parameters (p,d,q) for the ARIMA model.\nFit an ARIMA model with the identified parameters.\nPlot the original vs. fitted values to assess the model’s performance.\n\n\nfrom pmdarima import auto_arima\n\n# Identify the optimal ARIMA model\nauto_model = auto_arima(df['aqi_value'], start_p = 1, start_q = 1,\n                        test = 'adf',         # use adftest to find optimal 'd'\n                        max_p = 3, max_q = 3, # maximum p and q\n                        m = 1,                # frequency of series\n                        d = None,             # let model determine 'd'\n                        seasonal = False,     # No Seasonality\n                        start_P = 0, \n                        D = 0, \n                        trace = True,\n                        error_action = 'ignore',  \n                        suppress_warnings = True, \n                        stepwise = True)\n\nprint(auto_model.summary())\n\n# Fit ARIMA model\nmodel = auto_model.fit(df['aqi_value'])\n\n# Plot original vs fitted values\ndf['fitted'] = model.predict_in_sample()\ndf[['aqi_value', 'fitted']].plot(title='Original vs. Fitted Values')\nplt.show()"
+  },
+  {
+    "objectID": "resources/timeseries.html#part-5-forecasting",
+    "href": "resources/timeseries.html#part-5-forecasting",
+    "title": "Time series analysis",
+    "section": "Part 5: Forecasting",
+    "text": "Part 5: Forecasting\n\nForecast AQI values for the next 30 days using the fitted ARIMA model.\nPlot the forecasted values alongside the historical data to visualize the forecast.\n\n\n# Forecast the next 30 days\nforecast, conf_int = model.predict(n_periods = 30, return_conf_int = True)\n\n# Plot the forecast\nplt.figure(figsize = (8, 6))\nplt.plot(df.index, df['aqi_value'], label = 'Historical')\nplt.plot(pd.date_range(df.index[-1], periods = 31, closed = 'right'), forecast, label='Forecast')\nplt.fill_between(pd.date_range(df.index[-1], periods = 31, closed = 'right'), conf_int[:, 0], conf_int[:, 1], color = 'red', alpha = 0.3)\nplt.title('AQI Forecast')\nplt.legend()\nplt.show()"
+  },
+  {
+    "objectID": "resources/timeseries.html#part-6-detrending-and-seasonality-analysis",
+    "href": "resources/timeseries.html#part-6-detrending-and-seasonality-analysis",
+    "title": "Time series analysis",
+    "section": "Part 6: Detrending and Seasonality Analysis",
+    "text": "Part 6: Detrending and Seasonality Analysis\n\nExplore different detrending methods (e.g., subtracting a moving average, polynomial detrending) using the detrend_aqi and poly_trend columns.\nAnalyze seasonality patterns in the detrended data.\n\n\n# Detrending using moving average\ndf['moving_avg'] = df['aqi_value'].rolling(window = 12).mean()\ndf['detrended'] = df['aqi_value'] - df['moving_avg']\n\n# Plot detrended data\ndf[['detrended']].plot(title='Detrended AQI Time Series')\nplt.show()\n\n# Assuming seasonality was identified, you can further analyze it,\n# for example, by averaging detrended values by month or another relevant period."
+  },
+  {
+    "objectID": "resources/timeseries.html#submission",
+    "href": "resources/timeseries.html#submission",
+    "title": "Time series analysis",
+    "section": "Submission:",
+    "text": "Submission:\n\nSubmit your Jupyter Notebook via the course’s learning management system, including your code, visualizations, and a brief discussion of your findings regarding the impact of cage-free practices on egg production."
+  },
+  {
+    "objectID": "resources/design.html",
+    "href": "resources/design.html",
+    "title": "Design",
+    "section": "",
+    "text": "Vischeck: Simulate how your images look for people with different forms of colorblindness (web-based)\nColor Oracle: Simulate how your images look for people with different forms of colorblindness (desktop-based, more types of colorblindness)"
+  },
+  {
+    "objectID": "resources/design.html#accessibility",
+    "href": "resources/design.html#accessibility",
+    "title": "Design",
+    "section": "",
+    "text": "Vischeck: Simulate how your images look for people with different forms of colorblindness (web-based)\nColor Oracle: Simulate how your images look for people with different forms of colorblindness (desktop-based, more types of colorblindness)"
+  },
+  {
+    "objectID": "resources/design.html#colors",
+    "href": "resources/design.html#colors",
+    "title": "Design",
+    "section": "Colors",
+    "text": "Colors\n\nAdobe Color: Create, share, and explore rule-based and custom color palettes.\nColourLovers: Like Facebook for color palettes.\nCoolors: Generate random palettes that look great.\nviridis: Perceptually uniform color scales.\nScientific Colour-Maps: Perceptually uniform color scales like viridis. Use them in R with {scico}.\nColorBrewer: Sequential, diverging, and qualitative color palettes that take accessibility into account.\nCARTOColors: More sequential, diverging, and qualitative color palettes that take accessibility into account. Use them with {rcartocolor}.\nPaletteer: The {paletteer} package for R includes hundreds of different palettes.\nHCL palettes: The {colorspace} package for R includes a ton of qualitative, sequential, and diverging HCL (hue-chroma-luminance) palettes that use fancy mathematical rules that maintain perceptual distance\nColorgorical: Create color palettes based on fancy mathematical rules for perceptual distance.\nColorpicker for data: More fancy mathematical rules for color palettes (explanation).\niWantHue: Yet another perceptual distance-based color palette builder.\nPhotochrome: Word-based color palettes.\nPolicyViz Design Color Tools: Large collection of useful color resources"
+  },
+  {
+    "objectID": "resources/design.html#fonts",
+    "href": "resources/design.html#fonts",
+    "title": "Design",
+    "section": "Fonts",
+    "text": "Fonts\n\nGoogle Fonts: Huge collection of free, well-made fonts.\nThe Ultimate Collection of Google Font Pairings: A list of great, well-designed font pairings from all those fonts hosted by Google (for when you’re looking for good contrasting or complementary fonts)."
+  },
+  {
+    "objectID": "resources/design.html#graphic-assets",
+    "href": "resources/design.html#graphic-assets",
+    "title": "Design",
+    "section": "Graphic assets",
+    "text": "Graphic assets\n\nImages\n\nUse the Creative Commons filters on Google Images or Flickr\nUnsplash\nPexels\nPixabay\nStockSnap.io\nBurst\nfreephotos.cc\n\n\n\nVectors\n\nNoun Project: Thousands of free simple vector images\naiconica: 1,000+ vector icons\nVecteezy: Thousands of free vector images\n\n\n\nVectors, photos, videos, and other assets\n\nStockio"
+  },
+  {
+    "objectID": "resources/clustering.html",
+    "href": "resources/clustering.html",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "",
+    "text": "Implement soft clustering on a dataset of music tracks to identify distinct groups based on their musical attributes.\nPrerequisites: Ensure you have Python, Jupyter Notebook, and the required libraries (pandas, numpy, scikit-learn, matplotlib, seaborn) installed. The dataset taylor_album_songs.csv should be available in the data directory."
+  },
+  {
+    "objectID": "resources/clustering.html#objective",
+    "href": "resources/clustering.html#objective",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "",
+    "text": "Implement soft clustering on a dataset of music tracks to identify distinct groups based on their musical attributes.\nPrerequisites: Ensure you have Python, Jupyter Notebook, and the required libraries (pandas, numpy, scikit-learn, matplotlib, seaborn) installed. The dataset taylor_album_songs.csv should be available in the data directory."
+  },
+  {
+    "objectID": "resources/clustering.html#dataset",
+    "href": "resources/clustering.html#dataset",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Dataset:",
+    "text": "Dataset:\nSince The Eras Tour Film was just released, this week we’re exploring Taylor Swift song data!\nAre you Ready for It?\nThe taylor R package from W. Jake Thompson is a curated data set of Taylor Swift songs, including lyrics and audio characteristics. The data comes from Genius and the Spotify API.\nThere are three main datasets.\n\nThe first is taylor_album_songs, which includes lyrics and audio features from the Spotify API for all songs on Taylor’s official studio albums. Notably this excludes singles released separately from an album (e.g., Only the Young, Christmas Tree Farm, etc.), and non-Taylor-owned albums that have a Taylor-owned alternative (e.g., Fearless is excluded in favor of Fearless (Taylor’s Version)). We stan artists owning their own songs.\n\n\nYou can access Taylor’s entire discography with taylor_all_songs. This includes all of the songs in taylor_album_songs plus EPs, individual singles, and the original versions of albums that have been re-released as Taylor’s Version.\n\n\nFinally, there is a small data set, taylor_albums, summarizing Taylor’s album release history.\n\nInformation on the audio features in the dataset from Spotify are included in their API documentation.\nFor your visualizations, the {taylor} package comes with it’s own class of color palettes, inspired by the work of Josiah Parry in the {cpcinema} package.\nYou might also be interested in the tayoRswift package by Alex Stephenson, a ggplot2 color palette based on Taylor Swift album covers. “For when your colors absolutely should not be excluded from the narrative.”\n\nMetadata for taylor_album_songs``.csv:\n\n\n\n\n\n\n\n\nvariable\nclass\ndescription\n\n\n\n\nalbum_name\ncharacter\nAlbum name\n\n\nep\nlogical\nIs it an EP\n\n\nalbum_release\ndouble\nAlbum release date\n\n\ntrack_number\ninteger\nTrack number\n\n\ntrack_name\ncharacter\nTrack name\n\n\nartist\ncharacter\nArtists\n\n\nfeaturing\ncharacter\nArtists featured\n\n\nbonus_track\nlogical\nIs it a bonus track\n\n\npromotional_release\ndouble\nDate of promotional release\n\n\nsingle_release\ndouble\nDate of single release\n\n\ntrack_release\ndouble\nDate of track release\n\n\ndanceability\ndouble\nSpotify danceability score. A value of 0.0 is least danceable and 1.0 is most danceable.\n\n\nenergy\ndouble\nSpotify energy score. Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.\n\n\nkey\ninteger\nThe key the track is in.\n\n\nloudness\ndouble\nSpotify loudness score. The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track.\n\n\nmode\ninteger\nMode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.\n\n\nspeechiness\ndouble\nSpotify speechiness score. Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value.\n\n\nacousticness\ndouble\nSpotify acousticness score. A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.\n\n\ninstrumentalness\ndouble\nSpotify instrumentalness score. Predicts whether a track contains no vocals. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.\n\n\nliveness\ndouble\nSpotify liveness score. Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.\n\n\nvalence\ndouble\nSpotify valence score. A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).\n\n\ntempo\ndouble\nThe overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.\n\n\ntime_signature\ninteger\nAn estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of “3/4”, to “7/4”.\n\n\nduration_ms\ninteger\nThe duration of the track in milliseconds.\n\n\nexplicit\nlogical\nDoes the track have explicit lyrics.\n\n\nkey_name\ncharacter\nThe key the track is in. Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.\n\n\nmode_name\ncharacter\nModality of the track.\n\n\nkey_mode\ncharacter\nThe key of the track.\n\n\nlyrics\nlist\nTrack lyrics. These values are all NA. To get the lyrics in nested tibbles, install.packages(\"taylor\") and use the source data.\n\n\n\n(Source: TidyTuesday)"
+  },
+  {
+    "objectID": "resources/clustering.html#question",
+    "href": "resources/clustering.html#question",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Question:",
+    "text": "Question:\nHow can Gaussian Mixture Models (GMM) be applied to identify and interpret distinct musical clusters based on Spotify’s track attributes, and what insights can be derived about the relationships and differences between these clusters?"
+  },
+  {
+    "objectID": "resources/clustering.html#step-1-setup-and-data-preprocessing",
+    "href": "resources/clustering.html#step-1-setup-and-data-preprocessing",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Step 1: Setup and Data Preprocessing",
+    "text": "Step 1: Setup and Data Preprocessing\n\nLoad the dataset using pandas.\nSelect relevant features for clustering (danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo).\nNormalize the selected features to have the same scale."
+  },
+  {
+    "objectID": "resources/clustering.html#step-2-implement-gaussian-mixture-model-gmm",
+    "href": "resources/clustering.html#step-2-implement-gaussian-mixture-model-gmm",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Step 2: Implement Gaussian Mixture Model (GMM)",
+    "text": "Step 2: Implement Gaussian Mixture Model (GMM)\n\nImport GaussianMixture from sklearn.mixture.\nDetermine the optimal number of components (clusters) using a criterion like the Bayesian Information Criterion (BIC) or Akaike Information Criterion (AIC).\nFit the GMM to the data."
+  },
+  {
+    "objectID": "resources/clustering.html#step-3-analysis-and-visualization",
+    "href": "resources/clustering.html#step-3-analysis-and-visualization",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Step 3: Analysis and Visualization",
+    "text": "Step 3: Analysis and Visualization\n\nPredict the soft assignments of the samples to the clusters.\nVisualize the clusters using a dimensionality reduction technique like PCA (Principal Component Analysis) to reduce the data to two dimensions for plotting.\nAnalyze the characteristics of each cluster by examining the cluster centers."
+  },
+  {
+    "objectID": "resources/clustering.html#step-4-discussion",
+    "href": "resources/clustering.html#step-4-discussion",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Step 4: Discussion",
+    "text": "Step 4: Discussion\n\nDiscuss the interpretation of each cluster based on their centroids.\nExplore how different numbers of clusters affect the BIC/AIC and the cluster interpretation.\nConsider the implications of soft clustering vs. hard clustering in the context of music tracks."
+  },
+  {
+    "objectID": "resources/clustering.html#submission",
+    "href": "resources/clustering.html#submission",
+    "title": "Clustering Taylor Swift Songs",
+    "section": "Submission:",
+    "text": "Submission:\n\nSubmit your Jupyter Notebook via the course’s learning management system, including your code, visualizations, and a brief discussion of your findings regarding the impact of cage-free practices on egg production."
   },
   {
     "objectID": "resources/visualization.html",
