@@ -1,0 +1,982 @@
+---
+title: "PCA + Clustering"
+subtitle: "INFO Data Visualization and Analysis - Week 5"
+institute: "UArizona School of Information"
+author: "Dr. Greg Chism"
+title-slide-attributes:
+  data-background-image: minedata-bg.png
+  data-background-size: 600px, cover
+  data-slide-number: none
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  freeze: auto
+  echo: true
+auto-stretch: false
+footer: "[🔗 GL-dataviz-lectures](https://gchism94.github.io/GL-dataviz-lectures)"
+jupyter: python3
+---
+
+## Setup
+
+```{python}
+#| label: setup
+#| message: false
+
+# Data Manipulation and Analysis
+import pandas as pd
+import numpy as np
+
+# Data Visualization
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Machine Learning
+from sklearn.decomposition import PCA
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+# Statistical Analysis
+import statsmodels.api as sm
+import scipy.stats as stats
+
+# Increase font size of all Seaborn plot elements
+sns.set(font_scale=1.25)
+
+# Set Seaborn theme
+sns.set_theme(style="whitegrid", palette="colorblind")
+
+```
+
+## Data Preprocessing
+
+> **Data preprocessing** can refer to manipulation, filtration or augmentation of data before it is analyzed, and is often an important step in the [data mining](https://en.wikipedia.org/wiki/Data_mining "Data mining") process.
+
+## Datasets {.smaller}
+
+```{python}
+#| echo: false
+hfi = pd.read_csv("data/hfi.csv")
+```
+
+**Human Freedom Index**
+
+The Human Freedom Index is a report that attempts to summarize the idea of "freedom" through variables for many countries around the globe.
+
+```{python}
+#| echo: false
+plt.figure(figsize = (5, 3))
+ax = sns.scatterplot(data = hfi, x = "pf_score", y = "ef_score",
+                hue = "region", palette = "colorblind")
+ax.legend(title = "Region",
+          bbox_to_anchor = (1.02, 1), loc = 'upper left', borderaxespad = 0)
+ax.set(xlabel = "Economic Freedom")
+ax.set(ylabel = "Personal Freedom")
+ax.set(title = "Human Freedom Index")
+plt.show()
+```
+
+## Our data: Human Freedom Index {.smaller}
+
+```{python}
+hfi = pd.read_csv("data/hfi.csv")
+hfi.head()
+```
+
+## Understand the data {.smaller}
+
+::: panel-tabset
+## `.info()`
+
+```{python}
+hfi.info(verbose = True)
+```
+
+## `.describe()`
+
+```{python}
+hfi.describe()
+```
+:::
+
+## Identifying missing values {.smaller}
+
+```{python}
+hfi.isna().sum()
+```
+
+::: fragment
+> A lot of missing values 🙃
+:::
+
+# Data Cleaning
+
+## Handling missing data
+
+#### Options
+
+::: incremental
+-   Do nothing...
+-   Remove them
+-   **Imputate**
+:::
+
+::: fragment
+We will be using `pf_score` from `hsi`: 80 missing values
+:::
+
+## Imputation
+
+> In [statistics](https://en.wikipedia.org/wiki/Statistics "Statistics"), **imputation** is the process of replacing [missing data](https://en.wikipedia.org/wiki/Missing_data "Missing data") with substituted values.
+
+::: fragment
+#### Considerations
+
+::: incremental
+-   Data distribution
+-   Impact on analysis
+-   Missing data mechanism
+-   Multiple imputation
+-   Can also be used on **outliers**
+:::
+:::
+
+## Mean imputation {.smaller}
+
+::: panel-tabset
+## Definition
+
+**How it Works**: Replace missing values with the arithmetic **mean** of the non-missing values in the same variable.
+
+::: fragment
+**Pros**:
+
+::: incremental
+-   Easy and fast.
+-   Works well with small numerical datasets
+:::
+
+**Cons**:
+
+::: incremental
+-   It only works on the column level.
+-   Will give poor results on encoded categorical features.
+-   Not very accurate.
+-   Doesn't account for the uncertainty in the imputations.
+:::
+:::
+
+## Visual
+
+```{python}
+#| echo: false
+#| fig.asp: 0.625
+
+hfi_copy = hfi
+
+mean_imputer = SimpleImputer(strategy = 'mean')
+hfi_copy['mean_pf_score'] = mean_imputer.fit_transform(hfi_copy[['pf_score']])
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = "Original")
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'mean_pf_score', linewidth = 2, label = "Mean Imputated")
+
+plt.legend()
+
+plt.show()
+```
+
+## Code
+
+```{python}
+#| eval: false
+#| code-line-numbers: 1-12|1|3,4|6,8,10,12
+hfi_copy = hfi
+
+mean_imputer = SimpleImputer(strategy = 'mean')
+hfi_copy['mean_pf_score'] = mean_imputer.fit_transform(hfi_copy[['pf_score']])
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = "Original")
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'mean_pf_score', linewidth = 2, label = "Mean Imputated")
+
+plt.legend()
+
+plt.show()
+```
+:::
+
+## Median imputation {.smaller}
+
+::: panel-tabset
+## Definition
+
+**How it Works**: Replace missing values with the **median** of the non-missing values in the same variable.
+
+::: fragment
+**Pros** (same as mean):
+
+::: incremental
+-   Easy and fast.
+-   Works well with small numerical datasets
+:::
+
+**Cons** (same as mean):
+
+::: incremental
+-   It only works on the column level.
+-   Will give poor results on encoded categorical features.
+-   Not very accurate.
+-   Doesn't account for the uncertainty in the imputations.
+:::
+:::
+
+## Visual
+
+```{python}
+#| ref.label: mean_imp
+#| echo: false
+#| fig.asp: 0.625
+
+median_imputer = SimpleImputer(strategy = 'median')
+hfi_copy['median_pf_score'] = median_imputer.fit_transform(hfi_copy[['pf_score']])
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = "Original")
+
+mean_plot = sns.kdeplot(data = hfi_copy, x = 'median_pf_score', linewidth = 2, label = "Median Imputated")
+
+plt.legend()
+
+plt.show()
+```
+
+## Code
+
+```{python}
+#| eval: false
+#| code-line-numbers: 1-10|1,2
+
+median_imputer = SimpleImputer(strategy = 'median')
+hfi_copy['median_pf_score'] = median_imputer.fit_transform(hfi_copy[['pf_score']])
+
+median_plot = sns.kdeplot(data = hfi_copy, x = 'pf_score', linewidth = 2, label = "Original")
+
+median_plot = sns.kdeplot(data = hfi_copy, x = 'median_pf_score', linewidth = 2, label = "Median Imputated")
+
+plt.legend()
+
+plt.show()
+```
+:::
+
+## Data type conversion {.smaller}
+
+```{python}
+hfi['year'] = pd.to_datetime(hfi['year'], format='%Y')
+
+hfi.head(1)
+```
+
+```{python}
+hfi.dtypes
+```
+
+## Removing duplicates {.smaller}
+
+```{python}
+hfi.info()
+```
+
+```{python}
+hfi.drop_duplicates(inplace = True)
+hfi.info()
+```
+
+::: fragment
+> No duplicates! 😊
+:::
+
+## Filtering data {.smaller}
+
+::: panel-tabset
+## Category
+
+```{python}
+#| code-line-numbers: 1-6|1|2|5,6
+options = ['United States', 'India', 'Canada', 'China']
+
+filtered_hfi = hfi[hfi['countries'].isin(options)]
+
+unique_countries = filtered_hfi['countries'].unique()
+print(unique_countries)
+```
+
+## Numeric
+
+Let's look at [Economic Freedom](https://www.investopedia.com/terms/i/index-of-economic-freedom.asp#:~:text=An%20index%20of%20economic%20freedom%20is%20a%20composite,criteria%20such%20as%20property%20rights%20and%20tax%20burden.) \> 75
+
+```{python}
+#| code-line-numbers: 1-3|1
+filtered_hfi = hfi[hfi['pf_score'] > 8]
+sns.boxplot(filtered_hfi, x = "pf_score", y = "countries", palette = "colorblind")
+plt.show()
+```
+:::
+
+## Dimensional reduction {.smaller}
+
+> **Dimension reduction**, is the transformation of data from a high-dimensional space into a low-dimensional space so that the low-dimensional representation retains some meaningful properties of the original data, ideally close to its [intrinsic dimension](https://en.wikipedia.org/wiki/Intrinsic_dimension "Intrinsic dimension").
+
+::: fragment
+**Principal component analysis (PCA)** - Unsupervised
+
+::: incremental
+-   Maximizes variance in the dataset.
+
+-   Finds orthogonal principal components.
+
+-   Useful for feature extraction and data visualization.
+:::
+:::
+
+## Dimensional reduction: applied {.smaller}
+
+::: panel-tabset
+## Prep
+
+```{python}
+numeric_cols = hfi.select_dtypes(include = [np.number]).columns
+
+# Applying mean imputation only to numeric columns
+hfi[numeric_cols] = hfi[numeric_cols].fillna(hfi[numeric_cols].mean())
+
+features = ['pf_rol_procedural', 'pf_rol_civil', 'pf_rol_criminal', 'pf_rol', 'hf_score', 'hf_rank', 'hf_quartile']
+
+x = hfi.loc[:, features].values
+y = hfi.loc[:, 'region'].values
+x = StandardScaler().fit_transform(x)
+```
+
+## PCA: variance
+
+```{python}
+#| code-fold: true
+#| code-line-numbers: 1-5|1|2|3|4|5 
+pca = PCA(n_components = 2)
+principalComponents = pca.fit_transform(x)
+principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
+pca_variance_explained = pca.explained_variance_ratio_
+print("Variance explained:", pca_variance_explained, "\n", principalDf)
+```
+
+## PCA: scree plot
+
+```{python}
+#| code-fold: true
+# Combining the scatterplot of principal components with the scree plot using the correct column names
+fig, axes = plt.subplots(nrows = 1, ncols = 2, figsize = (12, 5))
+
+# Scatterplot of Principal Components
+axes[0].scatter(principalDf['principal component 1'], principalDf['principal component 2'])
+for i in range(len(pca.components_)):
+    axes[0].arrow(0, 0, pca.components_[i, 0], pca.components_[i, 1], head_width = 0.1, head_length = 0.15, fc = 'r', ec = 'r', linewidth = 2)
+    axes[0].text(pca.components_[i, 0] * 1.2, pca.components_[i, 1] * 1.2, f'Eigenvector {i+1}', color = 'r', fontsize = 12)
+axes[0].set_xlabel('Principal Component 1')
+axes[0].set_ylabel('Principal Component 2')
+axes[0].set_title('Scatterplot of Principal Components with Eigenvectors')
+axes[0].grid()
+
+# Scree Plot for PCA
+axes[1].bar(range(1, len(pca_variance_explained) + 1), pca_variance_explained, alpha = 0.6, color = 'g', label = 'Individual Explained Variance')
+axes[1].set_ylabel('Explained variance ratio')
+axes[1].set_xlabel('Principal components')
+axes[1].set_title('Scree Plot for PCA')
+axes[1].legend(loc='best')
+
+plt.tight_layout()
+plt.show()
+```
+:::
+
+# So, that's it?
+
+## ...Not really {.smaller}
+
+Find the optimal number of components.
+
+```{python}
+#| code-fold: true
+
+# Assuming hfi DataFrame is already defined and loaded
+
+# Select numerical columns
+numerical_cols = hfi.select_dtypes(include=['int64', 'float64']).columns
+
+# Scale the data
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(hfi[numerical_cols])
+
+# Apply PCA
+pca = PCA().fit(scaled_data)
+
+# Get explained variance ratio and cumulative explained variance
+explained_variance_ratio = pca.explained_variance_ratio_
+cumulative_explained_variance = explained_variance_ratio.cumsum()
+
+# Decide number of components to retain 75% variance
+threshold = 0.75
+num_components = next(i for i, cumulative_var in enumerate(cumulative_explained_variance) if cumulative_var >= threshold) + 1
+
+# Plot the explained variance
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, len(cumulative_explained_variance) + 1), cumulative_explained_variance, marker='o', linestyle='--')
+plt.axhline(y=threshold, color='r', linestyle='-')
+plt.axvline(x=num_components, color='r', linestyle='-')
+plt.annotate(f'{num_components} components', xy=(num_components, threshold), xytext=(num_components+5, threshold-0.05),
+             arrowprops=dict(color='r', arrowstyle='->'),
+             fontsize=12, color='r')
+plt.title('Cumulative Explained Variance by Principal Components')
+plt.xlabel('Principal Component')
+plt.ylabel('Cumulative Explained Variance')
+plt.grid(True)
+plt.show()
+
+print(f"Number of components to retain 75% variance: {num_components}")
+
+# Apply PCA with the chosen number of components
+pca = PCA(n_components=num_components)
+reduced_data = pca.fit_transform(scaled_data)
+```
+
+## Dimensional reduction: what now? {.smaller}
+
+::: incremental
+1.  **Feature Selection:** Choose the most informative components.
+
+2.  **Visualization:** Graph the reduced dimensions to identify patterns.
+
+3.  **Clustering:** Group similar data points using clustering algorithms.
+
+4.  **Classification:** Predict categories using classifiers on reduced features.
+
+5.  **Model Evaluation:** Assess model performance with metrics like accuracy.
+
+6.  **Cross-Validation:** Validate model stability with cross-validation.
+
+7.  **Hyperparameter Tuning:** Optimize model settings for better performance.
+
+8.  **Model Interpretation:** Understand feature influence in the models.
+
+9.  **Ensemble Methods:** Improve predictions by combining multiple models.
+
+10. **Deployment:** Deploy the model for real-world predictions.
+
+11. **Iterative Refinement:** Refine analysis based on initial results.
+
+12. **Reporting:** Summarize findings for stakeholders.
+:::
+
+# Clustering
+
+## Setup {.smaller}
+
+```{python}
+#| label: setup-1
+#| message: false
+
+# Data Handling and Manipulation
+import pandas as pd
+import numpy as np
+
+# Data Preprocessing
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
+
+# Model Selection and Evaluation
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.mixture import GaussianMixture
+
+# Machine Learning Models
+from sklearn.cluster import KMeans
+from sklearn_extra.cluster import KMedoids
+
+# Data Visualization
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Set the default style for visualization
+sns.set_theme(style = "white", palette = "colorblind")
+
+# Increase font size of all Seaborn plot elements
+sns.set(font_scale = 1.25)
+```
+
+## Unsupervised Learning
+
+## 
+
+<br>
+
+![Credit: Recro](images/unsupervised.jpeg){fig-align="center" width="1528"}
+
+## Clustering
+
+![](images/clustering-1.png){fig-align="center"}
+
+## Clustering {.smaller}
+
+Some use cases for clustering include:
+
+::: incremental
+-   [**Recommender systems**](https://pages.dataiku.com/recommendation-engines):
+
+    -   Grouping together users with similar viewing patterns on Netflix, in order to recommend similar content
+
+-   [**Anomaly detection**](https://pages.dataiku.com/anomaly-detection-at-scale-guidebook):
+
+    -   Fraud detection, detecting defective mechanical parts
+
+-   **Genetics**:
+
+    -   Clustering DNA patterns to analyze evolutionary biology
+
+-   **Customer segmentation**:
+
+    -   Understanding different customer segments to devise marketing strategies
+:::
+
+## Question
+
+How well can we cluster freedom index scores?
+
+## Our data: PCA reduced Human Freedom Index {.smaller}
+
+```{python}
+data = pd.DataFrame(reduced_data)
+data.rename(columns=lambda x: f'pc_{x}', inplace=True)
+data.head()
+```
+
+## Clustering methods
+
+::: {style="text-align: center;"}
+```{=html}
+<iframe width="1200" height="400" src="https://datamineaz.org/tables/model-cheatsheet.html" frameborder="1" style="background:white;"></iframe>
+```
+:::
+
+## K-Means Clustering {.smaller}
+
+::: panel-tabset
+## Visual
+
+```{python}
+#| echo: false
+from sklearn.datasets import make_blobs
+sns.set_theme(style = "white", palette = "colorblind")
+
+# Generating simulated data with 3 clusters
+X, _ = make_blobs(n_samples = 300, centers = 3, cluster_std = 0.60, random_state = 0)
+
+# Applying K-Means clustering
+kmeans = KMeans(n_clusters = 3)
+kmeans.fit(X)
+y_kmeans = kmeans.predict(X)
+
+# Plotting the clusters and their centroids
+sns.scatterplot(x = X[:, 0], y = X[:, 1], hue = y_kmeans, s = 50, alpha = 0.6, palette = "colorblind")
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 300, c = 'red', alpha = 0.5, label = 'Centroids')
+plt.title('K-Means Clustering with 3 Clusters')
+plt.legend()
+plt.show()
+```
+
+## Formula
+
+> The goal of K-Means is to minimize the variance within each cluster. The variance is measured as the sum of squared distances between each point and its corresponding cluster centroid. The objective function, which K-Means aims to minimize, can be defined as:
+
+$J = \sum_{i=1}^{k} \sum_{x \in C_i} ||x - \mu_i||^2$
+
+**Where**:
+
+::: incremental
+-   $J$ is the objective function
+
+-   $k$ is the number of clusters
+
+-   $C_i$ is the set of points belonging to a cluster $i$.
+
+-   $x$ is a point in the cluster $C_i$
+
+-   $||x - \mu_i||^2$ is the squared Euclidean distance between a point $x$ and the centroid $\mu_i$​, which measures the dissimilarity between them.
+:::
+
+## Key points
+
+-   **Initialization**: Randomly selects $k$ initial centroids.
+
+-   **Assignment Step**: Assigns each data point to the closest centroid based on Euclidean distance.
+
+-   **Update Step**: Recalculates centroids as the mean of assigned points in each cluster.
+
+-   **Convergence**: Iterates until the centroids stabilize (minimal change from one iteration to the next).
+
+-   **Objective**: Minimizes the within-cluster sum of squares (WCSS), the sum of squared distances between points and their corresponding centroid.
+
+-   **Optimal** $k$: Determined experimentally, often using methods like the Elbow Method.
+
+-   **Sensitivity**: Results can vary based on initial centroid selection; techniques like "k-means++" improve initial centroid choices.
+
+-   **Efficiency**: Generally good, but worsens with increasing $k$ and data dimensionality; sensitive to outliers.
+:::
+
+## Choosing the right number of clusters {.smaller}
+
+**Four main methods:**
+
+::: incremental
+-   **Elbow Method**
+
+    -   Identifies the $k$ at which the within-cluster sum of squares (WCSS) starts to diminish more slowly.
+
+-   **Silhouette Score**
+
+    -   Measures how similar an object is to its own cluster compared to other clusters.
+
+-   **Davies-Bouldin Index**
+
+    -   Evaluates intra-cluster similarity and inter-cluster differences.
+
+-   **Calinski-Harabasz Index (Variance Ratio Criterion)**
+
+    -   Measures the ratio of the sum of between-clusters dispersion and of intra-cluster dispersion for all clusters.
+
+-   **BIC**
+
+    -   Identifies the optimal number of clusters by penalizing models for excessive parameters, striking a balance between simplicity and accuracy.
+:::
+
+## Systematic comparison: Equal clusters {.smaller}
+
+::: panel-tabset
+## Elbow
+
+![](images/equally-sized-elbow.png){fig-align="center" width="896"}
+
+## Davies-Boulin
+
+![](images/equally-sized-davies-bouldin.png){fig-align="center" width="896"}
+
+## Silhouette
+
+![](images/equally-sized-silhouette.png){fig-align="center" width="896"}
+
+## Calinski-Harabasz
+
+![](images/equally-sized-calinski-harabasz.png){fig-align="center" width="896"}
+
+## BIC
+
+![](images/equally-sized-bic.png){fig-align="center" width="896"}
+:::
+
+## Systematic comparison: Unequal clusters {.smaller}
+
+::: panel-tabset
+## Elbow
+
+![](images/unequally-sized-elbow.png){fig-align="center" width="896"}
+
+## Davies-Boulin
+
+![](images/unequally-sized-davies-bouldin.png){fig-align="center" width="896"}
+
+## Silhouette
+
+![](images/unequally-sized-silhouette.png){fig-align="center" width="896"}
+
+## Calinski-Harabasz
+
+![](images/unequally-sized-calinski-harabasz.png){fig-align="center" width="896"}
+
+## BIC
+
+![](images/unequally-sized-bic.png){fig-align="center" width="896"}
+:::
+
+## Systematic comparison - accuracy
+
+![](images/systematic-comparison.png){fig-align="center" width="692"}
+
+## Calinski-Harabasz Index {.smaller}
+
+::: panel-tabset
+## Visual
+
+```{python}
+#| echo: false
+# Generating synthetic data
+X, _ = make_blobs(n_samples = 300, centers = 4, cluster_std = 0.60, random_state = 0)
+
+# Calculating Calinski-Harabasz Index for different numbers of clusters
+ch_scores = []
+for i in range(2, 11):  # CH index is not defined for i=1 (single cluster)
+    kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
+    kmeans.fit(X)
+    labels = kmeans.labels_
+    ch_score = calinski_harabasz_score(X, labels)
+    ch_scores.append(ch_score)
+
+# Plotting the Calinski-Harabasz Index
+sns.set_style("white")
+plt.figure(figsize = (10, 6))
+plt.plot(range(2, 11), ch_scores, marker = 'o', linestyle = '-', color = 'purple')
+plt.title('Calinski-Harabasz Index For Different k Values')
+plt.xlabel('Number of Clusters')
+plt.ylabel('Calinski-Harabasz Index')
+plt.show()
+
+```
+
+## Formula
+
+$CH = \frac{SS_B / (k - 1)}{SS_W / (n - k)}$
+
+**where**:
+
+::: incremental
+-   $CH$ is the Calinski-Harabasz score.
+
+-   $SS_B$​ is the between-cluster variance.
+
+-   $SS_W$​ is the within-cluster variance.
+
+-   $k$ is the number of clusters.
+
+-   $n$ is the number of data points.
+:::
+
+## Pros + cons
+
+**Pros**:
+
+::: incremental
+-   **Clear Interpretation**: High values indicate better-defined clusters.
+
+-   **Computationally Efficient**: Less resource-intensive than many alternatives.
+
+-   **Scale-Invariant**: Effective across datasets of varying sizes.
+
+-   **No Labeled Data Required**: Useful for unsupervised learning scenarios.
+:::
+
+**Cons**:
+
+::: incremental
+-   **Cluster Structure Bias**: Prefers convex clusters of similar sizes.
+
+-   **Sample Size Sensitivity**: Can favor more clusters in larger datasets.
+
+-   **Not Ideal for Overlapping Clusters**: Assumes distinct, non-overlapping clusters.
+:::
+:::
+
+## BIC {.smaller}
+
+::: panel-tabset
+## Visual
+
+```{python}
+#| echo: false
+# Generating synthetic data
+X, _ = make_blobs(n_samples = 300, centers = 4, cluster_std = 0.60, random_state = 0)
+
+# Calculating BIC for different numbers of clusters using Gaussian Mixture Models
+n_components = np.arange(1, 11)
+bics = []
+for n in n_components:
+    gmm = GaussianMixture(n_components = n, random_state = 0)
+    gmm.fit(X)
+    bics.append(gmm.bic(X))
+
+# Visualizing the BIC scores
+sns.set(style = "white")
+plt.figure(figsize = (10, 6))
+sns.lineplot(x = n_components, y = bics, marker = 'o', linestyle = '-', color = 'orange')  # Adjusted line
+plt.title('BIC Scores for Different Numbers of Clusters')
+plt.xlabel('Number of Clusters')
+plt.ylabel('BIC Score')
+plt.show()
+```
+
+## Formula
+
+$\text{BIC} = -2 \ln(\hat{L}) + k \ln(n)$
+
+**where**:
+
+::: incremental
+-   $\hat{L}$ is the maximized value of the likelihood function of the model,
+
+-   $k$ is the number of parameters in the model,
+
+-   $n$ is the number of observations.
+:::
+
+## Pros + cons
+
+**Pros**:
+
+::: incremental
+-   **Penalizes Complexity**: Helps avoid overfitting by penalizing models with more parameters.
+
+-   **Objective Selection**: Facilitates choosing the model with the best balance between fit and simplicity.
+
+-   **Applicability**: Useful across various model types, including clustering and regression.
+:::
+
+**Cons**:
+
+::: incremental
+-   **Computationally Intensive**: Requires fitting multiple models to calculate, which can be resource-heavy.
+
+-   **Sensitivity to Model Assumptions**: Performance depends on the underlying assumptions of the model being correct.
+
+-   **Not Always Intuitive**: Determining the absolute best model may still require domain knowledge and additional diagnostics.
+:::
+:::
+
+## K-Means Clustering: applied {.smaller}
+
+::: panel-tabset
+## Calinski-Harabasz Index {.smaller}
+
+```{python}
+#| code-fold: true
+# Finding the optimal number of clusters using Calinski-Harabasz Index
+calinski_harabasz_scores = []
+cluster_range = range(2, 11)  # Define the range for number of clusters
+
+for n_clusters in cluster_range:
+    kmeans = KMeans(n_clusters=n_clusters, random_state=0)
+    kmeans.fit(data)
+    labels = kmeans.labels_
+    score = calinski_harabasz_score(data, labels)
+    calinski_harabasz_scores.append(score)
+
+# Plotting the Calinski-Harabasz scores
+plt.plot(cluster_range, calinski_harabasz_scores, marker='o')
+plt.title('Calinski-Harabasz Index for Different Numbers of Clusters')
+plt.xlabel('Number of Clusters')
+plt.ylabel('Calinski-Harabasz Index')
+plt.grid(True)
+plt.show()
+
+# Finding the number of clusters that maximizes the Calinski-Harabasz Index
+optimal_n_clusters = cluster_range[calinski_harabasz_scores.index(max(calinski_harabasz_scores))]
+print(f"The optimal number of clusters is: {optimal_n_clusters}")
+```
+
+## Model summary
+
+```{python}
+#| code-fold: true
+# K-Means Clustering with the optimal number of clusters
+kmeans = KMeans(n_clusters=optimal_n_clusters, random_state=0)
+kmeans.fit(data)
+clusters = kmeans.predict(data)
+
+# Adding cluster labels to the DataFrame
+data['Cluster'] = clusters
+
+# Model Summary
+print("Cluster Centers:\n", kmeans.cluster_centers_)
+
+# Evaluate clustering performance using the Calinski-Harabasz Index
+calinski_harabasz_score_final = calinski_harabasz_score(data.drop(columns='Cluster'), clusters)
+print(f"For n_clusters = {optimal_n_clusters}, the Calinski-Harabasz Index is : {calinski_harabasz_score_final:.3f}")
+```
+
+## Visualize results
+
+```{python}
+#| code-fold: true
+pca = PCA(n_components = 2)
+reduced_data_PCA = pca.fit_transform(data)
+sns.scatterplot(x = reduced_data_PCA[:, 0], y = reduced_data_PCA[:, 1], hue = clusters, alpha = 0.75, palette = "colorblind")
+plt.title('Human Freedom Index Clustered (PCA-reduced Features)')
+plt.xlabel('PCA 1')
+plt.ylabel('PCA 2')
+plt.legend(title = 'Cluster')
+plt.show()
+```
+:::
+
+## Caveat
+
+::: columns
+::: {.column width="50%"}
+```{python}
+#| echo: false
+plt.figure(figsize = (5, 3))
+pca = PCA(n_components = 2)
+reduced_data_PCA = pca.fit_transform(data)
+sns.scatterplot(x = reduced_data_PCA[:, 0], y = reduced_data_PCA[:, 1], hue = clusters, alpha = 0.75, palette = "colorblind")
+plt.title('Human Freedom Index Clustered (PCA-reduced Features)')
+plt.xlabel('PCA 1')
+plt.ylabel('PCA 2')
+plt.legend(title = 'Cluster')
+plt.show()
+```
+:::
+
+::: {.column width="50%"}
+```{python}
+#| echo: false
+plt.figure(figsize = (5, 3))
+ax = sns.scatterplot(data = hfi, x = "pf_score", y = "ef_score",
+                hue = "region", palette = "colorblind")
+ax.legend(title = "Region",
+          bbox_to_anchor = (1.02, 1), loc = 'upper left', borderaxespad = 0)
+ax.set(xlabel = "Economic Freedom")
+ax.set(ylabel = "Personal Freedom")
+ax.set(title = "Human Freedom Index")
+plt.show()
+```
+:::
+:::
+
+## Conclusions {.smaller}
+
+::: incremental
+-   **Clear Separation:**
+
+    -   Two distinct clusters (Cluster 0 and Cluster 1) are evident, indicating effective separation by PCA.
+
+-   **Cluster Characteristics:**
+
+    -   Cluster 1 (orange) is compact and concentrated around the origin.
+
+    -   Cluster 0 (blue) is more spread out across the PCA axes.
+
+-   **Slight Overlap:**
+
+    -   There is a transition zone between the clusters, suggesting some borderline cases.
+
+-   **PCA Components:**
+
+    -   The axes represent the first two principal components, highlighting significant differences in the clusters.
+
+-   **Implications:**
+
+    -   The clusters likely reflect differences in Human Freedom Index scores, with further analysis needed to understand specific feature contributions.
+:::

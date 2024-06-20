@@ -1,0 +1,68 @@
+project:
+  type: website
+
+website:
+  page-navigation: true
+  title: "INFO 526"
+  description: "Webpage for INFO 526 - Data Visualization and Analysis Instructor Sessions"
+  site-url: "https://gchism94.github.io/GL-dataviz-lectures"
+  favicon: /images/logo.png
+
+  repo-url: https://github.com/INFO-526-SU24
+  repo-actions: [edit, issue]
+
+  open-graph: true
+  
+  navbar:
+    background: "#A7D5E8"
+    align: center
+    title: false
+    collapse-below: lg
+ 
+    right:
+      - icon: github
+        href: https://github.com/rstudio-education/datascience-box
+        aria-label: GitHub
+
+    left:
+      - text: "Overview"
+        href: index.qmd
+      - text: "Content"
+        menu: 
+          - href: slides/week4.qmd
+            text: "Week 4"
+          - href: slides/week5.qmd
+            text: "Week 5"
+      - text: "Resources"
+        menu: 
+          - href: resources/design.qmd
+            text: Design
+          - href: resources/visualization.qmd
+            text: Visualization
+          - href: resources/timeseries.qmd
+            text: Time series exercise
+          - href: resources/clustering.qmd
+            text: Clustering exercise
+        
+
+
+  page-footer:
+    right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
+    left: "&copy; Copyright 2024, Greg Chism"
+    background: "#378DBD" # Oasis
+
+format:
+  html:
+    theme:
+      light: [cosmo, style/info526.scss]
+      dark: [cosmo, style/info526.scss, style/dark.scss]
+    linkcolor: "#EF4056" # Azurite
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    mainfont: "Montserrat"
+
+execute:
+  freeze: auto
+
+editor: visual
