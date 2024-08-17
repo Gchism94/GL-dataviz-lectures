@@ -186,8 +186,8 @@ for _, row in aqi_levels.iterrows():
     plt.text(pd.Timestamp('2023-02-28'), row['aqi_mid'], row['level'], ha='right', size=14, color='gray', weight='bold')
 
 # Additional annotations and formatting
-plt.annotate('2022', xy=(pd.Timestamp('2022-01-01'), -100), size=12, ha='center')
-plt.annotate('2023', xy=(pd.Timestamp('2023-03-01'), -100), size=12, ha='center')
+plt.annotate('2022', xy=(pd.Timestamp('2022-01-15'), 5), size=12, ha='center')
+plt.annotate('2023', xy=(pd.Timestamp('2023-02-15'), 5), size=12, ha='center')
 
 plt.xlim(pd.Timestamp('2022-01-01'), pd.Timestamp('2023-03-01'))
 plt.ylim(0, 400)
@@ -255,8 +255,8 @@ for _, row in aqi_levels.iterrows():
     plt.text(pd.Timestamp('2023-02-28'), row['aqi_mid'], row['level'], ha='right', size=14, color='gray', weight='bold')
 
 # Additional annotations and formatting
-plt.annotate('2022', xy=(pd.Timestamp('2022-01-01'), -100), size=12, ha='center')
-plt.annotate('2023', xy=(pd.Timestamp('2023-03-01'), -100), size=12, ha='center')
+plt.annotate('2022', xy=(pd.Timestamp('2022-01-15'), 5), size=12, ha='center')
+plt.annotate('2023', xy=(pd.Timestamp('2023-02-15'), 5), size=12, ha='center')
 
 plt.xlim(pd.Timestamp('2022-01-01'), pd.Timestamp('2023-03-01'))
 plt.ylim(0, 400)

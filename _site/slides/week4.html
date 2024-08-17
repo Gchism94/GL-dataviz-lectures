@@ -462,7 +462,7 @@ Dr.&nbsp;Greg Chism
 <section id="aqi-levels" class="slide level2">
 <h2>AQI levels</h2>
 <p>The previous graphic in tabular form, to be used later…</p>
-<div id="d416dac2" class="cell" data-execution_count="2">
+<div id="58bca6ac" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>aqi_levels <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb2-2"><a></a>    <span class="st">'aqi_min'</span>: [<span class="dv">0</span>, <span class="dv">51</span>, <span class="dv">101</span>, <span class="dv">151</span>, <span class="dv">201</span>, <span class="dv">301</span>],</span>
 <span id="cb2-3"><a></a>    <span class="st">'aqi_max'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>],</span>
@@ -487,13 +487,13 @@ Dr.&nbsp;Greg Chism
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Read + head</a></li><li><a href="#tabset-1-2">Info</a></li><li><a href="#tabset-1-3">Describe</a></li><li><a href="#tabset-1-4">Missing values</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div id="6b8771d2" class="cell" data-execution_count="3">
+<div id="bc9aa323" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>tuc_2022 <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>)</span>
 <span id="cb3-2"><a></a></span>
 <span id="cb3-3"><a></a>tuc_2022 <span class="op">=</span> clean_columns(tuc_2022)</span>
 <span id="cb3-4"><a></a></span>
 <span id="cb3-5"><a></a>tuc_2022.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="147">
 <div>
 <div>
 <style scoped="">
@@ -607,7 +607,7 @@ Dr.&nbsp;Greg Chism
 </div>
 </div>
 <div id="tabset-1-2">
-<div id="393048f6" class="cell" data-execution_count="4">
+<div id="288dce12" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>tuc_2022.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -632,9 +632,9 @@ memory usage: 31.5+ KB</code></pre>
 </div>
 </div>
 <div id="tabset-1-3">
-<div id="e67f61b6" class="cell" data-execution_count="5">
+<div id="c7d20341" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>tuc_2022.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="149">
 <div>
 <div>
 <style scoped="">
@@ -727,9 +727,9 @@ memory usage: 31.5+ KB</code></pre>
 </div>
 </div>
 <div id="tabset-1-4">
-<div id="9053f1fa" class="cell" data-execution_count="6">
+<div id="1e4b2869" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>tuc_2022.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="42">
+<div class="cell-output cell-output-display" data-execution_count="150">
 <pre><code>date                        0
 aqi_value                   0
 main_pollutant              0
@@ -753,7 +753,7 @@ dtype: int64</code></pre>
 <div class="task">
 <p>This plot looks quite bizarre. What might be going on?</p>
 </div>
-<div id="48f4969b" class="cell" data-execution_count="7">
+<div id="e42549a9" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>)</span>
 <span id="cb9-2"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -768,7 +768,7 @@ dtype: int64</code></pre>
 <section id="transforming-date" class="slide level2 smaller">
 <h2>Transforming date</h2>
 <p>Using <code>pd.to_datetime()</code>:</p>
-<div id="6c8c6a4a" class="cell" data-execution_count="8">
+<div id="c1465b67" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>tuc_2022[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(tuc_2022[<span class="st">'date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span>
 <span id="cb10-2"><a></a></span>
 <span id="cb10-3"><a></a><span class="bu">print</span>(tuc_2022.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -800,7 +800,7 @@ None</code></pre>
 <ul>
 <li>Take a peek at distinct values of AQI</li>
 </ul>
-<div id="29abb385" class="cell" data-execution_count="9">
+<div id="95549a72" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="co"># Check distinct values of aqi_value</span></span>
 <span id="cb12-2"><a></a>distinct_aqi_values <span class="op">=</span> tuc_2022[<span class="st">'aqi_value'</span>].unique()</span>
 <span id="cb12-3"><a></a><span class="bu">print</span>(distinct_aqi_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -816,7 +816,7 @@ None</code></pre>
 </section>
 <section id="rewind-and-start-over" class="slide level2 smaller">
 <h2>Rewind, and start over</h2>
-<div id="9271102a" class="cell" data-execution_count="10">
+<div id="6f8c811a" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="co"># Reload data with correct NA values</span></span>
 <span id="cb14-2"><a></a>tuc_2022 <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>, na_values<span class="op">=</span>[<span class="st">"."</span>, <span class="st">""</span>])</span>
 <span id="cb14-3"><a></a></span>
@@ -851,7 +851,7 @@ None</code></pre>
 </section>
 <section id="another-look" class="slide level2 smaller">
 <h2>Another look</h2>
-<div id="36815c37" class="cell" data-execution_count="11">
+<div id="7df23978" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>)</span>
 <span id="cb16-2"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -865,7 +865,7 @@ None</code></pre>
 </section>
 <section id="visualizing-tucson-aqi" class="slide level2">
 <h2>Visualizing Tucson AQI</h2>
-<div id="25dca87c" class="cell" data-execution_count="12">
+<div id="df452057" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -877,7 +877,7 @@ None</code></pre>
 </section>
 <section id="live-coding" class="slide level2 smaller">
 <h2>Live coding</h2>
-<div id="48d8813d" class="cell" data-execution_count="13">
+<div id="595087c8" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Setup</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -910,7 +910,7 @@ None</code></pre>
 </details>
 </div>
 <p>Reveal below for code developed during live coding session.</p>
-<div id="e856281e" class="cell" data-execution_count="14">
+<div id="22f6d390" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="co"># Plot background AQI levels</span></span>
@@ -925,8 +925,8 @@ None</code></pre>
 <span id="cb18-10"><a></a>    plt.text(pd.Timestamp(<span class="st">'2023-02-28'</span>), row[<span class="st">'aqi_mid'</span>], row[<span class="st">'level'</span>], ha<span class="op">=</span><span class="st">'right'</span>, size<span class="op">=</span><span class="dv">14</span>, color<span class="op">=</span><span class="st">'gray'</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span>
 <span id="cb18-11"><a></a></span>
 <span id="cb18-12"><a></a><span class="co"># Additional annotations and formatting</span></span>
-<span id="cb18-13"><a></a>plt.annotate(<span class="st">'2022'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2022-01-01'</span>), <span class="op">-</span><span class="dv">100</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb18-14"><a></a>plt.annotate(<span class="st">'2023'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2023-03-01'</span>), <span class="op">-</span><span class="dv">100</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb18-13"><a></a>plt.annotate(<span class="st">'2022'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2022-01-01'</span>), <span class="dv">5</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb18-14"><a></a>plt.annotate(<span class="st">'2023'</span>, xy<span class="op">=</span>(pd.Timestamp(<span class="st">'2023-03-01'</span>), <span class="dv">5</span>), size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
 <span id="cb18-15"><a></a></span>
 <span id="cb18-16"><a></a>plt.xlim(pd.Timestamp(<span class="st">'2022-01-01'</span>), pd.Timestamp(<span class="st">'2023-03-01'</span>))</span>
 <span id="cb18-17"><a></a>plt.ylim(<span class="dv">0</span>, <span class="dv">400</span>)</span>
@@ -956,21 +956,21 @@ None</code></pre>
 <section id="calculating-cumulatives-1" class="slide level2">
 <h2>Calculating cumulatives</h2>
 <p>Step 1. Arrange your data</p>
-<div id="f4004700" class="cell" data-execution_count="15">
+<div id="5672452a" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>tuc_2022 <span class="op">=</span> tuc_2022[[<span class="st">'date'</span>, <span class="st">'aqi_value'</span>]].dropna().sort_values(<span class="st">'date'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculating-cumulatives-2" class="slide level2">
 <h2>Calculating cumulatives</h2>
 <p>Step 2. Identify good days</p>
-<div id="3541feed" class="cell" data-execution_count="16">
+<div id="92c16e28" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>tuc_2022[<span class="st">'good_aqi'</span>] <span class="op">=</span> np.where(tuc_2022[<span class="st">'aqi_value'</span>] <span class="op">&lt;=</span> <span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculating-cumulatives-3" class="slide level2">
 <h2>Calculating cumulatives</h2>
 <p>Step 3. Sum over time</p>
-<div id="4615e469" class="cell" data-execution_count="17">
+<div id="ed01a539" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>tuc_2022[<span class="st">'cumsum_good_aqi'</span>] <span class="op">=</span> tuc_2022[<span class="st">'good_aqi'</span>].cumsum()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -980,7 +980,7 @@ None</code></pre>
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Plot</a></li><li><a href="#tabset-2-2">Code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1">
-<div id="ed7893af" class="cell" data-fig.asp="0.5" data-execution_count="18">
+<div id="1f55683c" class="cell" data-fig.asp="0.5" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -991,7 +991,7 @@ None</code></pre>
 </div>
 </div>
 <div id="tabset-2-2">
-<div id="cd1d7026" class="cell" data-execution_count="19">
+<div id="4c8ec257" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>sns.lineplot(data<span class="op">=</span>tuc_2022, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>)</span>
 <span id="cb22-2"><a></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%b %Y"</span>))</span>
 <span id="cb22-3"><a></a></span>
@@ -1023,7 +1023,7 @@ None</code></pre>
 </section>
 <section id="reading-multiple-files" class="slide level2 smaller">
 <h2>Reading multiple files</h2>
-<div id="e970fb21" class="cell" data-message="false" data-execution_count="21">
+<div id="5eb56623" class="cell" data-message="false" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># Define the list of URLs</span></span>
 <span id="cb23-2"><a></a>tuc_files <span class="op">=</span> [</span>
 <span id="cb23-3"><a></a>    <span class="st">"https://raw.githubusercontent.com/Gchism94/GL-dataviz-lectures/main/slides/data/tucson/ad_aqi_tracker_data-2022.csv"</span>,</span>
@@ -1089,7 +1089,7 @@ None</code></pre>
 </section>
 <section id="simple-linear-regression" class="slide level2">
 <h2>Simple Linear Regression</h2>
-<div id="db1257b0" class="cell" data-execution_count="22">
+<div id="79c8dd5f" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb25-2"><a></a></span>
 <span id="cb25-3"><a></a><span class="co"># Fit linear regression for the trend line</span></span>
@@ -1115,7 +1115,7 @@ None</code></pre>
 </div>
 </div>
 <div id="tabset-3-2">
-<div id="be15cb6f" class="cell" data-execution_count="24">
+<div id="5d0c4658" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>, color <span class="op">=</span> <span class="st">'black'</span>)</span>
 <span id="cb26-2"><a></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'fitted'</span>, color<span class="op">=</span><span class="st">'pink'</span>, label<span class="op">=</span><span class="st">'Trend Line'</span>)</span>
 <span id="cb26-3"><a></a></span>
@@ -1133,7 +1133,7 @@ None</code></pre>
 <section id="detrend" class="slide level2">
 <h2>Detrend</h2>
 <p>Step 1. Fit a simple linear regression</p>
-<div id="ff719f79" class="cell" data-execution_count="25">
+<div id="3124119c" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="co"># Convert dates to ordinal for regression</span></span>
 <span id="cb27-2"><a></a>tuc[<span class="st">'date_ordinal'</span>] <span class="op">=</span> tuc[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
 <span id="cb27-3"><a></a></span>
@@ -1148,7 +1148,7 @@ None</code></pre>
 <section id="detrend-1" class="slide level2">
 <h2>Detrend</h2>
 <p>Step 2. Divide the observed value of <code>cumsum_good_aqi</code> by the respective value in the long-term trend (i.e., <code>fitted</code>)</p>
-<div id="87420f2a" class="cell" data-execution_count="26">
+<div id="b1f556df" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>tuc[<span class="st">'ratio'</span>] <span class="op">=</span> tuc[<span class="st">'cumsum_good_aqi'</span>] <span class="op">/</span> tuc[<span class="st">'fitted'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1169,7 +1169,7 @@ None</code></pre>
 </div>
 </div>
 <div id="tabset-4-2">
-<div id="d75631ba" class="cell" data-execution_count="28">
+<div id="e5781c73" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>plt.axhline(y<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
 <span id="cb29-2"><a></a>sns.lineplot(data<span class="op">=</span>tuc, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'ratio'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb29-3"><a></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
@@ -1198,7 +1198,7 @@ None</code></pre>
 </section>
 <section id="read-in-multiple-years-of-sf-data" class="slide level2 smaller">
 <h2>Read in multiple years of SF data</h2>
-<div id="7157cf46" class="cell" data-execution_count="29">
+<div id="b567eb0e" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="co"># Define the list of URLs</span></span>
@@ -1268,7 +1268,7 @@ None</code></pre>
 </section>
 <section id="simple-linear-regression-1" class="slide level2">
 <h2>Simple Linear Regression</h2>
-<div id="09887381" class="cell" data-execution_count="30">
+<div id="7bac1178" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="co"># Fit linear regression for the trend line</span></span>
 <span id="cb32-2"><a></a>model <span class="op">=</span> LinearRegression()</span>
 <span id="cb32-3"><a></a>model.fit(sf[[<span class="st">'date_ordinal'</span>]], sf[<span class="st">'cumsum_good_aqi'</span>])</span>
@@ -1292,7 +1292,7 @@ None</code></pre>
 </div>
 </div>
 <div id="tabset-5-2">
-<div id="07d6e805" class="cell" data-execution_count="32">
+<div id="9d6bdf5b" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'cumsum_good_aqi'</span>, color <span class="op">=</span> <span class="st">'black'</span>)</span>
 <span id="cb33-2"><a></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'fitted'</span>, color<span class="op">=</span><span class="st">'pink'</span>, label<span class="op">=</span><span class="st">'Trend Line'</span>)</span>
 <span id="cb33-3"><a></a></span>
@@ -1310,7 +1310,7 @@ None</code></pre>
 <section id="detrend-2" class="slide level2">
 <h2>Detrend</h2>
 <p>Step 1. Fit a simple linear regression</p>
-<div id="acc706c8" class="cell" data-execution_count="33">
+<div id="01535f3e" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a><span class="co"># Convert dates to ordinal for regression</span></span>
 <span id="cb34-2"><a></a>sf[<span class="st">'date_ordinal'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.toordinal())</span>
 <span id="cb34-3"><a></a></span>
@@ -1325,7 +1325,7 @@ None</code></pre>
 <section id="detrend-3" class="slide level2">
 <h2>Detrend</h2>
 <p>Step 2. Divide the observed value of <code>cumsum_good_aqi</code> by the respective value in the long-term trend (i.e., <code>fitted</code>)</p>
-<div id="a069e00c" class="cell" data-execution_count="34">
+<div id="4d5e7cb6" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a></a>sf[<span class="st">'ratio'</span>] <span class="op">=</span> sf[<span class="st">'cumsum_good_aqi'</span>] <span class="op">/</span> sf[<span class="st">'fitted'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1346,7 +1346,7 @@ None</code></pre>
 </div>
 </div>
 <div id="tabset-6-2">
-<div id="7cc0f607" class="cell" data-execution_count="36">
+<div id="8d9686a5" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a></a>plt.axhline(y<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
 <span id="cb36-2"><a></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'ratio'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb36-3"><a></a>plt.gca().xaxis.set_major_formatter(DateFormatter(<span class="st">"%Y"</span>))</span>
@@ -1377,14 +1377,14 @@ None</code></pre>
 <h2>Data prep</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="211997de" class="cell" data-execution_count="37">
+<div id="0f414ff0" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb37-2"><a></a></span>
 <span id="cb37-3"><a></a>sf[<span class="st">'year'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].dt.year</span>
 <span id="cb37-4"><a></a>sf[<span class="st">'day_of_year'</span>] <span class="op">=</span> sf[<span class="st">'date'</span>].dt.dayofyear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="7c0666e2" class="cell" data-execution_count="38">
+<div id="198d41cf" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a><span class="co"># check</span></span>
 <span id="cb38-2"><a></a><span class="bu">print</span>(sf[sf[<span class="st">'day_of_year'</span>] <span class="op">&lt;</span> <span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1474,7 +1474,7 @@ None</code></pre>
 </section>
 <section id="plot-aqi-over-years" class="slide level2 smaller">
 <h2>Plot AQI over years</h2>
-<div id="dbb7f49f" class="cell" data-execution_count="39">
+<div id="3b5f74f5" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a></a>sns.lineplot(data<span class="op">=</span>sf, x<span class="op">=</span><span class="st">'day_of_year'</span>, y<span class="op">=</span><span class="st">'aqi_value'</span>, hue<span class="op">=</span><span class="st">'year'</span>, palette<span class="op">=</span><span class="st">'tab10'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb40-2"><a></a>plt.xlabel(<span class="st">'Day of year'</span>)</span>
 <span id="cb40-3"><a></a>plt.ylabel(<span class="st">'AQI value'</span>)</span>
@@ -1491,7 +1491,7 @@ None</code></pre>
 </section>
 <section id="highlight-specific-year-2016" class="slide level2 smaller">
 <h2>Highlight specific year (2016)</h2>
-<div id="407f3dd7" class="cell" data-execution_count="40">
+<div id="852461b5" class="cell" data-execution_count="40">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a></a><span class="co"># Highlight the year 2016</span></span>
@@ -1513,7 +1513,7 @@ None</code></pre>
 </section>
 <section id="highlight-specific-year-2017" class="slide level2 smaller">
 <h2>Highlight specific year (2017)</h2>
-<div id="e0448d21" class="cell" data-execution_count="41">
+<div id="36a508d9" class="cell" data-execution_count="41">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a><span class="co"># Highlight the year 2017</span></span>
@@ -1535,7 +1535,7 @@ None</code></pre>
 </section>
 <section id="highlight-specific-year-2018" class="slide level2 smaller">
 <h2>Highlight specific year (2018)</h2>
-<div id="d9942b78" class="cell" data-execution_count="42">
+<div id="5a16ad12" class="cell" data-execution_count="42">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a></a><span class="co"># Highlight the year 2018</span></span>
@@ -1557,7 +1557,7 @@ None</code></pre>
 </section>
 <section id="highlight-any-year" class="slide level2 smaller">
 <h2>Highlight any year</h2>
-<div id="040d221d" class="cell" data-execution_count="43">
+<div id="4c66fc32" class="cell" data-execution_count="43">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a><span class="co"># Function to highlight a specific year</span></span>

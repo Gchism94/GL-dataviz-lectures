@@ -8,9 +8,6 @@ website:
   site-url: "https://gchism94.github.io/GL-dataviz-lectures"
   favicon: /images/logo.png
 
-  repo-url: https://github.com/INFO-526-SU24
-  repo-actions: [edit, issue]
-
   open-graph: true
   
   navbar:
@@ -21,7 +18,7 @@ website:
  
     right:
       - icon: github
-        href: https://github.com/rstudio-education/datascience-box
+        href: https://github.com/Gchism94/GL-dataviz-lectures
         aria-label: GitHub
 
     left:

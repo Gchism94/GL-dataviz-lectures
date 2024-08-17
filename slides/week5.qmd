@@ -55,7 +55,7 @@ sns.set_theme(style="whitegrid", palette="colorblind")
 
 ## Data Preprocessing
 
-> **Data preprocessing** can refer to manipulation, filtration or augmentation of data before it is analyzed, and is often an important step in the [data mining](https://en.wikipedia.org/wiki/Data_mining "Data mining") process.
+> **Data preprocessing** can refer to manipulation, filtration or augmentation of data before it is analyzed, and is often an important step in the data analysis process.
 
 ## Datasets {.smaller}
 
@@ -301,33 +301,6 @@ hfi.info()
 > No duplicates! 😊
 :::
 
-## Filtering data {.smaller}
-
-::: panel-tabset
-## Category
-
-```{python}
-#| code-line-numbers: 1-6|1|2|5,6
-options = ['United States', 'India', 'Canada', 'China']
-
-filtered_hfi = hfi[hfi['countries'].isin(options)]
-
-unique_countries = filtered_hfi['countries'].unique()
-print(unique_countries)
-```
-
-## Numeric
-
-Let's look at [Economic Freedom](https://www.investopedia.com/terms/i/index-of-economic-freedom.asp#:~:text=An%20index%20of%20economic%20freedom%20is%20a%20composite,criteria%20such%20as%20property%20rights%20and%20tax%20burden.) \> 75
-
-```{python}
-#| code-line-numbers: 1-3|1
-filtered_hfi = hfi[hfi['pf_score'] > 8]
-sns.boxplot(filtered_hfi, x = "pf_score", y = "countries", palette = "colorblind")
-plt.show()
-```
-:::
-
 ## Dimensional reduction {.smaller}
 
 > **Dimension reduction**, is the transformation of data from a high-dimensional space into a low-dimensional space so that the low-dimensional representation retains some meaningful properties of the original data, ideally close to its [intrinsic dimension](https://en.wikipedia.org/wiki/Intrinsic_dimension "Intrinsic dimension").
@@ -505,9 +478,8 @@ from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSe
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 from sklearn.mixture import GaussianMixture
 
-# Machine Learning Models
+# Clustering Models
 from sklearn.cluster import KMeans
-from sklearn_extra.cluster import KMedoids
 
 # Data Visualization
 import matplotlib.pyplot as plt
