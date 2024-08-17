@@ -452,7 +452,7 @@ Dr.&nbsp;Greg Chism
 <h2>Datasets</h2>
 <p><strong>Human Freedom Index</strong></p>
 <p>The Human Freedom Index is a report that attempts to summarize the idea of “freedom” through variables for many countries around the globe.</p>
-<div id="802afa8f" class="cell" data-execution_count="3">
+<div id="a3ece64b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -464,10 +464,10 @@ Dr.&nbsp;Greg Chism
 </section>
 <section id="our-data-human-freedom-index" class="slide level2 smaller">
 <h2>Our data: Human Freedom Index</h2>
-<div id="e036fbfb" class="cell" data-execution_count="4">
+<div id="ab68990e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>hfi <span class="op">=</span> pd.read_csv(<span class="st">"data/hfi.csv"</span>)</span>
 <span id="cb2-2"><a></a>hfi.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <div>
 <style scoped="">
@@ -647,7 +647,7 @@ Dr.&nbsp;Greg Chism
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>.info()</code></a></li><li><a href="#tabset-1-2"><code>.describe()</code></a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div id="c9c2530f" class="cell" data-execution_count="5">
+<div id="4c8556fc" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>hfi.info(verbose <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -784,9 +784,9 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-1-2">
-<div id="8f4aaa7d" class="cell" data-execution_count="6">
+<div id="02ab6078" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>hfi.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <div>
 <style scoped="">
@@ -1037,9 +1037,9 @@ memory usage: 1.4+ MB</code></pre>
 </section>
 <section id="identifying-missing-values" class="slide level2 smaller">
 <h2>Identifying missing values</h2>
-<div id="a2a0711a" class="cell" data-execution_count="7">
+<div id="39ce4e12" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>hfi.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>year                   0
 ISO_code               0
 countries              0
@@ -1125,7 +1125,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-2-2">
-<div id="194f6e3f" class="cell" data-fig.asp="0.625" data-execution_count="8">
+<div id="623015fa" class="cell" data-fig.asp="0.625" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1136,7 +1136,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-2-3">
-<div id="ea6ab296" class="cell" data-execution_count="9">
+<div id="8535c221" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8" data-code-line-numbers="1-12|1|3,4|6,8,10,12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>hfi_copy <span class="op">=</span> hfi</span>
 <span id="cb8-2"><a></a></span>
 <span id="cb8-3"><a></a>mean_imputer <span class="op">=</span> SimpleImputer(strategy <span class="op">=</span> <span class="st">'mean'</span>)</span>
@@ -1181,7 +1181,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-3-2">
-<div id="ac34cbe8" class="cell" data-fig.asp="0.625" data-ref.label="mean_imp" data-execution_count="10">
+<div id="c8e8b247" class="cell" data-fig.asp="0.625" data-ref.label="mean_imp" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1192,7 +1192,7 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 <div id="tabset-3-3">
-<div id="ecf3f31e" class="cell" data-execution_count="11">
+<div id="a6ff51ac" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-10|1,2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>median_imputer <span class="op">=</span> SimpleImputer(strategy <span class="op">=</span> <span class="st">'median'</span>)</span>
 <span id="cb9-2"><a></a>hfi_copy[<span class="st">'median_pf_score'</span>] <span class="op">=</span> median_imputer.fit_transform(hfi_copy[[<span class="st">'pf_score'</span>]])</span>
 <span id="cb9-3"><a></a></span>
@@ -1210,11 +1210,11 @@ Length: 123, dtype: int64</code></pre>
 </section>
 <section id="data-type-conversion" class="slide level2 smaller">
 <h2>Data type conversion</h2>
-<div id="afc05907" class="cell" data-execution_count="12">
+<div id="9f75ed9b" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>hfi[<span class="st">'year'</span>] <span class="op">=</span> pd.to_datetime(hfi[<span class="st">'year'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
 <span id="cb10-2"><a></a></span>
 <span id="cb10-3"><a></a>hfi.head(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <div>
 <style scoped="">
@@ -1291,9 +1291,9 @@ Length: 123, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="263a70d6" class="cell" data-execution_count="13">
+<div id="966d38fd" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>hfi.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>year                 datetime64[ns]
 ISO_code                     object
 countries                    object
@@ -1311,7 +1311,7 @@ Length: 125, dtype: object</code></pre>
 </section>
 <section id="removing-duplicates" class="slide level2 smaller">
 <h2>Removing duplicates</h2>
-<div id="1770c66e" class="cell" data-execution_count="14">
+<div id="33b56f21" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>hfi.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -1321,7 +1321,7 @@ dtypes: datetime64[ns](1), float64(121), object(3)
 memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
-<div id="b5b38a4b" class="cell" data-execution_count="15">
+<div id="62bcffab" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>hfi.drop_duplicates(inplace <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb15-2"><a></a>hfi.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1360,7 +1360,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Prep</a></li><li><a href="#tabset-4-2">PCA: variance</a></li><li><a href="#tabset-4-3">PCA: scree plot</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1">
-<div id="9ba44665" class="cell" data-execution_count="16">
+<div id="2095a7d2" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>numeric_cols <span class="op">=</span> hfi.select_dtypes(include <span class="op">=</span> [np.number]).columns</span>
 <span id="cb17-2"><a></a></span>
 <span id="cb17-3"><a></a><span class="co"># Applying mean imputation only to numeric columns</span></span>
@@ -1374,7 +1374,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-4-2">
-<div id="ad95d7dc" class="cell" data-execution_count="17">
+<div id="57acde60" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18" data-code-line-numbers="1-5|1|2|3|4|5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
@@ -1403,7 +1403,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-4-3">
-<div id="a44d8786" class="cell" data-execution_count="18">
+<div id="0776b0cb" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="co"># Combining the scatterplot of principal components with the scree plot using the correct column names</span></span>
@@ -1449,7 +1449,7 @@ memory usage: 1.4+ MB</code></pre>
 <section id="not-really" class="slide level2 smaller">
 <h2>…Not really</h2>
 <p>Find the optimal number of components.</p>
-<div id="3f008f92" class="cell" data-execution_count="19">
+<div id="889c60ec" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a><span class="co"># Assuming hfi DataFrame is already defined and loaded</span></span>
@@ -1612,11 +1612,11 @@ memory usage: 1.4+ MB</code></pre>
 </section>
 <section id="our-data-pca-reduced-human-freedom-index" class="slide level2 smaller">
 <h2>Our data: PCA reduced Human Freedom Index</h2>
-<div id="ad8af2ba" class="cell" data-execution_count="21">
+<div id="cc8c929e" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>data <span class="op">=</span> pd.DataFrame(reduced_data)</span>
 <span id="cb24-2"><a></a>data.rename(columns<span class="op">=</span><span class="kw">lambda</span> x: <span class="ss">f'pc_</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb24-3"><a></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="46">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <div>
 <style scoped="">
@@ -1789,7 +1789,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Visual</a></li><li><a href="#tabset-5-2">Formula</a></li><li><a href="#tabset-5-3">Key points</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1">
-<div id="10b88a8a" class="cell" data-execution_count="22">
+<div id="7624f36a" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1958,7 +1958,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Visual</a></li><li><a href="#tabset-8-2">Formula</a></li><li><a href="#tabset-8-3">Pros + cons</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1">
-<div id="bf454685" class="cell" data-execution_count="23">
+<div id="5c550afe" class="cell" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -2009,7 +2009,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Visual</a></li><li><a href="#tabset-9-2">Formula</a></li><li><a href="#tabset-9-3">Pros + cons</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1">
-<div id="6c0e0b2b" class="cell" data-execution_count="24">
+<div id="48aaa5cb" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -2057,7 +2057,7 @@ memory usage: 1.4+ MB</code></pre>
 <ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Calinski-Harabasz Index</a></li><li><a href="#tabset-10-2">Model summary</a></li><li><a href="#tabset-10-3">Visualize results</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1">
-<div id="8d164eff" class="cell" data-execution_count="25">
+<div id="e0528260" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="co"># Finding the optimal number of clusters using Calinski-Harabasz Index</span></span>
@@ -2096,7 +2096,7 @@ memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
 <div id="tabset-10-2">
-<div id="f4352a29" class="cell" data-execution_count="26">
+<div id="18a48845" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="co"># K-Means Clustering with the optimal number of clusters</span></span>
@@ -2129,7 +2129,7 @@ For n_clusters = 2, the Calinski-Harabasz Index is : 536.957</code></pre>
 </div>
 </div>
 <div id="tabset-10-3">
-<div id="507e6d42" class="cell" data-execution_count="27">
+<div id="a09c6ccb" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
@@ -2157,7 +2157,7 @@ For n_clusters = 2, the Calinski-Harabasz Index is : 536.957</code></pre>
 <h2>Caveat</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="60eb5f43" class="cell" data-execution_count="28">
+<div id="27c7bfce" class="cell" data-execution_count="28">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -2167,7 +2167,7 @@ For n_clusters = 2, the Calinski-Harabasz Index is : 536.957</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="73c74309" class="cell" data-execution_count="29">
+<div id="a8f0b36e" class="cell" data-execution_count="29">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
