@@ -356,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Convert the <code>aqi_value</code> column as needed.</p></li>
 <li><p>Plot the <strong><code>aqi_value</code></strong> time series to visually inspect the data.</p></li>
 </ol>
-<div id="300fbadf" class="cell" data-execution_count="1">
+<div id="2205ba8e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> clean_columns</span>
@@ -387,7 +387,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Use <strong><code>seasonal_decompose</code></strong> from the <strong><code>statsmodels</code></strong> package to decompose the time series into trend, seasonal, and residual components.</p></li>
 <li><p>Plot the decomposed components to understand the underlying patterns.</p></li>
 </ol>
-<div id="95e0f8ec" class="cell" data-execution_count="2">
+<div id="5d84939f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> seasonal_decompose</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Decompose the time series</span></span>
@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Perform an <a href="https://en.wikipedia.org/wiki/Augmented_Dickey%E2%80%93Fuller_test">Augmented Dickey-Fuller</a> (ADF) test to check the stationarity of the time series.</p></li>
 <li><p>If the series is not stationary, apply differencing to make it stationary.</p></li>
 </ol>
-<div id="9fcad957" class="cell" data-execution_count="3">
+<div id="38c08792" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Augmented Dickey-Fuller test</span></span>
@@ -426,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Fit an ARIMA model with the identified parameters.</p></li>
 <li><p>Plot the original vs.&nbsp;fitted values to assess the model’s performance.</p></li>
 </ol>
-<div id="290917f7" class="cell" data-execution_count="4">
+<div id="4e73d670" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pmdarima <span class="im">import</span> auto_arima</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the optimal ARIMA model</span></span>
@@ -460,7 +460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Forecast AQI values for the next 30 days using the fitted ARIMA model.</p></li>
 <li><p>Plot the forecasted values alongside the historical data to visualize the forecast.</p></li>
 </ol>
-<div id="46648300" class="cell" data-execution_count="5">
+<div id="3b42e583" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast the next 30 days</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>forecast, conf_int <span class="op">=</span> model.predict(n_periods <span class="op">=</span> <span class="dv">30</span>, return_conf_int <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -480,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Explore different detrending methods (e.g., subtracting a moving average, polynomial detrending) using the <strong><code>detrend_aqi</code></strong> and <strong><code>poly_trend</code></strong> columns.</p></li>
 <li><p>Analyze seasonality patterns in the detrended data.</p></li>
 </ol>
-<div id="d41fc954" class="cell" data-execution_count="6">
+<div id="7a8c831c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Detrending using moving average</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'moving_avg'</span>] <span class="op">=</span> df[<span class="st">'aqi_value'</span>].rolling(window <span class="op">=</span> <span class="dv">12</span>).mean()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'detrended'</span>] <span class="op">=</span> df[<span class="st">'aqi_value'</span>] <span class="op">-</span> df[<span class="st">'moving_avg'</span>]</span>
